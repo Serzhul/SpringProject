@@ -34,7 +34,7 @@ border-color: white;
 height : 35px;
 width : 95px;
 font-size: 0.75rem;
-border-radius: 4px;
+border-radius: 3px;
 padding:0;
 }
 .join-button:hover {
@@ -46,8 +46,10 @@ margin : 0;
 font-weight : bold;
 background-color : white;
 color : #17c671;
-height : 37px;
+height : 35px;
 font-size: 13px;
+border-radius: 3px;
+border:0;
 }
 .login-button:hover {
 background-color : white;
@@ -99,6 +101,26 @@ font-weight : bold;
 @media (max-width: 999px) {
 .join-button .login-button{
     padding: 0 3px;
+    
+}
+}
+
+@media (max-width: 999px) {
+.join-button {
+   width : 50px;
+   height : 26px;
+   font-size : 0.5rem;
+}
+}
+
+@media (max-width: 999px) {
+.login-button {
+   width : 45px;
+   height : 26px;
+   font-size : 0.5rem;
+   padding : 2px;
+   border: 0;
+   
 }
 }
 
@@ -140,10 +162,23 @@ display:none;
 
 @media (max-width: 999px) {
 i.material-icons{
-font-size:40px;
-margin-right:100%;
+font-size:26px;
 }
 }
+
+@media (max-width: 999px) {
+i.home-subbar{
+font-size:20px;
+padding:0;
+}
+}
+@media (max-width: 999px) {
+.home-subbar{
+padding:0;
+}
+}
+
+
 @media (max-width: 999px) {
 .navbar-nav {
 flex-direction:row;
@@ -154,6 +189,27 @@ width:100%}
 li {
 display:inline-block;
 width:50%;}
+}
+
+@media (max-width: 999px) {
+a.nav-link{
+text-align:center;
+}
+}
+
+.nav-link-margin {
+margin-right : 30px;
+}
+
+.subbar-margin {
+margin-left: 26px; margin-right : 15px
+}
+
+@media (max-width: 999px) {
+.subbar-margin{
+margin:0;
+font-size:10px;
+}
 }
 
 .carousel-images {
@@ -201,6 +257,36 @@ width: 360px;
     font-size:1
 }
 
+.home-subbar {
+color : #40474D;
+font-size : 15px;
+padding : 0;
+}
+
+.home-subbar-icon {
+font-size : 50px;
+}
+
+.home-subbar-border {
+    position: absolute;
+    width: 100vw;
+    border: 0 none;
+    left: 0;
+    top : 3;
+    height: 1px;
+    background-color: #E6E8EB;
+}
+
+.navbar-underline {
+display: block;
+    background: transparent;
+    height: 3px;
+    width: 0;
+    background-color: white;
+    width: 100%;
+    position: relative;
+    top: 1px
+}
 </style>
 
 <script>
@@ -214,38 +300,27 @@ $(document).ready(function(){
 		  
 		});
 	  	
-	 
 	  var totalSlide = 6;
 	  
 	  var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
+	 
 	  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
 	  
 	  $('.slick-prev').on('click', function() {
 		 
-
-			  var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
-			  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
-
+	 	var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
+		$('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
 		 
 		});
 	  
 
 	  $('.slick-next').on('click', function() {
 		  
-		  
-
 		  var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
-		  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
-	  
-		  
-		});
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+		  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);  
+
+	    });
+	    
 	});
 	
 
@@ -267,33 +342,35 @@ $(document).ready(function(){
           </div>
           <input class="form-control search-bar" type="text" placeholder="제목,저자,출판사 검색" aria-label="Search">
 </nav>
-<nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
           <div class="navbar-collapse mr-auto left-margin" id="navbarNavDropdown-3">
             <ul class="navbar-nav mr-auto nav-subbar">
               <li class="nav-item active">
               
-                <a class="nav-link" href="#" style="margin-right : 30px"> 
-                <i class="material-icons nav-subbar-icon">home_work</i> 
-                <span class="submenu-name">&nbsp; 홈 </span>
+                <a class="nav-link nav-link-margin" href="#"> 
+                <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">home_work</i> 
+                <span class="submenu-name"> &nbsp; 홈 </span>
+                <span class="navbar-underline"></span>
+                
                 </a>
               </li>
-              <li class="active">
-                <a class="nav-link" href="#" style="margin-right : 30px"> 
-                <i class="material-icons nav-subbar-icon">alarm</i> 
+              <li class="">
+                <a class="nav-link nav-link-margin" href="#"> 
+                <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">alarm</i> 
                 <span class="submenu-name"> &nbsp; 알림 </span>
                 </a>
               </li>
-              <li class="active">
-                <a class="nav-link" href="#" style="margin-right : 30px"> 
-                <i class="material-icons nav-subbar-icon">shopping_cart</i> 
-                <span class="submenu-name">&nbsp;마이 카트 </span>
+              <li class="">
+                <a class="nav-link nav-link-margin" href="#"> 
+                <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">shopping_cart</i> 
+                <span class="submenu-name">&nbsp;마이카트 </span>
                 </a>
               </li>
               
-              <li class=" active">
-                <a class="nav-link" href="#"> 
-                <i class="material-icons nav-subbar-icon">assignment_ind</i> 
-                <span class="submenu-name">&nbsp;마이 페이지 </span>
+              <li class="">
+                <a class="nav-link nav-link-margin" href="#"> 
+                <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">assignment_ind</i> 
+                <span class="submenu-name">&nbsp;마이페이지 </span>
                 </a>
               </li>
               
@@ -314,6 +391,59 @@ $(document).ready(function(){
           </div>
 </nav>
 </div>
+<nav class="navbar navbar-expand-lg navbar-dark mb-2" style="padding:0">
+          <div class="navbar-collapse mr-auto left-margin" id="navbarNavDropdown-3">
+            <ul class="navbar-nav mr-auto nav-subbar">
+            
+              
+              <li class="nav-item">
+
+                <a class="nav-link" href="#"> 
+                <span class="home-subbar ">
+                <i class="material-icons nav-subbar-icon" style="margin-left: 26px; font-size:26px">menu</i></span>          
+                </a>
+              </li>
+              
+              <li class="nav-item active">
+
+                <a class="nav-link" href="#"> 
+                <span class="home-subbar subbar-margin">&nbsp; 소설 </span>
+                </a>
+              </li>
+              
+              
+              <li class="">
+                <a class="nav-link" href="#" style="margin-right : 15px"> 
+                <span class="home-subbar subbar-margin"> &nbsp; 자기계발 </span>
+                </a>
+              </li>
+              <li class="">
+                <a class="nav-link" href="#" style="margin-right : 15px"> 
+                <span class="home-subbar subbar-margin">&nbsp; 건강/다이어트 </span>
+                </a>
+              </li>
+              
+              <li class="">
+                <a class="nav-link" href="#" style="margin-right : 15px">  
+                <span class="home-subbar subbar-margin">&nbsp; 외국어 </span>
+                </a>
+              </li>
+              
+              <li class="">
+                <a class="nav-link" href="#" style="margin-right : 15px"> 
+                <span class="home-subbar subbar-margin"> &nbsp; 컴퓨터/IT </span>
+                </a>
+              </li>
+              <li class="">
+                <a class="nav-link" href="#" style="margin-right : 15px"> 
+                <span class="home-subbar subbar-margin">&nbsp; 경영/경제 </span>
+                </a>
+              </li>
+   
+            </ul>
+<hr class="home-subbar-border" />
+          </div>
+</nav>
 
 
 
