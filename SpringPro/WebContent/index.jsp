@@ -24,10 +24,11 @@
 <style>
 
 .search-bar {
-position:fixed;
+position:absolute;
 margin-left:260px;
 width : 30%;
 }
+
 .join-button {
 font-weight : bold;
 border-color: white;
@@ -287,12 +288,148 @@ display: block;
     position: relative;
     top: 1px
 }
+
+.review-carousel {
+height : 120%;
+margin-bottom: 20px;
+}
+
+.review-margin {
+margin-left: 20px;
+margin-right: 30px;
+}
+
+.subbar-active {
+color : #00b894;
+}
+
+.timer {
+border-radius: 14px;
+    width: 98px;
+    height: 30px;
+    background-image: linear-gradient(90deg, rgba(200,254,189,1) 0%, rgba(57,223,196,1) 100%);
+    font-size: 13px;
+    color: white;
+    font-weight: bold;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    -webkit-justify-content: start;
+    -ms-flex-pack: start;
+    justify-content: start;
+    padding: 9px;
+    margin-bottom: 16px;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+
+.rank-list-ul {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    -webkit-scrollbar-width: none;
+    -moz-scrollbar-width: none;
+    -ms-scrollbar-width: none;
+    scrollbar-width: none;
+    overflow-x: auto;
+}
+.rank-list-li {
+-webkit-flex: none;
+    -ms-flex: none;
+    flex: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    box-sizing: content-box;
+    padding-right: 14px;
+    height: 94px;
+    width: 308px;
+}
+
+.book-meta-box {
+display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px #e6e8eb solid;
+    height: 100%;
+    width: 100%;
+}
+
+.book-meta-box-rank {
+height: 22px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: #000000;
+    margin-right: 21px;
+}
+
+.book-meta-box-title {
+font-size: 15px;
+    font-weight: 700;
+    line-height: 1.33em;
+    color: #000000;
+    max-height: 2.7em;
+    margin-bottom: 4.5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+.rank-list-image {
+position: relative;
+    line-height: 0;
+    max-height: inherit;
+}
 </style>
 
 <script>
 $(document).ready(function(){
 
-	  $('.multiple-items').slick({
+	  $('.book-items').slick({
+		  infinite: true,
+		  slidesToShow: 3,
+		  slidesToScroll: 1,
+		  centerMode:true
+		  
+		});
+	  
+	  $('.review-items').slick({
 		  infinite: true,
 		  slidesToShow: 3,
 		  slidesToScroll: 1,
@@ -302,34 +439,47 @@ $(document).ready(function(){
 	  	
 	  var totalSlide = 6;
 	  
-	  var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
+	  var currentSlide = $('.book-items').slick('slickCurrentSlide');
 	 
 	  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
 	  
-	  $('.slick-prev').on('click', function() {
+$('.slick-prev').on('click', function() {
 		 
-	 	var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
+	 	var currentSlide = $('.book-items').slick('slickCurrentSlide');
 		$('.slidenumber').text(currentSlide+1 + '/' + totalSlide);
 		 
 		});
 	  
 
-	  $('.slick-next').on('click', function() {
+$('.slick-next').on('click', function() {
 		  
-		  var currentSlide = $('.multiple-items').slick('slickCurrentSlide');
+		  var currentSlide = $('.book-items').slick('slickCurrentSlide');
 		  $('.slidenumber').text(currentSlide+1 + '/' + totalSlide);  
 
 	    });
 	    
 	});
-	
 
-	
+function startTime() {
+	  var today = new Date();
+	  var h = today.getHours();
+	  var m = today.getMinutes();
+	  var s = today.getSeconds();
+	  m = checkTime(m);
+	  s = checkTime(s);
+	  document.getElementById('txt').innerHTML =
+	 "<i class='material-icons'>access_time</i>" + "&nbsp;&nbsp;"+ h + "시 " + m + "분";
+	  var t = setTimeout(startTime, 500);
+	}
+	function checkTime(i) {
+	  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+	  return i;
+	}
 
 	</script>
 
 </head>
-<body>
+<body onload="startTime()">
 <div class="bg-success">
 <nav class="navbar navbar-expand-lg navbar-dark bg-success navbar-margin-bottom">
           <img src="images/demo/shards-logo.svg" alt="Example Navbar 1" class="mr-2 left-margin" height="30">
@@ -345,6 +495,7 @@ $(document).ready(function(){
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
           <div class="navbar-collapse mr-auto left-margin" id="navbarNavDropdown-3">
             <ul class="navbar-nav mr-auto nav-subbar">
+              
               <li class="nav-item active">
               
                 <a class="nav-link nav-link-margin" href="#"> 
@@ -354,12 +505,14 @@ $(document).ready(function(){
                 
                 </a>
               </li>
+              
               <li class="">
                 <a class="nav-link nav-link-margin" href="#"> 
                 <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">alarm</i> 
                 <span class="submenu-name"> &nbsp; 알림 </span>
                 </a>
               </li>
+              
               <li class="">
                 <a class="nav-link nav-link-margin" href="#"> 
                 <i class="material-icons nav-subbar-icon" style="margin: 0; padding:0">shopping_cart</i> 
@@ -374,18 +527,6 @@ $(document).ready(function(){
                 </a>
               </li>
               
-              
-<!--               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink-3" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  Services
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink-3">
-                  <a class="dropdown-item" href="#">Design</a>
-                  <a class="dropdown-item" href="#">Development</a>
-                  <a class="dropdown-item" href="#">Marketing</a>
-                </div>
-              </li> -->
             </ul>
 
           </div>
@@ -395,7 +536,6 @@ $(document).ready(function(){
           <div class="navbar-collapse mr-auto left-margin" id="navbarNavDropdown-3">
             <ul class="navbar-nav mr-auto nav-subbar">
             
-              
               <li class="nav-item">
 
                 <a class="nav-link" href="#"> 
@@ -404,10 +544,10 @@ $(document).ready(function(){
                 </a>
               </li>
               
-              <li class="nav-item active">
+              <li class="nav-item">
 
                 <a class="nav-link" href="#"> 
-                <span class="home-subbar subbar-margin">&nbsp; 소설 </span>
+                <span class="home-subbar subbar-margin subbar-active">&nbsp; 소설 </span>
                 </a>
               </li>
               
@@ -447,7 +587,7 @@ $(document).ready(function(){
 
 
 
-<div class="multiple-items">
+<div class="book-items">
   
   <div class="carousel-container" >
   	<img class ="carousel-images" src="images/carousel/carousel1.jpg">
@@ -471,8 +611,144 @@ $(document).ready(function(){
 
 </div>
 
-
 <span class="slidenumber"></span>  
+
+<div> <br><br><br><br></div>
+
+
+
+
+<div class="review-items">
+  
+  <div class="carousel-container review-carousel" >
+  		<div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+ 
+  </div>
+  </div>
+  <div  class="carousel-container" >
+          <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+  </div>
+  
+  <div  class="carousel-container" >
+         <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+   </div>
+  
+   <div  class="carousel-container" >
+          <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+  </div>
+  
+  <div  class="carousel-container" >
+          <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+  </div>
+  
+  <div  class="carousel-container" >
+          <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+  </div>
+  
+  <div  class="carousel-container" >
+          <div class="row">
+              <div class="card review-margin">
+                <img class="card-img-top" src="images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <h4 class="card-title">Sample Card Title</h4>
+                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
+                    in his length hid...</p>
+                  <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+              </div>
+   </div>
+  </div>
+
+</div>
+
+<br><br>
+
+<div id="txt" class="timer">
+</div>
+<div>
+<ul class="rank-list-ul">
+<li class="rank-list-li">
+<div class="rank-list-image"><img src="images/carousel/carousel2.jpg"></div>
+<div class="book-meta-box">
+<a href=# class="book-meta-box-rank"> 1 </a>
+<span class="book-meta-box-title"> 위쳐 </span>
+</div>
+</li>
+<li class="rank-list-li">2</li>
+<li class="rank-list-li">3</li>
+<li class="rank-list-li">4</li>
+<li class="rank-list-li">5</li>
+<li class="rank-list-li">6</li>
+<li class="rank-list-li">7</li>
+<li class="rank-list-li">8</li>
+<li class="rank-list-li">9</li>
+
+
+
+
+</ul>
+
+
+</div>
 
 
 </body>
