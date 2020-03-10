@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.Member">
+<cache/>
+	<select id="selectById" parameterType="String" resultType="Member">
+		select id from member where id = #{id}
+	</select>
+	
+	<!-- db에 멤버 생성 -->
+	<insert id="insert" parameterType="Member">
+		insert into member values
+		(#{id},#{pw},#{email},#{name},#{birth},#{gender},#{auth})
+	</insert>
+	<!-- 비밀번호 수정 -->
+	<update id="update" parameterType="Member">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	<select id="memberList" resultType="Member">
+		select * from member
+	</select>
+
+</mapper>
+
+
