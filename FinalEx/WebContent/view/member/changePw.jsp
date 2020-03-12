@@ -10,12 +10,13 @@
 </head>
 <body>
 
-	<form action="${pageContext.request.contextPath}/member/changePw" method="post">
+	<form action="${pageContext.request.contextPath}/member/changePw"
+		method="post">
 		<input type="password" name="curPwd" placeholder="현재 암호를 입력하세요">
 		<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>
 		<c:if test="${errors.badCurPwd}">현재 암호가 일치하지 않습니다.</c:if>
-		<span>새 암호</span>
-		<input type="password" name="newPwd"  placeholder="새암호를 입력하세요">
+		<span>새 암호</span> <input type="password" name="newPwd"
+			placeholder="새암호를 입력하세요">
 		<c:if test="${errors.newPwd }">새 암호를 입력하세요</c:if>
 		<input type="submit" value="회원 정보 변경">
 	</form>

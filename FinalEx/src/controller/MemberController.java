@@ -16,8 +16,7 @@ import excep.DuplicateldException;
 import excep.InvalidPasswordException;
 import excep.LoginFailException;
 import excep.MemberNotFoundException;
-import model.Member;
-import model.User;
+import model.MemberDataBean;
 
 public class MemberController extends ActionAnnotation {
 
@@ -42,9 +41,9 @@ public class MemberController extends ActionAnnotation {
 	// 조인 요청
 	@RequestMapping(value = "join", method = RequestMethod.POST)
 	public String member_joinPro(HttpServletRequest req, HttpServletResponse response) throws Exception {
-		Member newMember = new Member(req.getParameter("id"), req.getParameter("pw"), req.getParameter("email"),
-				req.getParameter("name"), req.getParameter("birth"), req.getParameter("gender"),
-				req.getParameter("confirmPw"));
+		MemberDataBean newMember = new MemberDataBean(req.getParameter("id"), req.getParameter("pw"),
+				req.getParameter("email"), req.getParameter("name"), req.getParameter("birth"),
+				req.getParameter("gender"), req.getParameter("confirmPw"));
 		System.out.println(newMember.toString());
 		Map<String, Boolean> errors = new HashMap<>();
 		req.setAttribute("errors", errors);
@@ -56,15 +55,13 @@ public class MemberController extends ActionAnnotation {
 
 		try {
 			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
-			String s = newMember.getId();
-			System.out.println(s);
-			Member member = memberDao.selectById(newMember.getId());
+			MemberDataBean member = memberDao.selectById(newMember.getId());
 			if (member != null)
 				throw new DuplicateldException();
 
 			memberDao.insert(newMember);
 
-			Member joinUser = new Member(newMember.getId(), newMember.getName(), newMember.getAuth());
+			MemberDataBean joinUser = new MemberDataBean(newMember.getId(), newMember.getName(), newMember.getAuth());
 			req.getSession().setAttribute("auth", joinUser);
 
 			req.setAttribute("message", "회원가입성공했다능");
@@ -87,8 +84,8 @@ public class MemberController extends ActionAnnotation {
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String member_loginPro(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		String id = trim(req.getParameter("id"));
-		String pw = trim(req.getParameter("pw"));
+		String id = req.getParameter("id");
+		String pw = req.getParameter("pw");
 
 		Map<String, Boolean> errors = new HashMap<>();
 		req.setAttribute("errors", errors);
@@ -104,13 +101,17 @@ public class MemberController extends ActionAnnotation {
 		try {
 			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
 
-			Member member = memberDao.selectById(id);
-			if (member == null)
-				throw new LoginFailException();
+			MemberDataBean member = memberDao.selectById(id);
+			if (member == null){
+				req.setAttribute("message", "존재하지 않는 회원입니다");
+				req.setAttribute("url", "member/login");
+				return "/view/alert.jsp";
+			}
+			System.out.println("아이디" + member.getId());
+			System.out.println("비밀번호" + member.getPw());
 			if (!member.matchPassword(pw))
 				throw new LoginFailException();
-
-			Member loginUser = new Member(member.getId(), member.getName(), member.getAuth());
+			MemberDataBean loginUser = new MemberDataBean(member.getId(), member.getName(), member.getAuth());
 			req.getSession().setAttribute("auth", loginUser);
 
 		} catch (LoginFailException e) {
@@ -137,7 +138,7 @@ public class MemberController extends ActionAnnotation {
 	public String member_findPw(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		return "/view/member/findpw.jsp";
 	}
-	
+
 	// 로그아웃
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String member_logout(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -147,15 +148,67 @@ public class MemberController extends ActionAnnotation {
 		}
 		return "/view/main.jsp";
 	}
-	// 정보 변경 페이지 클릭
-	
-	@RequestMapping(value = "changePw")
-	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Member loginUser = (Member) req.getSession().getAttribute("auth");
+
+	// 회원 탈퇴
+	@RequestMapping(value = "delete")
+	public String member_delete(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("auth");
 
 		try {
 			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
-			Member myInfo = memberDao.selectById(loginUser.getId());
+			MemberDataBean myInfo = memberDao.selectById(loginUser.getId());
+
+			req.setAttribute("myInfo", myInfo);
+			return "/view/member/delete.jsp";
+
+		} catch (MemberNotFoundException e) {
+			req.getServletContext().log("not login", e);
+			res.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	public String member_deletePro(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("auth");
+
+		String pw = req.getParameter("pw");
+
+		Map<String, Boolean> errors = new HashMap<>();
+		req.setAttribute("errors", errors);
+		if (pw == null || pw.isEmpty())
+			errors.put("pw", Boolean.TRUE);
+
+		try {
+			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
+			MemberDataBean myInfo = memberDao.selectById(loginUser.getId());
+			memberDao.delete(myInfo);
+			req.setAttribute("myInfo", myInfo);
+			req.setAttribute("message", "다시가입해줘요 ㅜㅜㅜㅜ");
+			req.setAttribute("url", "main");
+			HttpSession session = req.getSession(false);
+			if (session != null) {
+				session.invalidate();
+			}
+			return "/view/alert.jsp";
+
+		} catch (MemberNotFoundException e) {
+			req.getServletContext().log("not login", e);
+			res.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+
+	}
+
+	// 비밀번호 변경 페이지 클릭
+
+	@RequestMapping(value = "changePw")
+	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("auth");
+
+		try {
+			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
+			MemberDataBean myInfo = memberDao.selectById(loginUser.getId());
 
 			req.setAttribute("myInfo", myInfo);
 			return "/view/member/changePw.jsp";
@@ -168,9 +221,10 @@ public class MemberController extends ActionAnnotation {
 
 	}
 
+	// 비밀번호 변경
 	@RequestMapping(value = "changePw", method = RequestMethod.POST)
 	public String member_changePwPro(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		Member user = (Member) req.getSession().getAttribute("auth");
+		MemberDataBean user = (MemberDataBean) req.getSession().getAttribute("auth");
 
 		Map<String, Boolean> errors = new HashMap<>();
 		req.setAttribute("errors", errors);
@@ -188,12 +242,14 @@ public class MemberController extends ActionAnnotation {
 
 		try {
 			MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
-			Member member = memberDao.selectById(user.getId());
+			MemberDataBean member = memberDao.selectById(user.getId());
 			if (member == null) {
 				throw new MemberNotFoundException();
 			}
 			System.out.println(member.getPw());
-			if (!member.matchPassword(member.getPw())){
+			System.out.println(req.getParameter("curPwd"));
+			System.out.println(req.getParameter("newPwd"));
+			if (!member.matchPassword(member.getPw())) {
 				throw new InvalidPasswordException();
 			}
 			member.changePassword(newPwd);

@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.Member;
-import model.User;
+import model.MemberDataBean;
 
 public class AdminCheckFilter implements Filter
 {
@@ -24,7 +23,7 @@ public class AdminCheckFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession(false);
-        Member member = (Member)session.getAttribute("auth");
+        MemberDataBean member = (MemberDataBean)session.getAttribute("auth");
         if (session == null || session.getAttribute("auth") == null || member.getAuth() == "0" )
         {
             HttpServletResponse response = (HttpServletResponse) res;

@@ -3,7 +3,7 @@ package dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import model.Member;
+import model.MemberDataBean;
 import mybatis.AbstractRepository;
 
 public class MybatisMemberDao extends AbstractRepository {
@@ -18,7 +18,7 @@ public class MybatisMemberDao extends AbstractRepository {
 	private MybatisMemberDao() {
 	}
 
-	public Member selectById(String id) {
+	public MemberDataBean selectById(String id) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".selectById";
@@ -28,7 +28,7 @@ public class MybatisMemberDao extends AbstractRepository {
 		}
 	}
 
-	public void insert(Member member) {
+	public void insert(MemberDataBean member) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".insert";
@@ -39,7 +39,7 @@ public class MybatisMemberDao extends AbstractRepository {
 		}
 	}
 
-	public void update(Member member) {
+	public void update(MemberDataBean member) {
 
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
@@ -50,8 +50,20 @@ public class MybatisMemberDao extends AbstractRepository {
 			sqlSession.close();
 		}
 	}
+	
+	public void delete(MemberDataBean member) {
 
-	public List<Member> memberList() {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".delete";
+			sqlSession.delete(statement, member);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public List<MemberDataBean> memberList() {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".memberList";

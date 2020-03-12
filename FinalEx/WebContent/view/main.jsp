@@ -15,6 +15,8 @@
 	<a href="${pageContext.request.contextPath}/member/logout">로그아웃하기</a>
 	<br>
 	<a href="${pageContext.request.contextPath}/member/changePw">비밀번호 바꾸기</a>
+	<br>
+	<a href="${pageContext.request.contextPath}/member/delete">회원 탈퇴하기</a>
 	<c:if test="${auth.id != null }">
 	<br>
 	안녕하세요 ${auth.id} 님
