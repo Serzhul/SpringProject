@@ -16,7 +16,38 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
-  <jsp-config>
+<!--     <jsp-config>
+  <jsp-property-group>
+  <url-pattern>.jsp</url-pattern>
+  <include-prelude></include-prelude> 
+  <include-coda>/common/footer.jsp</include-coda>
+  </jsp-property-group>
+  </jsp-config> -->
+  
+<servlet>
+	<servlet-name>bookController</servlet-name>
+	<servlet-class>controller.BookController</servlet-class>
+</servlet>
+
+<servlet>
+	<servlet-name>mainController</servlet-name>
+	<servlet-class>controller.MainController</servlet-class>
+</servlet>
+	
+<servlet-mapping>
+	<servlet-name>bookController</servlet-name>
+	<url-pattern>/book/*</url-pattern>
+	
+</servlet-mapping>
+
+<servlet-mapping>
+	<servlet-name>mainController</servlet-name>
+	<url-pattern>/main/*</url-pattern>
+	
+</servlet-mapping>
+
+  
+ <!--  <jsp-config>
     	
     	<jsp-property-group>
   		<url-pattern>/view/*</url-pattern>
@@ -40,6 +71,6 @@
   		<include-prelude>/common/downloadname.jsp</include-prelude>
   		</jsp-property-group>
   
-  </jsp-config>
+  </jsp-config> -->
 
 </web-app>
