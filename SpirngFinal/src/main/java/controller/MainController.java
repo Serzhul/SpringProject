@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,19 +20,23 @@ public class MainController {
 	BookDao service;
 
 	public void initProcess(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	 //	HttpSession session = request.getSession();
 	}
 
 	@RequestMapping(value = "index")
 	public String index(Model m) throws Exception {
 		int range = 9;
 		
-		List<BookDataBean>booklist = service.getBooks();
+		
+	//	List<BookDataBean>booklist = service.getBooks();
 		
 		List<BookDataBean>bestseller = service.getBestSeller(range);
 		
-		m.addAttribute("booklist", booklist);
+		
+		
+		//m.addAttribute("booklist", booklist);
 		m.addAttribute("bestseller", bestseller);
+		
 		
 		return "main/index";
 	}
@@ -49,6 +52,21 @@ public class MainController {
 
 		return "main/bestseller";
 	}
+	
+	@RequestMapping(value = "searchresult")
+	public String searchresult(HttpServletRequest request, Model m) throws Exception {
+		String keyword = request.getParameter("keyword");
+		
+		System.out.println(keyword);
+		
+		List<BookDataBean>searchresult = service.getSearchResult(keyword);
+		
+		m.addAttribute("keyword", keyword);
+		m.addAttribute("searchresult", searchresult);
+		
+		return "main/searchresult";
+	}
+	
 	
 	
 }

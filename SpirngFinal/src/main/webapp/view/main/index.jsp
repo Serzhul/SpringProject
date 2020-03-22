@@ -582,6 +582,13 @@ function startTime() {
 	  if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
 	  return i;
 	}
+	
+	
+	function search(ele) {
+	    if(event.key === 'Enter') {
+	    	location.href="searchresult?keyword="+ele.value;  
+	    }
+	}
 
 	</script>
 
@@ -597,8 +604,11 @@ function startTime() {
           <span>&nbsp;&nbsp;</span>
           <button type="button" class="btn btn-success login-button ">로그인</button>
           </div>
-          <input class="form-control search-bar" type="text" placeholder="제목,저자,출판사 검색" aria-label="Search">
+          <input class="form-control search-bar" 
+          type="text" placeholder="제목,저자,출판사 검색" aria-label="Search"
+          onkeydown="search(this)">
 </nav>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
           <div class="navbar-collapse mr-auto left-margin" id="navbarNavDropdown-3">
             <ul class="navbar-nav mr-auto nav-subbar">

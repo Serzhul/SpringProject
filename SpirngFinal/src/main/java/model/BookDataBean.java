@@ -16,9 +16,24 @@ public class BookDataBean implements Serializable{
 	private String sales;
 	private int rk;
 	private double avgr;
+	private int rm;
+	private String keyword;
 	
 	
+
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	
+	public int getRm() {
+		return rm;
+	}
+	public void setRm(int rm) {
+		this.rm = rm;
+	}
 	public double getAvgr() {
 		return avgr;
 	}

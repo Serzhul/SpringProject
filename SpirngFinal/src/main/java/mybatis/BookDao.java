@@ -10,13 +10,6 @@ import model.BookDataBean;
 public class BookDao extends AbstractRepository {
 	private final String namespace = "mybatis.Book";
 
-	// 싱글톤 사용
-	private static BookDao instance = new BookDao();
-
-	public static BookDao getInstance() {
-		return instance;
-	}
-
 	public BookDataBean getBookInfo(String isbn) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
@@ -56,6 +49,21 @@ public class BookDao extends AbstractRepository {
 		} finally {
 			sqlSession.close();
 		}
+	}
+	
+	public List<BookDataBean> getSearchResult(String keyword) {
+		List<BookDataBean> SearchResult = new ArrayList<BookDataBean>();
+		
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		
+		try {
+			SearchResult = sqlSession.selectList(namespace + ".getSearchResult", keyword);
+			
+			return SearchResult;
+		} finally {
+			sqlSession.close();
+		}
+		
 	}
 	
 	
