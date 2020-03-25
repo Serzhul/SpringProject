@@ -37,7 +37,7 @@ isbn varchar(50) REFERENCES book(isbn) not null
 
 create table review(
 isbn varchar(50) REFERENCES book(isbn) not null,
-id varchar(20) REFERENCES member(id) not null unique,
+id varchar(20) REFERENCES member(id) not null,
 content varchar(300) not null,
 rating int not null,
 like_cnt int not null,
