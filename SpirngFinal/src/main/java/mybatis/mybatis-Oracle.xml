@@ -6,6 +6,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="model.BookDataBean"	alias="Book"/>
+		<typeAlias type="model.ReviewDataBean"	alias="Review"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

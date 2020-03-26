@@ -18,8 +18,6 @@ public class BookDataBean implements Serializable{
 	private double avgr;
 	private int rm;
 	private String keyword;
-	
-	
 
 	public String getKeyword() {
 		return keyword;

@@ -88,10 +88,12 @@
 <div class="book_macro_landscape">
 <div class="book_macro_110">
 <div class="book_thumbnail_wrapper">
+<div class="book_macro_110">
 <a class="book_thumnail" href="index"><img src="<%=request.getContextPath()%>/view/images/carousel/${sr.isbn}.jpg" style="width:110px"></a></div></div>
 <div class="book_metadata_wrapper">
 <div class="title_text">${sr.book_subject}</div>
 <a class="author" style="font-size:12px">${sr.book_writer}</a>
+</div>
 </div>
 </div>
 </c:forEach>

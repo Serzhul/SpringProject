@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import model.BookDataBean;
 
+
 public class BookDao extends AbstractRepository {
 	private final String namespace = "mybatis.Book";
 
@@ -65,6 +66,40 @@ public class BookDao extends AbstractRepository {
 		}
 		
 	}
+	
+	public List<BookDataBean> getBestReview() {
+		List<BookDataBean> bestreview = new ArrayList<BookDataBean>();
+		
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		
+		try {
+			bestreview = sqlSession.selectList(namespace + ".getBestReview");
+
+			return bestreview;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
+	
+	public List<String> getBestReviewContent() {
+		List<String> content = new ArrayList<String>();
+
+		
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		
+		try {
+			content = sqlSession.selectList(namespace + ".getBestReviewContent");
+			
+			return content;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
+	
+	
+	
 	
 	
 }

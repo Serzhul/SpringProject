@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -732,108 +736,37 @@ function startTime() {
 <div> <br><br><br><br></div>
 
 
-
-
 <div class="review-items">
-  
+  <c:set var="i" value="0" scope="page" />
+  <c:forEach var="br" items="${bestreview}">
+<%--   <c:forEach var="i" begin="0" end="${fn:length(content)-1}"> --%>
   <div class="carousel-container review-carousel" >
   		<div class="row">
               <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
+                <img class="card-img-top" 
+                src="<%=request.getContextPath()%>/view/images/carousel/${br.isbn}.jpg" 
+                alt="Card image cap"
+                style="width:100%; height: 300px" >
                 <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
+                  <h6 class="card-title">${br.book_subject}</h6>
+                  <p class="card-text">
+
+ 					<c:if test="${fn:length(content.get(i))<=30}">
+                  ${content.get(i)}
+                 	 </c:if>
+                 	 <c:if test="${fn:length(content.get(i))>30}">
+                  ${fn:substring(content.get(i), 0, 30)}...
+                 	 </c:if> 
+                  </p>
+                  <a href="#" class="btn btn-primary">자세히 보기</a>
                 </div>
               </div>
  
   </div>
   </div>
-  <div  class="carousel-container" >
-          <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-  </div>
-  
-  <div  class="carousel-container" >
-         <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-   </div>
-  
-   <div  class="carousel-container" >
-          <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-  </div>
-  
-  <div  class="carousel-container" >
-          <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-  </div>
-  
-  <div  class="carousel-container" >
-          <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-  </div>
-  
-  <div  class="carousel-container" >
-          <div class="row">
-              <div class="card review-margin">
-                <img class="card-img-top" src="<%=request.getContextPath()%>/view/images/demo/stock-photos/3.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h4 class="card-title">Sample Card Title</h4>
-                  <p class="card-text">He seems sinking under the evidence could not only grieve and a visit. The father is to bless and placed
-                    in his length hid...</p>
-                  <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-              </div>
-   </div>
-  </div>
-
+  <c:set var="i" value="${i+1}" scope="page" />
+</c:forEach>
+<%-- </c:forEach> --%>
 </div>
 
 <br><br>
