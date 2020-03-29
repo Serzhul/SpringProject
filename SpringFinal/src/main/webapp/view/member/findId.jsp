@@ -56,24 +56,63 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/shards.min.css?v=3.0.0">
-<link rel="stylesheet" href="css/shards-demo.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/shards.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/shards-demo.min.css?v=3.0.0">
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Bootstrap -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Custom style -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css"
+	media="screen" title="no title" charset="utf-8">
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>아이디 찾기</title>
 </head>
 <body>
-      <div class="subscribe section bg-dark py-4">
-        <h3 class="section-title text-center text-white m-5">아이디 찾기</h3>
-        <form class="form-inline d-table mb-5 mx-auto" action="/">
-          <div class="form-group">
-            <input class="form-control border-0 mr-3 mb-2 mr-sm-0" type="text" placeholder="이메일 주소를 입력하세요">
-          </div>
-          <div class="form-group">
-            <input class="form-control border-0 mr-3 mb-2 mr-sm-0" type="submit" value="아이디 찾기">
-          </div>
-        </form>
-         <p class="text-muted col-md-6 text-center mx-auto">이메일이 기억나지 않는다면 고객센터로 문의해주세요! 1993-3012</p>
-      </div>
+	<!-- 
+	<div class="subscribe section bg-dark py-4">
+		<h3 class="section-title text-center text-white m-5">아이디 찾기</h3>
+		<form class="form-inline d-table mb-5 mx-auto" action="/">
+			<div class="form-group">
+				<input type="text" class="form-control border-0 mr-3 mb-2 mr-sm-0 text-center" 
+					placeholder="이메일 주소 입력">
+			</div>
+			<div class="form-group">		
+				<input type="submit" class="form-control border-0 mr-3 mb-2 mr-sm-0 text-center" value="아이디 찾기">
+			</div>
+		</form>
+		<p class="text-muted col-md-6 text-center mx-auto">이메일이 기억나지 않는다면
+			고객센터로 문의해주세요! 1993-3012</p>
+	</div> -->
+	<!-- <div class="subscribe section bg-dark py-4"> -->
+	<div class="container">
+		<div class="page-header">
+			<h1>
+				아이디찾기<small>Find ID</small>
+			</h1>
+		</div>
+		<form action="${pageContext.request.contextPath}/member/findId"
+			method="POST">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="form-group">
+					<label for="InputEmail"></label> <input type="text"
+						class="form-control" id="email" placeholder="이메일을 입력하세요">
+				</div>
+				<div class="form-group">
+				     <input type="submit"
+						class="form-control" id="email" value="아이디 찾기 ">
+				</div>
+				
+			</div>
+		</form>
+	</div>
 </body>
 </html>

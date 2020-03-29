@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <style>
@@ -12,93 +13,149 @@
 	background-color: red;
 }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>íšŒì›ê°€ì…í•˜ê¸°</title>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<title>Insert title here</title>
+<%-- <c:set var="path" value="${pageContext.request.contextPath}"/> --%>
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Bootstrap -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Custom style -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css"
+	media="screen" title="no title" charset="utf-8">
+
 </head>
 <body>
 
+
+	<article class="container">
+	<div class="page-header">
+		<h1>
+			È¸¿ø°¡ÀÔ <small>Sign up</small>
+		</h1>
+	</div>
 	<form action="${pageContext.request.contextPath}/member/join"
 		method="POST">
-		<!-- ì•„ì´ë””  -->
-		<p>ì•„ì´ë””</p>
-		<div>
-		<input type="text" id="id" name="id" value="${param.id} "
-			placeholder="IDë¥¼ ì…ë ¥í•˜ì„¸ìš”" maxlength="10" required>
-			 <input	type="button" id="check" value="ì¤‘ë³µì²´í¬">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<label for="InputId">¾ÆÀÌµğ</label> <input type="text"
+					class="form-control" id="id" name="id" value="${param.id}"
+					placeholder="ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä" maxlength="10" required>
+				<button type="button" class="btn btn-primary mb-2">Áßº¹Ã¼Å©</button>
+				<input type="button" id="check" value="Áßº¹Ã¼Å©">
 				<table>
 					<tr>
 						<td colspan=3 id="idCheck"></td>
 					</tr>
 				</table>
-		</div>		
-		<div onkeyup="noSpace(this);">
-			<div class="alert id-danger" id="id-danger">ì•„ì´ë””ëŠ” ì˜ì–´ ëŒ€ë¬¸ì, ì†Œë¬¸ì
-				ê·¸ë¦¬ê³  ìˆ«ìë§Œ í—ˆìš©í•©ë‹ˆë‹¤.</div>
-			<c:if test="${errors.id }">IDë¥¼ ì…ë ¥í•˜ì„¸ìš”</c:if>
-			<c:if test="${errors.duplicateId }">ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì•„ì´ë”” ì…ë‹ˆë‹¤.</c:if>
+			</div>
 
-			<br>
-			<!-- ë¹„ë°€ë²ˆí˜¸  -->
-			<p>ë¹„ë°€ë²ˆí˜¸</p>
-			<input type="text" id="pw1" name="pw" value="${param.pw} "
-				placeholder="ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”" maxlength="10" onkeyup="noSpace(this);"
-				required> <br> <input type="text" id="pw2"
-				name="confirmPw" placeholder="ë¹„ë°€ë²ˆí˜¸ í™•ì¸" maxlength="10"
-				onkeyup="noSpace(this);">
-			<div class="success" id="alert-success">ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•©ë‹ˆë‹¤.</div>
-			<div class="fail" id="alert-danger">ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤</div>
-			<div class="alert password-danger" id="password-danger">ê³µë°±ì€
-				í—ˆìš©í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.</div>
-			<!-- ì´ë©”ì¼  -->
-			<p>ì´ë©”ì¼</p>
-			<input type="email" name="email" id="email" value="${param.email} "
-				placeholder="emailì„ ì…ë ¥í•˜ì„¸ìš”" onsubmit="emailCheck();" required>
-			<c:if test="${errors.email }">ì´ë©”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”</c:if>
-			<c:if test="${errors.duplicateEmail }">ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì´ë©”ì¼ ì…ë‹ˆë‹¤.</c:if>
-			<br>
-			<!-- ì´ë¦„  -->
-			<p>ì´ë¦„</p>
-			<input type="text" name="name" value="${param.name} "
-				placeholder="ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”" required>
-			<c:if test="${errors.name }">ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”</c:if>
-			<br>
-			<!-- ìƒë…„ì›”ì¼  -->
-			<p>ìƒë…„ì›”ì¼</p>
-			<input type="date" name="birth" value="${param.birth}" required>
-			<br>
-			<p>ì„±ë³„</p>
-			<input type="radio" autocomplete="off" name="gender" value="ë‚¨ì">
-			ë‚¨ì <input type="radio" autocomplete="off" name="gender" value="ì—¬ì">ì—¬ì
-			<c:if test="${errors.gender}">ì„±ë³„ì„ ì…ë ¥í•˜ì„¸ìš”</c:if>
-			<input type="submit" value="ê°€ì…">
-		</div>
+			<div class="form-group">
+				<label for="InputEmail">ÀÌ¸ŞÀÏ ÁÖ¼Ò</label> <input type="email"
+					class="form-control" name="email" id="email"
+					value="${param.email} " placeholder="emailÀ» ÀÔ·ÂÇÏ¼¼¿ä"
+					onsubmit="emailCheck();" required>
+				<c:if test="${errors.email }">ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä</c:if>
+				<c:if test="${errors.duplicateEmail }">ÀÌ¹Ì »ç¿ëÁßÀÎ ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù.</c:if>
+			</div>
+
+			<div onkeyup="noSpace(this);">
+				<div class="form-group">
+					<label for="InputPassword1">ºñ¹Ğ¹øÈ£</label> <input type="password"
+						class="form-control" id="pw1" name="pw" value="${param.pw}"
+						placeholder="ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä" maxlength="10" onkeyup="noSpace(this);"
+						required>
+				</div>
+
+				<div class="form-group">
+					<label for="InputPassword2">ºñ¹Ğ¹øÈ£ È®ÀÎ</label> <input type="password"
+						class="form-control" id="pw2" name="pw" value="${param.pw}"
+						placeholder="ºñ¹Ğ¹øÈ£ È®ÀÎ" maxlength="10" onkeyup="noSpace(this);"
+						required>
+					<p class="help-block">ºñ¹Ğ¹øÈ£ È®ÀÎÀ» À§ÇØ ´Ù½Ã ÇÑ¹ø ÀÔ·Â ÇØ ÁÖ¼¼¿ä</p>
+					<div class="success" id="alert-success">ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù.</div>
+					<div class="fail" id="alert-danger">ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù</div>
+					<div class="password-danger" id="password-danger">°ø¹éÀº
+						Çã¿ëÇÏÁö ¾Ê½À´Ï´Ù.</div>
+				</div>
+				<div class="form-group">
+					<label for="username">ÀÌ¸§</label> <input type="text"
+						class="form-control" name="name" value="${param.name} "
+						placeholder="ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä" required>
+					<c:if test="${errors.name }">ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä</c:if>
+				</div>
+
+				<div class="form-group">
+					<label for="birth">»ı³â¿ùÀÏ</label> <input type="date"
+						class="form-control" name="birth" value="${param.birth}" required>
+				</div>
+				<%-- 
+				<div class="form-group">
+					<input type="radio" class="form-control" autocomplete="off"
+						name="gender" value="³²ÀÚ"> ³²ÀÚ <input type="radio"
+						class="form-control" autocomplete="off" name="gender" value="¿©ÀÚ">¿©ÀÚ
+					<c:if test="${errors.gender}">¼ºº°À» ÀÔ·ÂÇÏ¼¼¿ä</c:if>
+				</div> --%>
+				<label for="InputPassword2">¼ºº°</label>
+				<div class="custom-control custom-radio">
+
+					<input type="radio" id="customRadio1" name="customRadio"
+						class="custom-control-input"> <label
+						class="custom-control-label" for="customRadio1">³²ÀÚ</label> <input
+						type="radio" id="customRadio1" name="customRadio"
+						class="custom-control-input"> <label
+						class="custom-control-label" for="customRadio1">¿©ÀÚ</label>
+					<c:if test="${errors.gender}">¼ºº°À» ÀÔ·ÂÇÏ¼¼¿ä</c:if>
+				</div>
+
+				<div class="form-group text-center">
+					<button type="submit" class="btn btn-info">
+						È¸¿ø°¡ÀÔ<i class="fa fa-check spaceLeft"></i>
+					</button>
+					<div class="btn btn-warning">
+						<a href="${pageContext.request.contextPath}/member/main">°¡ÀÔÃë¼Ò</a>
+					<i class="fa fa-times spaceLeft"></i>
+					</div>
+				</div>
+			</div>
+		</div>	
 	</form>
+	</article>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-	/*  ì•„ì´ë”” ì²´í¬ */
-	/* 	function idCheck(obj) {
-	 $("#id-danger").hide();
-	 $(".idCheck").keyup(function() {
-	 var idReg = /^[A-za-z0-9]/g;
-	 if (idReg.val() !== idReg) {
-	 $("#id-danger").show();
-	 $("#submit").removeAttr("disabled");
-	 } else {
-	 $("#id-danger").hide();
-	 $("#submit").attr("disabled", "disabled");
-	 }
-	 })
-	 } */
-	/* ë¹„ë°€ë²ˆí˜¸ ê³µë°± ì œê±° */
+	/*  ¾ÆÀÌµğ Ã¼Å© */
+	function idCheck(obj) {
+		$("#id-danger").hide();
+		$(".idCheck").keyup(function() {
+			var idReg = /^[A-za-z0-9]/g;
+			if (idReg.val() !== idReg) {
+				$("#id-danger").show();
+				$("#submit").removeAttr("disabled");
+			} else {
+				$("#id-danger").hide();
+				$("#submit").attr("disabled", "disabled");
+			}
+		})
+	}
+	/* ºñ¹Ğ¹øÈ£ °ø¹é Á¦°Å */
 	function noSpace(obj) {
 		$("#password-danger").hide();
 		$("input").keyup(function() {
-			var pwCheck = /\s/; // ê³µë°± ì²´í¬
+			var pwCheck = /\s/; // °ø¹é Ã¼Å©
 			if (pwCheck.exec(obj.value)) {
 				$("#password-danger").show();
 				obj.focus();
-				obj.value = obj.value.replace(' ', ''); // ê³µë°±ì œê±°
+				obj.value = obj.value.replace(' ', ''); // °ø¹éÁ¦°Å
 				return false;
 			} else {
 				$("#password-danger").hide();
@@ -106,7 +163,7 @@
 			}
 		})
 	}
-	/* ë¹„ë°€ë²ˆí˜¸ í™•ì¸ */
+	/* ºñ¹Ğ¹øÈ£ È®ÀÎ */
 	$(function() {
 		$("#alert-success").hide();
 		$("#alert-danger").hide();
@@ -129,33 +186,34 @@
 		});
 	});
 
-	$(document).ready(function(e) {
-			var idx = false;
-			$('#check').click(function() {
-				$.ajax({url : "${pageContext.request.contextPath}/member/idCheck",
-						type : "GET",
-						data : {
-						"id" : $('#id').val()
-						},
-						success : function(data) {
-							if (data == 0 && $.trim($('#id').val()) != '') {
-								idx = true;
-								$('#id').attr("readonly",true);
-									var html = "<tr><td colspan='3' style='color: green'>ì‚¬ìš©ê°€ëŠ¥</td></tr>";
-									$('#idCheck').empty();
-									$('#idCheck').append(html);
-							} else {
-							var html = "<tr><td colspan='3' style='color: red'>ì‚¬ìš©ë¶ˆê°€ëŠ¥í•œ ì•„ì´ë”” ì…ë‹ˆë‹¤.</td></tr>";
-							$('#idCheck').empty();
-							$('#idCheck').append(html);
-										}
-										},
-							error : function() {
-									alert("ì„œë²„ì—ëŸ¬");
-														}
-													});
+	$(document).ready(
+	function(e) {
+	var idx = false;
+	$('#check').click(function() {
+	$.ajax({
+	url : "${pageContext.request.contextPath}/member/idCheck",
+	type : "GET",
+	data : {
+	"id" : $('#id').val()},
+	success : function(data) {
+	if (data == 0&& $.trim($('#id')	.val()) != '') {
+		idx = true;
+		$('#id').attr("readonly",true);
+		var html = "<tr><td colspan='3' style='color: green'>»ç¿ë°¡´É</td></tr>";
+		$('#idCheck').empty();
+		$('#idCheck').append(html);
+		} else {
+		var html = "<tr><td colspan='3' style='color: red'>»ç¿ëºÒ°¡´ÉÇÑ ¾ÆÀÌµğ ÀÔ´Ï´Ù.</td></tr>";
+		$('#idCheck').empty();
+		$('#idCheck').append(html);
+		}
+			},
+		error : function() {
+		alert("¼­¹ö¿¡·¯");
+		}
+		});
 
-										});
-					});
+		});
+	});
 </script>
 </html>

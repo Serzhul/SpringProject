@@ -55,9 +55,25 @@
 	rel="stylesheet"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/shards.min.css?v=3.0.0">
-<link rel="stylesheet" href="css/shards-demo.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/shards.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/shards-demo.min.css?v=3.0.0">
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Bootstrap -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Custom style -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/style.css"
+	media="screen" title="no title" charset="utf-8">
+
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 페이지</title>
 </head>
@@ -100,7 +116,7 @@
 			<div class="row justify-content-md-center px-4">
 				<form action="${pageContext.request.contextPath}/member/login"
 					method="post">
-					<div class="row">
+					<div class="remember-wrapper">
 						<div class="col-md-8 logindiv">
 							<div class="form-group">
 								<input type="text" class="form-control" id="contactFormFullName"
@@ -121,9 +137,10 @@
 							<a href="${pageContext.request.contextPath}/member/findpw">비밀번호 찾기</a>
 						</div>
 					</div>
+					<div class="remember-wrapper text-center">
 					<input
-						class="text-align btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card"
-						type="submit" value="로그인하기">
+					 class="text-center btn login-Button btn-pill  ml-auto mr-auto  col-md-8 p-4 mb-4 card"	type="submit" value="로그인하기">
+					</div>
 					<div
 						class="btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card">
 						<a href="${pageContext.request.contextPath}/member/join">회원가입하기</a>
