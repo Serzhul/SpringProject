@@ -45,8 +45,7 @@
 				<label for="InputId">아이디</label> <input type="text"
 					class="form-control" id="id" name="id" value="${param.id}"
 					placeholder="ID를 입력하세요" maxlength="10" required>
-				<button type="button" class="btn btn-primary mb-2">중복체크</button>
-				<input type="button" id="check" value="중복체크">
+				<button type="button" id="check" class="btn btn-primary mb-2">중복체크</button>
 				<table>
 					<tr>
 						<td colspan=3 id="idCheck"></td>
@@ -93,22 +92,13 @@
 					<label for="birth">생년월일</label> <input type="date"
 						class="form-control" name="birth" value="${param.birth}" required>
 				</div>
-				<%-- 
-				<div class="form-group">
-					<input type="radio" class="form-control" autocomplete="off"
-						name="gender" value="남자"> 남자 <input type="radio"
-						class="form-control" autocomplete="off" name="gender" value="여자">여자
-					<c:if test="${errors.gender}">성별을 입력하세요</c:if>
-				</div> --%>
 				<label for="InputPassword2">성별</label>
 				<div class="custom-control custom-radio">
 
-					<input type="radio" id="customRadio1" name="customRadio"
-						class="custom-control-input"> <label
-						class="custom-control-label" for="customRadio1">남자</label> <input
-						type="radio" id="customRadio1" name="customRadio"
-						class="custom-control-input"> <label
-						class="custom-control-label" for="customRadio1">여자</label>
+					<input type="radio" id="customRadio1" name="gender"	class="custom-control-input"> 
+					<label	class="custom-control-label" for="customRadio1">남자</label> 
+					<input	type="radio" id="customRadio1" name="gender" class="custom-control-input"> 
+					<label	class="custom-control-label" for="customRadio1">여자</label>
 					<c:if test="${errors.gender}">성별을 입력하세요</c:if>
 				</div>
 
