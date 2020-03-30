@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import excep.DuplicateEmailException;
 import excep.DuplicateldException;
+import excep.IdNotFoundException;
 import excep.InvalidPasswordException;
 import excep.LoginFailException;
 import excep.MemberNotFoundException;
@@ -103,13 +104,16 @@ public class MemberController {
 
 	// 로그인 화면
 	@RequestMapping(value = "login")
-	public String member_login(HttpServletRequest req) throws Exception {
+	public String member_login() throws Exception {
 		return "member/login";
 	}
 
 	// 로그인 요청
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String member_loginPro(MemberDataBean member, Model model, HttpServletRequest req) throws Exception {
+
+		String id = req.getParameter("id");
+		String pw = req.getParameter("pw");
 
 		model.addAttribute("id");
 		model.addAttribute("pw");
@@ -119,23 +123,23 @@ public class MemberController {
 
 		if (member.getId() == null || member.getId().isEmpty())
 			errors.put("id", Boolean.TRUE);
-		if (member.getPw() == null || member.getPw().isEmpty())
+		if (member.getPw() == null || member.getPw().isEmpty() || model.equals(member.getPw()))
 			errors.put("pw", Boolean.TRUE);
-
 		if (!errors.isEmpty())
 			return "member/login";
-
 		try {
 
 			MemberDataBean member1 = dbPro.selectById(member.getId());
 			if (member1 == null) {
-				model.addAttribute("message", "존재하지 않는 회원입니다");
-				model.addAttribute("url", "member/login");
-				return "alert";
+				/*
+				 * model.addAttribute("message", "존재하지 않는 회원입니다");
+				 * model.addAttribute("url", "login"); return "alert";
+				 */
+				throw new LoginFailException();
 			}
 			System.out.println("아이디" + member1.getId());
 			System.out.println("비밀번호" + member1.getPw());
-			if (!member1.matchPassword(member1.getPw()))
+			if (!member1.matchPassword(pw))
 				throw new LoginFailException();
 			MemberDataBean loginUser = new MemberDataBean(member1.getId(), member1.getName(), member1.getAuth());
 			req.getSession().setAttribute("auth", loginUser);
@@ -150,14 +154,79 @@ public class MemberController {
 	}
 
 	// 아이디 찾기
+/*	@RequestMapping(value = "findId", method = RequestMethod.POST)
+	public String member_findId(MemberDataBean member, Model model, HttpServletRequest req) throws Exception {
+		MemberDataBean user = (MemberDataBean) req.getSession().getAttribute("auth");
+
+		model.addAttribute("email");
+
+		try {
+			// MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
+			MemberDataBean forgetId = dbPro.selectByEmail(user.getEmail());
+			req.getSession().setAttribute("auth", forgetId);
+			if (member == null) {
+				throw new MemberNotFoundException();
+			}
+			System.out.println(member.getEmail());
+			return "member/findIdSuccess";
+		} catch (InvalidPasswordException e) {
+			return "member/findId";
+		} catch (MemberNotFoundException e) {
+			return "member/findId";
+		}
+	}*/
+	
+	@SuppressWarnings("null")
+	@RequestMapping(value = "findId", method = RequestMethod.POST)
+	public String member_findId(MemberDataBean member, Model model, HttpServletRequest req) throws Exception {
+	String email = req.getParameter("email");
+	
+	model.addAttribute("email");
+
+
+	Map<String, Boolean> errors = new HashMap<>();
+	model.addAttribute("errors", errors);
+
+	if (member.getEmail() == null || member.getEmail().isEmpty())
+		errors.put("email", Boolean.TRUE);
+	
+	if (!errors.isEmpty())
+		return "member/findId";
+	MemberDataBean User = dbPro.findId(member.getEmail());
+	System.out.println(member.getEmail());
+	try {
+		if (User == null && !User.matchEmail(email)) {
+			throw new IdNotFoundException();
+		} else {
+	/*	if (!User.matchEmail(email)) 
+			throw new IdNotFoundException();
+		System.out.println(member.getEmail() + "2 여기서 걸림");*/
+		MemberDataBean loginUser = new MemberDataBean(User.getId(), User.getEmail());
+		req.getSession().setAttribute("auth", loginUser);
+		}
+	} catch (IdNotFoundException e) {
+		errors.put("emailNotFound", Boolean.TRUE);
+		System.out.println(member.getEmail() + "3 여기서 걸림");
+		return "member/findId";
+	}
+	return "member/findIdSuccess";
+}
+
+	// 아이디 찾기
 	@RequestMapping(value = "findId", method = RequestMethod.GET)
-	public String member_findId() throws Exception {
+	public String member_findIdPro() throws Exception {
 		return "member/findId";
 	}
 
 	// 비밀번호 찾기
 	@RequestMapping(value = "findpw", method = RequestMethod.GET)
 	public String member_findPw() throws Exception {
+		return "member/findpw";
+	}
+
+	// 비밀번호 찾기
+	@RequestMapping(value = "findpw", method = RequestMethod.POST)
+	public String member_findPwPro() throws Exception {
 		return "member/findpw";
 	}
 
@@ -204,10 +273,10 @@ public class MemberController {
 			// MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
 			dbPro.delete(myInfo);
+			HttpSession session = req.getSession(false);
 			req.setAttribute("myInfo", myInfo);
 			req.setAttribute("message", "다시가입해줘요 ㅜㅜㅜㅜ");
 			req.setAttribute("url", "main");
-			HttpSession session = req.getSession(false);
 			if (session != null) {
 				session.invalidate();
 			}
@@ -218,9 +287,7 @@ public class MemberController {
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
-
 	}
-
 	// 비밀번호 변경 페이지 클릭
 
 	@RequestMapping(value = "changePw")
@@ -277,7 +344,7 @@ public class MemberController {
 			dbPro.update(member);
 
 			req.setAttribute("message", "회원 정보 수정 완료");
-			req.setAttribute("url", "member/main");
+			req.setAttribute("url", "main");
 			return "alert";
 		} catch (InvalidPasswordException e) {
 			errors.put("badCurPwd", Boolean.TRUE);

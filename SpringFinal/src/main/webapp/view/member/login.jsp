@@ -72,7 +72,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css"
 	media="screen" title="no title" charset="utf-8">
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 페이지</title>
@@ -121,6 +120,8 @@
 							<div class="form-group">
 								<input type="text" class="form-control" id="contactFormFullName"
 									placeholder="아이디를 입력하세요" name="id" value="${param.id}">
+								<c:if test="${errors.idOrPwNotMatch }">	아이디나 암호가 일치하지 않습니다.	</c:if>
+								<c:if test="${errors.id }">ID를 입력하세요</c:if>
 							</div>
 						</div>
 						<div class="col-md-8 logindiv">
@@ -128,18 +129,21 @@
 								<input type="password" class="form-control"
 									id="contactFormEmail" placeholder="비밀번호를 입력하세요" name="pw"
 									value="${param.pw}">
+									<c:if test="${errors.pw}">암호를 입력하세요</c:if>	
 							</div>
 						</div>
 					</div>
 					<div class="remember-wrapper">
 						<div class="col-md-8 logindiv">
-							<a href="${pageContext.request.contextPath}/member/findId">아이디 찾기 </a> | 
-							<a href="${pageContext.request.contextPath}/member/findpw">비밀번호 찾기</a>
+							<a href="${pageContext.request.contextPath}/member/findId">아이디
+								찾기 </a> | <a href="${pageContext.request.contextPath}/member/findpw">비밀번호
+								찾기</a>
 						</div>
 					</div>
 					<div class="remember-wrapper text-center">
-					<input
-					 class="text-center btn login-Button btn-pill  ml-auto mr-auto  col-md-8 p-4 mb-4 card"	type="submit" value="로그인하기">
+						<input
+							class="text-center btn login-Button btn-pill  ml-auto mr-auto  col-md-8 p-4 mb-4 card"
+							type="submit" value="로그인하기">
 					</div>
 					<div
 						class="btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card">

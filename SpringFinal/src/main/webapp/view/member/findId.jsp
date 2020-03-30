@@ -1,48 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<style>
-.logindiv {
-	margin: 0 auto;
-}
-
-.account-login .remember-wrapper {
-	margin-top: -1px;
-	padding: 13px 8px 13px 16px;
-	overflow: hidden;
-	border: 1px solid #d6deeb;
-	border-radius: 0 0 4px 4px;
-	background: #f7fbff;
-	z-index: 1;
-}
-
-.account-login .remember-wrapper .external-links {
-	margin-left: 14px;
-	padding-top: 3px;
-	float: right;
-}
-
-.login-section {
-	padding: 24px 10px;
-}
-
-.pt {
-	padding-top: 100px;
-}
-
-.login-Button {
-	color: balack;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 20px;
-	margin-bottom: auto;
-}
-
-.text-align {
-	text-align: center;
-}
-</style>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -103,14 +63,12 @@
 			method="POST">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="form-group">
-					<label for="InputEmail"></label> <input type="text"
-						class="form-control" id="email" placeholder="이메일을 입력하세요">
-				</div>
-				<div class="form-group">
+					<label for="InputEmail"></label> 
+					<input type="text"	class="form-control" name="email" placeholder="이메일을 입력하세요" value="${param.email}">
+						<c:if test="${errors.emailNotFound }">존재하지 않는 이메일입니다</c:if>
 				     <input type="submit"
-						class="form-control" id="email" value="아이디 찾기 ">
+						class="form-control" value="아이디 찾기 ">
 				</div>
-				
 			</div>
 		</form>
 	</div>

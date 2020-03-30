@@ -2,47 +2,6 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<style>
-.logindiv {
-	margin: 0 auto;
-}
-
-.account-login .remember-wrapper {
-	margin-top: -1px;
-	padding: 13px 8px 13px 16px;
-	overflow: hidden;
-	border: 1px solid #d6deeb;
-	border-radius: 0 0 4px 4px;
-	background: #f7fbff;
-	z-index: 1;
-}
-
-.account-login .remember-wrapper .external-links {
-	margin-left: 14px;
-	padding-top: 3px;
-	float: right;
-}
-
-.login-section {
-	padding: 24px 10px;
-}
-
-.pt {
-	padding-top: 100px;
-}
-
-.login-Button {
-	color: balack;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 20px;
-	margin-bottom: auto;
-}
-
-.text-align {
-	text-align: center;
-}
-</style>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">

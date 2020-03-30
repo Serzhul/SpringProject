@@ -8,6 +8,7 @@
 	<name>SpringFinal Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
+	
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<!-- Spring을 쓰기 위한 의존 설정 -->
 		<dependency>
@@ -28,14 +29,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 			<scope>test</scope>
-		</dependency>
-
-
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.0.4</version>
 		</dependency>
 
 		<dependency>

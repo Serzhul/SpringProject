@@ -93,4 +93,15 @@ public class MybatisMemberDao {
 			sqlSession.close();
 		}
 	}
+	
+	public MemberDataBean findId(String email) {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".findId";
+			System.out.println(email);
+			return sqlSession.selectOne(statement, email);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }
