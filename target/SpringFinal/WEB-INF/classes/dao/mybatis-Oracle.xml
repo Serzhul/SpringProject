@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<property name="table_book" value="book"/>
+		<property name="isbn" value="isbn"/>
+		<property name="book_m_category" value="book_m_category"/>
+		<property name="book_s_category" value="book_s_category"/>
+		<property name="book_subject" value="book_subject"/>
+		<property name="book_writer" value="book_writer"/>
+		<property name="book_pday" value="book_pday"/>
+		<property name="book_summary" value="book_summary"/>
+		<property name="book_filename" value="book_filename"/>
+		<property name="book_filesize" value="book_filesize"/>
+		<property name="book_price" value="book_price"/>
+
+		<property name="table_board" value="board"/>
+		<property name="board_category" value="board_category"/>
+		<property name="id" value="id"/>
+		<property name="board_number" value="board_number"/>
+		<property name="board_subject" value="board_subject"/>
+		<property name="board_content" value="board_content"/>
+		<property name="board_regdate" value="board_regdate"/>
+		
+		<property name="table_review" value="review"/>
+	</properties>
+	<typeAliases>
+		<typeAlias type="dto.BoardDTO" alias="BoardDTO"/>
+		<typeAlias type="dto.BookDTO" alias="BookDTO" />
+		<typeAlias type="dto.ReviewDTO" alias="ReviewDTO"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<!-- jspdb  -->
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver" />
+				<!-- 오라클 드라이버 경로 설정 -->
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521/orcl" />
+				<!--  내 db의 계정 경로 설정  -->
+				<property name="username" value="scott" />
+				<property name="password" value="1111" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="dao/boardQueries.xml"/>
+		<mapper resource="dao/bookQueries.xml" />
+		<mapper resource="dao/reviewQueries.xml"/>
+	</mappers>
+</configuration>
