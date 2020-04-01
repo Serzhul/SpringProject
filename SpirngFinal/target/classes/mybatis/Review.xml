@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.Review">
+	<cache />
+	<insert id="insertReview" parameterType="hashMap">
+		insert into review values
+		(#{review_book_isbn}, 'test', #{review_content}, #{review_rating}, 0, to_char(sysdate , 'YYYY-MM-DD'))
+	</insert>
+</mapper>
