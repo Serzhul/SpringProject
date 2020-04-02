@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 
 public class ReviewDataBean implements Serializable{
+	private String num;
 	private String isbn;
 	private String id;
 	private String content;
@@ -15,6 +16,14 @@ public class ReviewDataBean implements Serializable{
 		
 	}
 	
+	
+	
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
 	public String getIsbn() {
 		return isbn;
 	}

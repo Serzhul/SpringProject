@@ -124,21 +124,29 @@ public class BookController {
 	public String book_content(String isbn, Model m) throws Exception {		
 		System.out.println("isbn : "+isbn);
 		
-		BookDataBean article=service.getBookInfo(isbn);
-		m.addAttribute("article", article);
+		BookDataBean book_content_article=service.getBookInfo(isbn);
+		List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
+		m.addAttribute("book_content_article", book_content_article);
+		m.addAttribute("reviewList", reviewList);
 		
 		return "book/book_content";
 	}
 	
 	@RequestMapping(value="review/save")
-	public String book_review_save(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		//리턴값
-		//Map<String, Object> test2=new HashMap<String, Object>();
-		
+	public void book_review_save(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		reviewservice.insertReview(reviewMap);	
+	}
+	
+	@RequestMapping(value="review/del")
+	public void book_review_del(@RequestParam Map<String, Object> reviewMap) throws Exception{
 		System.out.println(reviewMap.toString());
-		reviewservice.insertReview(reviewMap);
-		System.out.println("book_review_save 실행");
-		return "book/book_content";		
+		reviewservice.deleteReview(reviewMap);	
+	}
+	
+	@RequestMapping(value="review/review_like")
+	public void book_review_like(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		System.out.println(reviewMap.toString());
+		reviewservice.likecntplue(reviewMap);	
 	}
 	
 }

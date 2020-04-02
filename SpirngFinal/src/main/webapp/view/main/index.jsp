@@ -688,7 +688,7 @@ function startTime() {
 			</a></li>
 
 
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기 계발"
+			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발"
 				style="margin-right: 15px"> <span
 					class="home-subbar subbar-margin"> &nbsp; 자기 계발 </span>
 			</a></li>
