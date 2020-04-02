@@ -29,17 +29,17 @@
 		</h1>
 	</div>
 	<form action="${pageContext.request.contextPath}/member/join"
-		method="POST" onsubmit="return validate();">
+		method="POST" onsubmit="return checkAll()" name="form">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<label for="InputId">아이디</label> <input type="text"
-					class="form-control user_id" id="id" name="id" value="${param.id}"
-					placeholder="ID를 입력하세요" maxlength="10">
+					class="form-control" id="id" name="id" value="${param.id}"
+					placeholder="ID를 입력하세요" maxlength="10" onkeyup="noSpace(this);">
 				<button type="button" id="check" class="btn btn-primary mb-2">중복체크</button>
 				<table>
 					<tr>
 						<td colspan=3 id="idCheck"></td>
-						<td class="check_font" id="id_check"></td>
+						<td class="check_font" id="idCheck"></td>
 					</tr>
 				</table>
 			</div>
@@ -48,45 +48,37 @@
 			<div class="form-group">
 				<label for="InputEmail">이메일 주소</label> <input type="email"
 					class="form-control" name="email" id="email"
-					value="${param.email} " placeholder="email을 입력하세요">
+					value="${param.email} " placeholder="email을 입력하세요"onkeyup="noSpace(this);" >
 				<c:if test="${errors.email }">이메일을 입력하세요</c:if>
 				<c:if test="${errors.duplicateEmail }">이미 사용중인 이메일 입니다.</c:if>
 			</div>
 
-			<div onkeyup="noSpace(this);">
+			<div>
 				<div class="form-group">
 					<label for="InputPassword1">비밀번호</label> <input type="password"
 						class="form-control" id="pw1" name="pw" value="${param.pw}"
-						placeholder="비밀번호를 입력하세요" maxlength="10" onkeyup="noSpace(this);">
+						placeholder="비밀번호를 입력하세요" maxlength="12" onkeyup="noSpace(this);">
 				</div>
 
 				<div class="form-group">
 					<label for="InputPassword2">비밀번호 확인</label> 
-					<input type="password" class="form-control" id="pw2"
+					<input type="password" class="form-control" id="pw2" name="pw2"
 						placeholder="비밀번호 확인" maxlength="10" onkeyup="noSpace(this);"	>
 					<p class="help-block">비밀번호 확인을 위해 다시 한번 입력 해 주세요</p>
-				<!-- 	<div class="success" id="alert-success">비밀번호가 일치합니다.</div>
-					<div class="fail" id="alert-danger">비밀번호가 일치하지 않습니다</div> -->
 					<div class="password-danger" id="password-danger">공백은 허용하지 않습니다.</div>
 					<div class="check_font" id="alert-success">비밀번호가 일치합니다.</div>
 					<div class="check_font" id="alert-danger">비밀번호가 일치하지 않습니다</div>
 				</div>
 				<div class="form-group">
-					<label for="username">이름</label> <input type="text"
+					<label for="username">이름</label><input type="text"
 						class="form-control username" name="name" value="${param.name} "
-						placeholder="이름을 입력하세요" >
+						placeholder="이름을 입력하세요" onkeyup="noSpace(this);">
 					<c:if test="${errors.name }">이름을 입력하세요</c:if>
 					<div class="check_font" id="name_check"></div>
 				</div>
-
-				<%-- <div class="form-group">
-					<label for="birth">생년월일</label> <input type="date"
-						class="form-control" name="birth" value="${param.birth}" >
-				</div>
-				 --%>
 					<div class="form-group required">
 				<label for="user_birth">생년월일</label>
-					<input type="text" class="form-control" id="user_birth" name="birth" placeholder="ex) 19990415">
+					<input type="text" class="form-control" id="user_birth" name="birth" placeholder="ex) 19990415" onkeyup="noSpace(this);">
 				<div class="check_font" id="birth_check"></div>
 				</div>
 				<label for="InputPassword2">성별</label>
@@ -123,7 +115,7 @@
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 // 아이디 중복 검사 Ajax
 	$(document).ready(
-	function(e) {
+	function checkId(obj) {
 	var idx = false;
 	$('#check').click(function() {
 	$.ajax({
@@ -138,11 +130,13 @@
 		var html = "<tr><td colspan='3' style='color: green'>사용가능</td></tr>";
 		$('#idCheck').empty();
 		$('#idCheck').append(html);
+		return true;
 		
 		} else {
 		var html = "<tr><td colspan='3' style='color: red'>사용불가능한 아이디 입니다.</td></tr>";
 		$('#idCheck').empty();
 		$('#idCheck').append(html);
+		return false;
 		}
 			},
 		error : function() {
@@ -152,6 +146,8 @@
 
 		});
 	});
+ 
+
 
 	/* 비밀번호 공백 제거 */
 	function noSpace(obj) {
@@ -277,34 +273,9 @@
 			}
 		});
 		
-		// 아이디 비밀번호 정규식
-		 function validate() {
-		       var re = /^[가-힝a-zA-Z]{2,}$/;	 // 아이디와 패스워드가 적합한지 검사할 정규식
-		       var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-		       // 이메일이 적합한지 검사할 정규식
-
-		       var id = document.getElementById("id");
-		       var pw = document.getElementById("pw");
-
-		       // ------------ 이메일 까지 -----------
-
-		       if(!check(re,id,"아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-		           return false;
-		       }
-
-		       if(!check(re,pw,"패스워드는 4~12자의 영문 대소문자와 숫자로만 입력")) {
-		           return false;
-		       }
-
-		       if(join.pw.value != join.checkpw.value) {
-		           alert("비밀번호가 다릅니다. 다시 확인해 주세요.");
-		           join.checkpw.value = "";
-		           join.checkpw.focus();
-		           return false;
-		       }     
-		 }
+	
 		 
-		   function check(re, what, message) {
+/* 		   function check(re, what, message) {
 		       if(re.test(what.value)) {
 		           return true;
 		       }
@@ -312,7 +283,115 @@
 		       what.value = "";
 		       what.focus();
 		       //return false;
-		   }
+		   } */
 
+			// 유효성 검사 함수
+			function checkAll() {
+		        if (!checkUserId(form.id.value)) {
+		            return false;
+		        } else if (!checkPassword(form.id.value, form.pw.value,
+		                form.pw2.value)) {
+		            return false;
+		        } else if (!checkMail(form.mail.value)) {
+		            return false;
+		        } else if (!checkName(form.name.value)) {
+		            return false;
+		        } else if (!checkId(form.id.value)){
+		        	return false;
+		        }
+		        return true;
+		    }
+		   
+		// 유효성 아이디 ----------------------------------------
+	    function checkUserId(id) {
+	        //Id가 입력되었는지 확인하기
+	        if (!checkExistData(id, "아이디를"))
+	            return false;
+	 
+	        var idRegExp = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
+	        if (!idRegExp.test(id)) {
+	            alert("아이디는 영문 대소문자와 숫자 4~12자리로 입력해야합니다!");
+	            form.id.value = "";
+	            form.id.focus();
+	            return false;
+	        }
+	        return true; //확인이 완료되었을 때
+	    }
+		 //유효성 - 비밀번호 ----------------------------------------
+		 function checkPassword(id, pw, pw2) {
+		        //비밀번호가 입력되었는지 확인하기
+		        if (!checkExistData(pw, "비밀번호를"))
+		            return false;
+		        //비밀번호 확인이 입력되었는지 확인하기
+		        if (!checkExistData(pw2, "비밀번호 확인을"))
+		            return false;
+		 
+		        var password1RegExp = /^[a-zA-z0-9]{4,12}$/; //비밀번호 유효성 검사
+		        if (!password1RegExp.test(pw)) {
+		            alert("비밀번호는 영문 대소문자와 숫자 4~12자리로 입력해야합니다!");
+		            form.pw.value = "";
+		            form.pw.focus();
+		            return false;
+		        }
+		        //비밀번호와 비밀번호 확인이 맞지 않다면..
+		        if (pw != pw2) {
+		            alert("두 비밀번호가 맞지 않습니다.");
+		            form.pw.value = "";
+		            form.pw2.value = "";
+		            form.pw2.focus();
+		            return false;
+		        }
+		 
+		        //아이디와 비밀번호가 같을 때..
+		        if (id == pw) {
+		            alert("아이디와 비밀번호는 같을 수 없습니다!");
+		            form.pw.value = "";
+		            form.pw2.value = "";
+		            form.pw2.focus();
+		            return false;
+		        }
+		        return true; //확인이 완료되었을 때
+		    }    
+
+		 	// 유효성 - 이메일 ----------------------------------------
+		    function checkMail(mail) {
+		        //mail이 입력되었는지 확인하기
+		        if (!checkExistData(mail, "이메일을"))
+		            return false;
+		 
+		        var emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+		        if (!emailRegExp.test(mail)) {
+		            alert("이메일 형식이 올바르지 않습니다!");
+		            form.mail.value = "";
+		            form.mail.focus();
+		            return false;
+		        }
+		        return true; //확인이 완료되었을 때
+		    }
+
+		 	// 유효성 - 이름 ----------------------------------
+		    function checkName(name) {
+		        if (!checkExistData(name, "이름을"))
+		            return false;
+		 
+		        var nameRegExp = /^[가-힣]{2,4}$/;
+		        if (!nameRegExp.test(name)) {
+		            alert("이름이 올바르지 않습니다.");
+		            return false;
+		        }
+		        return true; //확인이 완료되었을 때
+		    }
+
+		 // 공백확인 함수
+		    function checkExistData(value, dataName) {
+		        if (value == "") {
+		            alert(dataName + " 입력해주세요!");
+		            return false;
+		        }
+		        return true;
+		 }
+	
+
+			
 </script>
 </html>

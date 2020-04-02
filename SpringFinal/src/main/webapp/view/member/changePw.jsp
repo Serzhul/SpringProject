@@ -43,35 +43,31 @@
 			<h1>
 				비밀번호 변경 <small>Change Password</small>
 			</h1>
-			<form action="${pageContext.request.contextPath}/member/changePw"
+			<form action="${pageContext.request.contextPath}/member/changepw"
 				method="post">
 				<div class="col-md-6 col-md-offset-3" style="padding-top: 100px;">
 					<div class="form-group">
-						<label for="curPwd"></label> <input type="password" name="curPwd"
-							placeholder="현재 암호를 입력하세요" class="form-control">
-						<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>
+						<label for="pw"></label> <input type="password" name="pw"
+							placeholder="현재 암호를 입력하세요" class="form-control""> 
+						<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>	
 						<c:if test="${errors.badCurPwd}">현재 암호가 일치하지 않습니다.</c:if>
-						<input type="password" name="newPwd"
-							placeholder="새암호를 입력하세요" class="form-control">
+						<input type="hidden" name="id" value="${member.id}">
+						<input type="password" name="newPw" placeholder="새암호를 입력하세요"
+							class="form-control">
 						<c:if test="${errors.newPwd }">새로운  암호를 입력하세요</c:if>
+						<c:if test="${errors.wrongPw}">아이디와 비밀번호가 같을 수 없슈!</c:if>
 					</div>
+
 					<div class="form-group">
 						<input type="submit" class="form-control" value="비밀번호 변경">
 					</div>
-
+					<div>
+						<button type="button" onclick="history.go(-1);"
+							class="form-control">뒤로가기</button>
+					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-<%-- 	<form action="${pageContext.request.contextPath}/member/changePw"
-		method="post">
-		<input type="password" name="curPwd" placeholder="현재 암호를 입력하세요">
-		<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>
-		<c:if test="${errors.badCurPwd}">현재 암호가 일치하지 않습니다.</c:if>
-		<span>새 암호</span> <input type="password" name="newPwd"
-			placeholder="새암호를 입력하세요">
-		<c:if test="${errors.newPwd }">새 암호를 입력하세요</c:if>
-		<input type="submit" value="회원 정보 변경">
-	</form> --%>
 </body>
 </html>

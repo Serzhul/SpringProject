@@ -10,23 +10,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:if test="${auth.id == null }">	
+<c:if test="${member.id == null }">	
 	<a href="${pageContext.request.contextPath}/member/login">로그인하러가기</a>
 	<br>
 	<a href="${pageContext.request.contextPath}/member/join">회원가입하러가기</a>
 </c:if>	
-	<c:if test="${auth.id != null }">	
+	<c:if test="${member.id != null }">
 	<a href="${pageContext.request.contextPath}/member/logout">로그아웃하기</a>
 	<br>
-	<a href="${pageContext.request.contextPath}/member/changePw">비밀번호 바꾸기</a>
+	<a href="${pageContext.request.contextPath}/member/changepw">비밀번호 바꾸기</a>
 	<br>
 	<a href="${pageContext.request.contextPath}/member/delete">회원 탈퇴하기</a>	
 	<br>
-	안녕하세요 ${auth.id} 님
+	안녕하세요 ${member.id} 님
 	<br>
-	이름 ${auth.name} 님
+	이름 ${member.name} 님
 	<br>
-	관리자 권한 ${auth.auth} 님 
+	관리자 권한 ${member.auth} 님 
 	</c:if>
 </body>
 </html>

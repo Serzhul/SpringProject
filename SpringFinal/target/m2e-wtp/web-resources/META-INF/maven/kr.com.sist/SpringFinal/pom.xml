@@ -8,9 +8,19 @@
 	<name>SpringFinal Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-	
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-		<!-- Spring을 쓰기 위한 의존 설정 -->
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.1.0.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -31,11 +41,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- <dependency> <groupId>oracle</groupId> <artifactId>oracle</artifactId> 
+			<version>11</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/oracle/oracle-jdbc -->
 		<dependency>
 			<groupId>oracle</groupId>
-			<artifactId>oracle</artifactId>
-			<version>11</version>
+			<artifactId>oracle-jdbc</artifactId>
+			<version>11.2.0.3.0</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
 		<dependency>
@@ -44,15 +58,9 @@
 			<version>3.4.5</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version>
-		</dependency>
 
 	</dependencies>
-	<build>
-		<finalName>SpringFinal</finalName>
-	</build>
+  <build>
+    <finalName>emailPractice</finalName>
+  </build>
 </project>

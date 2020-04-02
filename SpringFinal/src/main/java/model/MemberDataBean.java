@@ -19,6 +19,7 @@ public class MemberDataBean implements Serializable {
 	private String gender;
 	private String auth;
 	private String confirmPw;
+	private String newPw;
 
 	public MemberDataBean() {
 	}
@@ -78,6 +79,22 @@ public class MemberDataBean implements Serializable {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
+	
+	public String getConfirmPw() {
+		return confirmPw;
+	}
+
+	public void setConfirmPw(String confirmPw) {
+		this.confirmPw = confirmPw;
+	}
+
+	public String getNewPw() {
+		return newPw;
+	}
+
+	public void setNewPw(String newPw) {
+		this.newPw = newPw;
+	}
 
 	// 비밀번호 재설정
 	public void changePassword(String newPwd) {
@@ -90,8 +107,20 @@ public class MemberDataBean implements Serializable {
 	
 	// 아이디 찾기 할 때 쓰는 이메일
 	public boolean matchEmail(String email) {
-		return pw.equals(email);
+		return email.equals(email);
 	}
+	
+	
+	// 아이디 지울 때 쓰는 비밀번호
+	public boolean matchPw(String pw) {
+		return pw.equals(pw);
+	}
+	
+	
+	// 비밀번호 찾기 할 때 쓰는 이메일
+		public boolean matchEmailAndId(String email, String id) {
+			return email.equals(email) && id.equals(id);
+		}
 
 	public boolean isPasswordEqualToConfrim() {
 		return pw != null && pw.equals(confirmPw);
@@ -146,6 +175,7 @@ public class MemberDataBean implements Serializable {
 		this.id = id;
 		this.email = email;
 	}
+
 
 	public void vaildate(Map<String, Boolean> errors) {
 		checkEmpty(errors, id, "id");

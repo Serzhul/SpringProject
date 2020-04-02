@@ -1,107 +1,36 @@
 package service;
 
 import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import model.MemberDataBean;
-import mybatis.AbstractRepository;
 
-@Component
-public class MybatisMemberDao {
-	private final String namespace = "mybatis.Member";
+public interface MybatisMemberDao {
 
-	@Autowired
-	public AbstractRepository opendb;
+	// 아이디 검색
+	public MemberDataBean selectById(String id) throws Exception;
 
-	public MemberDataBean selectById(String id) {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".selectById";
-			return sqlSession.selectOne(statement, id);
-		} finally {
-			sqlSession.close();
-		}
-	}
+	// 이메일 검색
+	public MemberDataBean selectByEmail(String Email) throws Exception;
 
-	public MemberDataBean selectByEmail(String Email) {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".selectByEmail";
-			return sqlSession.selectOne(statement, Email);
-		} finally {
-			sqlSession.close();
-		}
-	}
+	// 회원 가입
+	public void insert(MemberDataBean member) throws Exception;
 
-	public void insert(MemberDataBean member) {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".insert";
-			member.setAuth("normal");
-			System.out.println(member.toString());
-			sqlSession.insert(statement, member);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-	}
+	// 정보 수정
+	public void update(MemberDataBean member) throws Exception;
 
-	public void update(MemberDataBean member) {
-
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".update";
-			sqlSession.update(statement, member);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-	}
-
-	public void delete(MemberDataBean member) {
-
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".delete";
-			sqlSession.delete(statement, member);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-	}
-
-	public List<MemberDataBean> memberList() {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".memberList";
-			return sqlSession.selectList(statement);
-		} finally {
-			sqlSession.close();
-		}
-	}
-
-	public int idCheck(String id) throws Exception {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".idCheck";
-			System.out.println(id);
-			return sqlSession.selectOne(statement, id);
-		} finally {
-			sqlSession.close();
-		}
-	}
+	//회원 탈퇴
+	public void delete(MemberDataBean member) throws Exception;
 	
-	public MemberDataBean findId(String email) {
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".findId";
-			System.out.println(email);
-			return sqlSession.selectOne(statement, email);
-		} finally {
-			sqlSession.close();
-		}
-	}
+	//회원 리스트
+	public List<MemberDataBean> memberList() throws Exception;
+
+	//아이디 중복 체크
+	public int idCheck(String id) throws Exception ;
+	
+	public String find_id(String email) throws Exception;
+	public String check_id(String id) throws Exception;
+	
+	public String check_email(String email) throws Exception;
+	
+	public String join_member(MemberDataBean member)throws Exception;
+
 }

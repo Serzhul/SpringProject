@@ -77,39 +77,6 @@
 <title>로그인 페이지</title>
 </head>
 <body>
-	<%--    <div class="logindiv">
-          <!-- Form Controls: Simple Forms -->
-          <div class="row mb-5">
-          		<p>로그인 페이지</p>
-            <div class="col-md-12">
-             <form action="${pageContext.request.contextPath}/member/login"	method="post">
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="form1-name" class="col-form-label">아이디</label>
-                    	<input type="text" name="id" value="${param.id}" placeholder="아이디를 입력하세요" required>
-                    	<c:if test="${errors.idOrPwNotMatch }">	아이디나 암호가 일치하지 않습니다.	</c:if>
-                    <c:if test="${errors.id }">ID를 입력하세요</c:if>
-                  </div>
-                </div>  
-
-                <div class="row">
-                  <div class="col-md-6 mb-4">
-                    <label for="form1-password"> 비밀번호 </label>
-                    <input type="password" name="pw" value="${param.pw}" placeholder="비밀번호를 입력하세요" required>
-                 	<c:if test="${errors.pw}">암호를 입력하세요</c:if>
-                  </div>
-
-                </div>
-                <br> <input type="submit" value="로그인">
-              </form>
-              <br>  <a href="${pageContext.request.contextPath}/member/join">[회원가입하기]</a>
-					<a href="${pageContext.request.contextPath}/member/main">[메인으로]</a> 
-					<a href="${pageContext.request.contextPath}/member/findId">[아이디 찾기]</a> <br>
-					<a href="${pageContext.request.contextPath}/member/findpw">[비밀번호 찾기]</a>
-            </div>
-          </div>
-    </div> --%>
-	<!-- Contact Section -->
 	<div class="contact section-invert pt">
 		<div class="container">
 			<div class="row justify-content-md-center px-4">
@@ -129,15 +96,17 @@
 								<input type="password" class="form-control"
 									id="contactFormEmail" placeholder="비밀번호를 입력하세요" name="pw"
 									value="${param.pw}">
-									<c:if test="${errors.pw}">암호를 입력하세요</c:if>	
+								<c:if test="${errors.pw}">암호를 입력하세요</c:if>
 							</div>
 						</div>
 					</div>
 					<div class="remember-wrapper">
 						<div class="col-md-8 logindiv">
-							<a href="${pageContext.request.contextPath}/member/findId">아이디
-								찾기 </a> | <a href="${pageContext.request.contextPath}/member/findpw">비밀번호
-								찾기</a>
+							<%-- 	<a href="${pageContext.request.contextPath}/member/findId">아이디
+								찾기</a>  --%>
+							<span title="아이디 찾기" id="find_id_btn"> <i>아이디 찾기</i>
+							</span> | <span title="아이디 찾기" id="find_pw_btn"> <i>비밀번호 찾기</i>
+							</span>
 						</div>
 					</div>
 					<div class="remember-wrapper text-center">
@@ -154,4 +123,21 @@
 		</div>
 	</div>
 </body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+	$(function() {
+		$("#find_id_btn")
+				.click(
+						function() {
+							location.href = "${pageContext.request.contextPath}/member/find_id_form";
+						})
+	})
+	$(function() {
+		$("#find_pw_btn")
+				.click(
+						function() {
+							location.href = "${pageContext.request.contextPath}/member/find_pw_form";
+						})
+	})
+</script>
 </html>

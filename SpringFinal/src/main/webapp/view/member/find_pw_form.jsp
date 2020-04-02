@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,47 +30,32 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css"
 	media="screen" title="no title" charset="utf-8">
+
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원 탈퇴</title>
+<title>아이디 찾기</title>
 </head>
 <body>
-
-	<div class="container">
+     	<div class="container">
 		<div class="page-header">
 			<h1>
-				회원 탈퇴 <small>Leave</small>
+				아이디찾기<small>Find ID</small>
 			</h1>
-			<form action="${pageContext.request.contextPath}/member/delete"
-				method="post">
-				<div class="col-md-6 col-md-offset-3" style="padding-top: 100px;">
-					<div class="form-group">
-						<label for="InputEmail"></label> <input type="password"
-							class="form-control" name="pw" id="pw" value="${member.pw}"
-							placeholder="암호를 입력하세요">
-						<div>
-							<c:if test="${errors.wrongPw}">잘못된 비밀번호 입니다</c:if>
-							<%-- <c:if test="${errors.null}">입력하슈!</c:if>  --%>
-						</div>
-						<input type="hidden" name="id" value="${member.id}">
-					</div>
-					<div class="form-group">
-						<input type="submit" class="form-control" value="회원 탈퇴하기">
-					</div>
-					<div>
-						<button type="button" onclick="history.go(-1);"
-							class="form-control">뒤로가기</button>
-					</div>
-				</div>
-			</form>
 		</div>
+		<form action="${pageContext.request.contextPath}/member/findpw"
+			method="POST">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="form-group">
+					<label for="InputEmail"></label> <input type="text"
+						class="form-control" id="id" placeholder="아이디를 입력하세요" name="id" value="${param.id}">
+					<label for="InputEmail"></label> <input type="text"
+						class="form-control" id="email" placeholder="이메일을 입력하세요" name="email" value="${param.email}">
+				
+				     <input type="submit"
+						class="form-control" id="email" value="아이디 찾기 ">
+				</div>
+			</div>
+		</form>
 	</div>
-
-	<%-- <form action="${pageContext.request.contextPath}/member/delete"
-		method="post">
-		아이디: ${auth.id }
-		<br>
-		<input type="password" name="pw" placeholder="암호를 입력하세요">
-		<input type="submit" value="회원 탈퇴하기">
-	</form> --%>
 </body>
 </html>
