@@ -56,11 +56,11 @@ public class MemberController {
 	// 회원가입 페이지 클릭
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String member_joinForm() throws Exception {
-		return "member/joinform";
+		return "member/join_form";
 	}
 
 	// produces는 ajax가 데이터 넘겨받을때 깨짐 방지
-	@RequestMapping(value = "idCheck", method = RequestMethod.GET, produces = "application/text; charset=utf8")
+	@RequestMapping(value = "id_check", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String idCheck(HttpServletRequest request) {
 
@@ -81,7 +81,7 @@ public class MemberController {
 		newMember.vaildate(errors);
 
 		if (!errors.isEmpty())
-			return "member/joinform";
+			return "member/join_form";
 
 		try {
 			MemberDataBean memberId = dbPro.selectById(newMember.getId());
@@ -104,7 +104,7 @@ public class MemberController {
 			return "member/joinform";
 		} catch (DuplicateEmailException e) {
 			errors.put("duplicateEmail", Boolean.TRUE);
-			return "member/joinform";
+			return "member/join_form";
 		}
 	}
 
@@ -148,36 +148,10 @@ public class MemberController {
 		return "alert";
 	}
 
-	/*
-	 * // 아이디 찾기
-	 * 
-	 * @RequestMapping(value = "findId", method = RequestMethod.POST) public
-	 * String member_findId(MemberDataBean member, Model model,
-	 * HttpServletRequest req) throws Exception { String email =
-	 * req.getParameter("email");
-	 * 
-	 * model.addAttribute("email");
-	 * 
-	 * Map<String, Boolean> errors = new HashMap<>();
-	 * model.addAttribute("errors", errors);
-	 * 
-	 * if (member.getEmail() == null || member.getEmail().isEmpty())
-	 * errors.put("email", Boolean.TRUE);
-	 * 
-	 * if (!errors.isEmpty()) return "member/findId"; MemberDataBean User =
-	 * dbPro.findId(member.getEmail()); System.out.println(member.getEmail());
-	 * try { if (User == null && !User.matchEmail(email)) { throw new
-	 * IdNotFoundException(); } else { MemberDataBean loginUser = new
-	 * MemberDataBean(User.getId(), User.getEmail());
-	 * req.getSession().setAttribute("auth", loginUser); } } catch
-	 * (IdNotFoundException e) { errors.put("emailNotFound", Boolean.TRUE);
-	 * return "member/findId"; } return "member/findIdSuccess"; }
-	 */
-
 	// 비밀번호 찾기
-	@RequestMapping(value = "findpw", method = RequestMethod.GET)
+	@RequestMapping(value = "find_pw", method = RequestMethod.GET)
 	public String member_findPw() throws Exception {
-		return "member/findpw";
+		return "member/find_pw";
 	}
 
 	// 로그아웃
@@ -243,7 +217,7 @@ public class MemberController {
 	}
 	// 비밀번호 변경 페이지 클릭
 
-	@RequestMapping(value = "changepw")
+	@RequestMapping(value = "change_pw")
 	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("member");
 
@@ -252,7 +226,7 @@ public class MemberController {
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
 
 			req.setAttribute("myInfo", myInfo);
-			return "member/changepw";
+			return "member/change_pw";
 
 		} catch (MemberNotFoundException e) {
 			req.getServletContext().log("not login", e);
@@ -263,7 +237,7 @@ public class MemberController {
 	}
 
 	// 비밀번호 변경
-	@RequestMapping(value = "changepw", method = RequestMethod.POST)
+	@RequestMapping(value = "change_pw", method = RequestMethod.POST)
 	public String member_changePwPro(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
 
 		Map<String, Boolean> errors = new HashMap<>();
@@ -274,7 +248,7 @@ public class MemberController {
 		if (inputData.getNewPw() == null || inputData.getNewPw().isEmpty())
 			errors.put("newPwd", Boolean.TRUE);
 		if (!errors.isEmpty())
-			return "member/changepw";
+			return "member/change_pw";
 
 		try {
 			MemberDataBean member = dbPro.selectById(inputData.getId());
@@ -299,14 +273,12 @@ public class MemberController {
 			System.out.println("위에서 바뀐 데이터 " + member.getPw());
 			dbPro.update(inputData);
 			}
-
-
 			model.addAttribute("message", "회원 정보 수정 완료");
 			model.addAttribute("url", "main");
 			return "alert";
 		} catch (InvalidPasswordException e) {
-			errors.put("badCurPwd", Boolean.TRUE);
-			return "member/changepw";
+			errors.put("fatalError", Boolean.TRUE);
+			return "member/change_pw";
 		} catch (MemberNotFoundException e) {
 			res.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return "member/main";

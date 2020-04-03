@@ -39,10 +39,10 @@
      	<div class="container">
 		<div class="page-header">
 			<h1>
-				아이디찾기<small>Find ID</small>
+				비밀번호 찾기<small>Find ID</small>
 			</h1>
 		</div>
-		<form action="${pageContext.request.contextPath}/member/findpw"
+		<form action="${pageContext.request.contextPath}/member/find_pw"
 			method="POST">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="form-group">

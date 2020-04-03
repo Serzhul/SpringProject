@@ -75,6 +75,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인 페이지</title>
+<style>
+.dd input[type=submit] { text-align:center }
+</style>
 </head>
 <body>
 	<div class="contact section-invert pt">
@@ -100,23 +103,23 @@
 							</div>
 						</div>
 					</div>
-					<div class="remember-wrapper">
+					<div class="remember-wrapper" style="text-align: center">
 						<div class="col-md-8 logindiv">
 							<%-- 	<a href="${pageContext.request.contextPath}/member/findId">아이디
 								찾기</a>  --%>
-							<span title="아이디 찾기" id="find_id_btn"> <i>아이디 찾기</i>
-							</span> | <span title="아이디 찾기" id="find_pw_btn"> <i>비밀번호 찾기</i>
+							<span title="아이디 찾기" id="find_id_btn"> <i>아이디 찾기&nbsp;&nbsp;&nbsp;&nbsp;</i>
+							</span> 
+
+							 <span title="아이디 찾기" id="find_pw_btn"> <i>비밀번호 찾기</i>
 							</span>
 						</div>
 					</div>
-					<div class="remember-wrapper text-center">
-						<input
-							class="text-center btn login-Button btn-pill  ml-auto mr-auto  col-md-8 p-4 mb-4 card"
-							type="submit" value="로그인하기">
+					<div class="dd">
+						<input class="btn login-Button btn-pill d-flex  contact-form col-md-8 p-4  card" type="submit" value="로그인 하기">
 					</div>
 					<div
-						class="btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card">
-						<a href="${pageContext.request.contextPath}/member/join">회원가입하기</a>
+						class="btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card" id="joinBtn">
+						회원가입하기
 					</div>
 				</form>
 			</div>
@@ -125,6 +128,19 @@
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
+// 로그인
+	$(function() {
+		$("#loginBtn").click(function() {
+			location.href = '${pageContext.request.contextPath}/member/login';
+		})
+	})
+// 회원가입
+		$(function() {
+		$("#joinBtn").click(function() {
+			location.href = '${pageContext.request.contextPath}/member/join';
+		})
+	})
+
 	$(function() {
 		$("#find_id_btn")
 				.click(
