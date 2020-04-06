@@ -87,32 +87,11 @@ button[type="button"] {
 <title>비밀번호 찾기</title>
 </head>
 <body>
-<%--      	<div class="container">
-		<div class="page-header">
-			<h1>
-				비밀번호 찾기<small>Find ID</small>
-			</h1>
-		</div>
-		<form action="${pageContext.request.contextPath}/member/find_pw"
-			method="POST">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="form-group">
-					<label for="InputEmail"></label> <input type="text"
-						class="form-control" id="id" placeholder="아이디를 입력하세요" name="id" value="${param.id}">
-					<label for="InputEmail"></label> <input type="text"
-						class="form-control" id="email" placeholder="이메일을 입력하세요" name="email" value="${param.email}">
-				
-				     <input type="submit"
-						class="form-control" id="email" value="아이디 찾기 ">
-				</div>
-			</div>
-		</form>
-	</div> --%>
 		<div class="limiter">
 		<div class="container-login100">
 		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/find_id" method="POST">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/find_id" method="POST"  autocomplete=”off”>
 					<span class="login100-form-title p-b-53">
 						비밀번호 찾기
 					</span>

@@ -92,7 +92,7 @@ button[type="button"] {
 		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/login"
-					method="post">
+					method="post"  autocomplete=”off”>
 					<span class="login100-form-title p-b-53">
 						로그인 페이지
 					</span>

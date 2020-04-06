@@ -86,10 +86,8 @@ public class MemberController {
 			if (memberEmail != null)
 				throw new DuplicateEmailException();
 			dbPro.insert(newMember);
-
 			MemberDataBean joinUser = new MemberDataBean(newMember.getId(), newMember.getName(), newMember.getAuth());
 			req.getSession().setAttribute("member", joinUser);
-
 			model.addAttribute("message", "환영합니다 :D");
 			model.addAttribute("url", "main");
 			return "alert";
@@ -163,13 +161,10 @@ public class MemberController {
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String member_delete(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("member");
-
 		try {
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
-
 			req.setAttribute("myInfo", myInfo);
 			return "member/delete";
-
 		} catch (MemberNotFoundException e) {
 			req.getServletContext().log("not login", e);
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -215,36 +210,29 @@ public class MemberController {
 	@RequestMapping(value = "change_pw")
 	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("member");
-
 		try {
 			// MybatisMemberDao memberDao = MybatisMemberDao.getInstance();
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
-
 			req.setAttribute("myInfo", myInfo);
 			return "member/change_pw";
-
 		} catch (MemberNotFoundException e) {
 			req.getServletContext().log("not login", e);
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
-
 	}
 
 	// 비밀번호 변경
 	@RequestMapping(value = "change_pw", method = RequestMethod.POST)
 	public String member_changePwPro(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
-
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		
 		if (inputData.getPw() == null || inputData.getPw().isEmpty())
 			errors.put("curPwd", Boolean.TRUE);
 		if (inputData.getNewPw() == null || inputData.getNewPw().isEmpty())
 			errors.put("newPwd", Boolean.TRUE);
 		if (!errors.isEmpty())
 			return "member/change_pw";
-
 		try {
 			MemberDataBean member = dbPro.selectById(inputData.getId());
 			if (member == null) {

@@ -57,6 +57,7 @@ button[type="button"] {
     margin-top: 20px;
     letter-spacing: 4px;
 }
+
 </style>
 <head>
 	<title>Login V5</title>
@@ -119,9 +120,8 @@ button[type="button"] {
 	
 	<div class="limiter">
 		<div class="container-login100">
-		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/delete"	method="post">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/delete"	method="post" autocomplete=”off”>
 					<span class="login100-form-title p-b-53">
 						회원 탈퇴
 					</span>
@@ -132,7 +132,7 @@ button[type="button"] {
 					</div>
 					<input type="hidden" name="id" value="${member.id}">
 					<div class="wrap-input100 validate-input" data-validate = "비밀번호를 입력해 주세요">
-						<input class="input100" type="password" name="pw"  value="${member.pw}">
+						<input class="input100" type="password" name="pw"  value="${member.pw}" >
 						<span class="focus-input100"></span>	
 					</div>
 					<c:if test="${errors.wrongPw}">잘못된 비밀번호 입니다</c:if>

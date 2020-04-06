@@ -91,13 +91,12 @@ button[type="button"] {
 		<div class="container-login100">
 		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/login"
-					method="post">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/login" method="post"  autocomplete=”off”>
 					<span class="login100-form-title p-b-53">
 						아이디 찾기 검색 결과
 					</span>
-					<div>
-							<h3 style="text-align: center">${ id }</h3>
+					<div  class="login100-form-title p-b-53" style="text-align: center">
+							<h3>${ id }</h3>
 					</div>
 						<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit" id="loginBtn">

@@ -88,42 +88,11 @@ button[type="button"] {
 </head>
 <body>
 
-<%-- 	<div class="container">
-		<div class="page-header">
-			<h1>
-				비밀번호 변경 <small>Change Password</small>
-			</h1>
-			<form action="${pageContext.request.contextPath}/member/change_pw"
-				method="post">
-				<div class="col-md-6 col-md-offset-3" style="padding-top: 100px;">
-					<div class="form-group">
-						<label for="pw"></label> <input type="password" name="pw"
-							placeholder="현재 암호를 입력하세요" class="form-control""> 
-						<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>	
-						<c:if test="${errors.badCurPwd}">현재 암호가 일치하지 않습니다.</c:if>
-						<input type="hidden" name="id" value="${member.id}">
-						<input type="password" name="newPw" placeholder="새암호를 입력하세요"
-							class="form-control">
-						<c:if test="${errors.newPwd }">새로운  암호를 입력하세요</c:if>
-						<c:if test="${errors.wrongPw}">아이디와 비밀번호가 같을 수 없슈!</c:if>
-					</div>
-
-					<div class="form-group">
-						<input type="submit" class="form-control" value="비밀번호 변경">
-					</div>
-					<div>
-						<button type="button" onclick="history.go(-1);"
-							class="form-control">뒤로가기</button>
-					</div>
-				</div>
-			</form>
-		</div> --%>
 			<div class="limiter">
 		<div class="container-login100">
 		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/change_pw"
-					method="post">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/change_pw"	method="post"  autocomplete=”off”>
 					<span class="login100-form-title p-b-53">
 						비밀번호 변경
 					</span>
@@ -134,7 +103,7 @@ button[type="button"] {
 					</div>
 					<input type="hidden" name="id" value="${member.id}">
 					<div class="wrap-input100 validate-input" data-validate = "현재 비밀번호를 입력해 주세요">
-						<input class="input100" type="password" name="pw" >
+						<input class="input100" type="password" name="pw">
 						<span class="focus-input100"></span>	
 					</div>
 					<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>	
@@ -145,7 +114,7 @@ button[type="button"] {
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "새 비밀번호를 입력하세요 ">
-						<input class="input100" type="password"  name="newPw">
+						<input class="input100" type="password"  name="newPw" >
 						<span class="focus-input100"></span>
 					</div>
 					<c:if test="${errors.newPwd }">새로운  암호를 입력하세요</c:if>
