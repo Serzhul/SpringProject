@@ -127,9 +127,9 @@ public class BookController {
 	public String book_content(String isbn, Model m, HttpServletRequest request) throws Exception {	
 		HttpSession session = request.getSession();
 		MemberDataBean m2 = new MemberDataBean();
-		m2 = (MemberDataBean)session.getAttribute("member");
+		m2 = (MemberDataBean)session.getAttribute("member");	
 		
-		String reviewLikeCheck="";
+		String reviewcheck="";
 		
 		BookDataBean book_content_article=service.getBookInfo(isbn);
 		List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
@@ -146,11 +146,22 @@ public class BookController {
 				//리뷰에 안했을때 상태를 저장함
 				reviewList.get(i).setWritercheck("No");
 			}
-			System.out.println(reviewList.toString());
+			
+			//내가 쓴 리뷰가 존재하는지 체크
+			if((useisbn.equals(isbn)) && (useid.equals(m2.getId()))){
+				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
+				System.out.println("m2.getId() : "+m2.getId());
+				reviewcheck="yes";
+			}else{
+				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
+				System.out.println("m2.getId() : "+m2.getId());
+				reviewcheck="no";
+			}
 		}
 		
 		m.addAttribute("book_content_article", book_content_article);
 		m.addAttribute("reviewList", reviewList);
+		m.addAttribute("reviewcheck",reviewcheck);
 		
 		return "book/book_content";
 	}

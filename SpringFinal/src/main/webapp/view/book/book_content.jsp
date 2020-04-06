@@ -7,7 +7,6 @@
 MemberDataBean m = new MemberDataBean();
 m = (MemberDataBean)session.getAttribute("member"); %>
 
-<%= m.getId() %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -721,18 +720,21 @@ button, img, input, select, textarea {
 										</div>
 									</div>
 								</div>
-
-								<div class="write_review_bottom">
-									<div class="buttons_wrapper">
-										<div class="write_button_wrapper">
-											<button id="review_submit" name="review_submit"
-												class="rui_button_blue_30 js_review_write_btn write_button disabled">리뷰
-												등록</button>
+								
+								<c:if test="${reviewcheck eq 'no'}">
+									<div class="write_review_bottom">
+										<div class="buttons_wrapper">
+											<div class="write_button_wrapper">
+												<button id="review_submit" name="review_submit"
+													class="rui_button_blue_30 js_review_write_btn write_button disabled">리뷰
+													등록												
+												</button>
+											</div>
 										</div>
 									</div>
-								</div>
-
-
+								
+								</c:if>
+								
 							</div>
 							<br /> <br />
 
