@@ -72,7 +72,7 @@ button[type="submit"] {
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
-<title>아이디 찾기</title>
+<title>비밀번호 찾기</title>
 </head>
 <body>
 <%--      	<div class="container">
@@ -102,7 +102,7 @@ button[type="submit"] {
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/find_id" method="POST">
 					<span class="login100-form-title p-b-53">
-						아이디 찾기
+						비밀번호 찾기
 					</span>
 					<div class="p-t-31 p-b-9">
 						<span class="txt1" >
@@ -128,7 +128,7 @@ button[type="submit"] {
 					
 					<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit">
-							아이디 찾기
+							비밀번호 찾기
 						</button>
 						<button class="login100-form-btn" type="submit" onclick="history.go(-1);">
 							뒤로가기
