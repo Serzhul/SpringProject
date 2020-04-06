@@ -45,6 +45,18 @@ button[type="submit"] {
     margin-top: 20px;
     letter-spacing: 4px;
 }
+button[type="button"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
+}
 </style>
 <head>
 	<title>Login V5</title>
@@ -128,7 +140,7 @@ button[type="submit"] {
 						<button class="login100-form-btn" type="submit">
 							È¸¿ø Å»ÅðÇÏ±â
 						</button>
-						<button class="login100-form-btn" type="submit" onclick="history.go(-1);">
+						<button class="login100-form-btn" type="button" onclick="history.go(-1);">
 							µÚ·Î°¡±â
 						</button>
 					</div>
