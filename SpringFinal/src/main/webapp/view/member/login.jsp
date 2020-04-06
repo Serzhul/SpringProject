@@ -1,140 +1,191 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<style>
-.logindiv {
-	margin: 0 auto;
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+body {
+  background: #17C66F;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #17C66F, #17C66F);
+  background: -moz-linear-gradient(to top, #17C66F, #17C66F);
+  background: -o-linear-gradient(to top, #17C66F, #17C66F);
+  background: linear-gradient(to top, #17C66F, #17C66F);
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Roboto', sans-serif;
 }
 
-.account-login .remember-wrapper {
-	margin-top: -1px;
-	padding: 13px 8px 13px 16px;
-	overflow: hidden;
-	border: 1px solid #d6deeb;
-	border-radius: 0 0 4px 4px;
-	background: #f7fbff;
-	z-index: 1;
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
 }
-
-.account-login .remember-wrapper .external-links {
-	margin-left: 14px;
-	padding-top: 3px;
-	float: right;
 }
-
-.login-section {
-	padding: 24px 10px;
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
 }
-
-.pt {
-	padding-top: 100px;
+button[type="submit"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
 }
-
-.login-Button {
-	color: balack;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 20px;
-	margin-bottom: auto;
-}
-
-.text-align {
-	text-align: center;
+button[type="button"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
 }
 </style>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="description"
-	content="A free and modern UI toolkit for web makers based on the popular Bootstrap 4 framework.">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/view/css/shards.min.css?v=3.0.0">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/view/css/shards-demo.min.css?v=3.0.0">
-<link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Custom style -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/view/css/style.css"
-	media="screen" title="no title" charset="utf-8">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ë¡œê·¸ì¸ í˜ì´ì§€</title>
-<style>
-.dd input[type=submit] { text-align:center }
-</style>
+	<title>Login V5</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/view/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
+<!--===============================================================================================-->
 </head>
 <body>
-	<div class="contact section-invert pt">
-		<div class="container">
-			<div class="row justify-content-md-center px-4">
-				<form action="${pageContext.request.contextPath}/member/login"
-					method="post">
-					<div class="remember-wrapper">
-						<div class="col-md-8 logindiv">
-							<div class="form-group">
-								<input type="text" class="form-control" id="contactFormFullName"
-									placeholder="ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”" name="id" value="${param.id}">
-								<c:if test="${errors.idOrPwNotMatch }">	ì•„ì´ë””ë‚˜ ì•”í˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.	</c:if>
-								<c:if test="${errors.id }">IDë¥¼ ì…ë ¥í•˜ì„¸ìš”</c:if>
-							</div>
-						</div>
-						<div class="col-md-8 logindiv">
-							<div class="form-group">
-								<input type="password" class="form-control"
-									id="contactFormEmail" placeholder="ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”" name="pw"
-									value="${param.pw}">
-								<c:if test="${errors.pw}">ì•”í˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”</c:if>
-							</div>
-						</div>
-					</div>
-					<div class="remember-wrapper" style="text-align: center">
-						<div class="col-md-8 logindiv">
-							<%-- 	<a href="${pageContext.request.contextPath}/member/findId">ì•„ì´ë””
-								ì°¾ê¸°</a>  --%>
-							<span title="ì•„ì´ë”” ì°¾ê¸°" id="find_id_btn"> <i>ì•„ì´ë”” ì°¾ê¸°&nbsp;&nbsp;&nbsp;&nbsp;</i>
-							</span> 
+	
+	<div class="limiter">
+		<div class="container-login100">
+		
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/login"
+					method="post"  autocomplete=¡±off¡±>
+					<span class="login100-form-title p-b-53">
+						·Î±×ÀÎ ÆäÀÌÁö
+					</span>
 
-							 <span title="ì•„ì´ë”” ì°¾ê¸°" id="find_pw_btn"> <i>ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°</i>
-							</span>
-						</div>
+<!-- 					<a href="#" class="btn-face m-b-20">
+						<i class="fa fa-facebook-official"></i>
+						Facebook
+					</a>
+
+					<a href="#" class="btn-face m-b-20">
+						<i class="fa fa-facebook-official"></i>
+						Facebook
+					</a> -->
+					
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							¾ÆÀÌµğ
+						</span>
+						
+						<a href="#" class="txt2 bo1 m-l-5" id="find_id_btn">
+							¾ÆÀÌµğ¸¦ ÀØÀ¸¼Ì³ª¿ä?
+						</a>
 					</div>
-					<div class="dd">
-						<input class="btn login-Button btn-pill d-flex  contact-form col-md-8 p-4  card" type="submit" value="ë¡œê·¸ì¸ í•˜ê¸°">
+					<div class="wrap-input100 validate-input" data-validate = "¾ÆÀÌµğ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä">
+						<input class="input100" type="text" name="id" value="${param.id}" >
+						<span class="focus-input100"></span>
 					</div>
-					<div
-						class="btn login-Button btn-pill d-flex ml-auto mr-auto contact-form col-md-8 p-4 mb-4 card" id="joinBtn">
-						íšŒì›ê°€ì…í•˜ê¸°
+					<c:if test="${errors.idOrPwNotMatch }">	¾ÆÀÌµğ³ª ¾ÏÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.</c:if>
+					<div class="p-t-13 p-b-9">
+						<span class="txt1">
+							ºñ¹Ğ¹øÈ£
+						</span>
+
+						<a href="#" class="txt2 bo1 m-l-5" id="find_pw_btn">
+							ºñ¹Ğ¹øÈ£¸¦ ÀØÀ¸¼Ì³ª¿ä?
+						</a>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä ">
+						<input class="input100" type="password"  name="pw" value="${param.pw}" >
+						
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit">
+							·Î±×ÀÎÇÏ±â
+						</button>
+					</div>
+						<button class="login100-form-btn" type="button" onclick="history.go(-1);">
+							µÚ·Î°¡±â
+						</button>
+
+					<div class="w-full text-center p-t-55">
+						<span class="txt2">
+							¾ÆÁ÷ È¸¿øÀÌ ¾Æ´Ñ°¡¿ä?
+						</span>
+
+						<a href="#" class="txt2 bo1" id="joinBtn">
+							È¸¿ø°¡ÀÔÇÏ·¯°¡±â
+						</a>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/bootstrap/js/popper.js"></script>
+	<script src="<%=request.getContextPath()%>/view/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/daterangepicker/moment.min.js"></script>
+	<script src="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="<%=request.getContextPath()%>/view/js/main.js"></script>
+
 </body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
-// ë¡œê·¸ì¸
+// ·Î±×ÀÎ
 	$(function() {
 		$("#loginBtn").click(function() {
 			location.href = '${pageContext.request.contextPath}/member/login';
 		})
 	})
-// íšŒì›ê°€ì…
+// È¸¿ø°¡ÀÔ
 		$(function() {
 		$("#joinBtn").click(function() {
 			location.href = '${pageContext.request.contextPath}/member/join';

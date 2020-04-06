@@ -8,6 +8,7 @@
 		<typeAlias type="model.BoardDataBean"	alias="Board"/>
 		<typeAlias type="model.BookDataBean"	alias="Book"/>
 		<typeAlias type="model.ReviewDataBean"	alias="Review"/>
+		<typeAlias type="model.ReviewLikeDataBean"	alias="ReviewLike"/>
 		<typeAlias type="model.MemberDataBean" alias="Member" />
 	</typeAliases>
 	<environments default="development">
@@ -24,6 +25,7 @@
 	<mappers>
 		<mapper resource="mybatis/Book.xml"/>
 		<mapper resource="mybatis/Review.xml"/>
+		<mapper resource="mybatis/ReviewLike.xml"/>
 		<mapper resource="mybatis/Board.xml"/>
 		<mapper resource="mybatis/Member.xml" />
 	</mappers>

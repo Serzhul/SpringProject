@@ -27,20 +27,16 @@ public class MainController {
 	public String index(Model m) throws Exception {
 		int range = 9;
 		
-		
-	//	List<BookDataBean>booklist = service.getBooks();
-		
-		List<BookDataBean>bestseller = service.getBestSeller(range);
-		List<BookDataBean>bestreview = service.getBestReview();
-		List<String>content = service.getBestReviewContent();
-		
-		
-		
-		//m.addAttribute("booklist", booklist);
-		m.addAttribute("bestseller", bestseller);
-		m.addAttribute("bestreview", bestreview);
-		m.addAttribute("content", content);
-		
+		  
+		  List<BookDataBean>bestseller = service.getBestSeller(range);
+		 List<BookDataBean>bestreview = service.getBestReview(); 
+		 List<String>content = service.getBestReviewContent(); 
+
+		  
+		  m.addAttribute("bestseller",bestseller); 
+		 m.addAttribute("bestreview", bestreview); 
+		 m.addAttribute("content", content); 
+		 		
 		
 		return "main/index";
 	}

@@ -4,14 +4,14 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 		http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="spring4-chap07" version="3.0">
-	<display-name>SpringFinal</display-name>
+	<display-name>SpringMybatisProject202003</display-name>
   
-  <jsp-config>
+<!--   <jsp-config>
   <jsp-property-group>
-  <url-pattern>/view/book/</url-pattern>
+  <url-pattern>/</url-pattern>
   <include-prelude>/view/common/header.jsp</include-prelude>
   </jsp-property-group>
-  </jsp-config>
+  </jsp-config> -->
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>

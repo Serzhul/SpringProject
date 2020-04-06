@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import model.BookDataBean;
+import model.MemberDataBean;
 import model.ReviewDataBean;
 import mybatis.BookDao;
 import mybatis.ReviewDao;
+import mybatis.ReviewLikeDao;
 
 @Controller
 @RequestMapping("/book/")
@@ -30,11 +32,13 @@ public class BookController {
 	@Autowired
 	ReviewDao reviewservice;
 	
+	@Autowired
+	ReviewLikeDao reviewlikeservice;
+	
+	
 	@ModelAttribute
 	public void initProcess(HttpServletRequest request, HttpServletResponse arg1) {
-		HttpSession session = request.getSession();
-
-		
+		HttpSession session = request.getSession();		
 			
 		if (request.getParameter("book_m_category") != null) {
 			session.setAttribute("book_m_category", request.getParameter("book_m_category"));
@@ -119,19 +123,55 @@ public class BookController {
 	}
 	
 	@RequestMapping(value = "book_content")
-	public String book_content(String isbn, Model m) throws Exception {		
-		System.out.println("isbn : "+isbn);
+	public String book_content(String isbn, Model m, HttpServletRequest request) throws Exception {	
+		HttpSession session = request.getSession();
+		MemberDataBean m2 = new MemberDataBean();
+		m2 = (MemberDataBean)session.getAttribute("member");	
+		
+		String reviewcheck="";
 		
 		BookDataBean book_content_article=service.getBookInfo(isbn);
 		List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
+		for(int i=0; i<reviewList.size(); i++){
+			String useisbn=reviewList.get(i).getIsbn();
+			String useid=reviewList.get(i).getId();
+			reviewList.get(i).setLike_cnt(reviewlikeservice.getReviewLikeCnt(useisbn, useid));//리뷰 좋아요 개수 체크
+			reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId());//리뷰를 했는지체크 하는 메소드
+			
+			if(reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId()).isEmpty()){
+				//리뷰에 좋아요 했을때 상태를 저장함
+				reviewList.get(i).setWritercheck("yes");
+			}else{
+				//리뷰에 안했을때 상태를 저장함
+				reviewList.get(i).setWritercheck("No");
+			}
+			
+			//내가 쓴 리뷰가 존재하는지 체크
+			if((useisbn.equals(isbn)) && (useid.equals(m2.getId()))){
+				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
+				System.out.println("m2.getId() : "+m2.getId());
+				reviewcheck="yes";
+			}else{
+				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
+				System.out.println("m2.getId() : "+m2.getId());
+				reviewcheck="no";
+			}
+		}
+		
+		if(reviewList.isEmpty()) {
+			reviewcheck="no";
+		}
+		
 		m.addAttribute("book_content_article", book_content_article);
 		m.addAttribute("reviewList", reviewList);
+		m.addAttribute("reviewcheck",reviewcheck);
 		
 		return "book/book_content";
 	}
 	
 	@RequestMapping(value="review/save")
 	public void book_review_save(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		System.out.println(reviewMap.toString());
 		reviewservice.insertReview(reviewMap);	
 	}
 	
@@ -144,7 +184,7 @@ public class BookController {
 	@RequestMapping(value="review/review_like")
 	public void book_review_like(@RequestParam Map<String, Object> reviewMap) throws Exception{
 		System.out.println(reviewMap.toString());
-		reviewservice.likecntplue(reviewMap);	
+		reviewlikeservice.likecntplue(reviewMap);	
 	}
 	
 }

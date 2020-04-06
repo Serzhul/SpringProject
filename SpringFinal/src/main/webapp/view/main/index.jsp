@@ -4,8 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -698,7 +696,7 @@ function startTime() {
 
 			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발"
 				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin"> &nbsp; 자기 계발 </span>
+					class="home-subbar subbar-margin"> &nbsp; 자기 개발 </span>
 			</a></li>
 			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트"
 				style="margin-right: 15px"> <span

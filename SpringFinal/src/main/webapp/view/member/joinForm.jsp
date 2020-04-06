@@ -7,19 +7,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- Bootstrap -->
 <link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
 <!-- Custom style -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/view/css/style.css"
+	href="${pageContext.request.contextPath}/resources/css/style.css"
 	media="screen" title="no title" charset="utf-8">
 
 </head>
 <body>
+
 
 	<article class="container">
 	<div class="page-header">

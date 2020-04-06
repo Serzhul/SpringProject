@@ -592,11 +592,7 @@ function rankStar(avgr) {
 
 
 </script>
-<!-- <script>
 
-
-rankStar(avgr);
-</script> -->
 
 
 <span class="rank-menu"> &nbsp; 베스트 셀러</span>

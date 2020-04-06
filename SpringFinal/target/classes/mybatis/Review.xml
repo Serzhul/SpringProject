@@ -6,21 +6,16 @@
 	<cache />
 	<insert id="insertReview" parameterType="hashMap">
 		insert into review values
-		(#{review_book_isbn}, 'test', #{review_content}, #{review_rating}, 0, to_char(sysdate , 'YYYY-MM-DD'))
+		(review_num.nextval, #{review_book_isbn}, #{review_writer}, #{review_content}, #{review_rating}, to_char(sysdate , 'YYYY-MM-DD'))
 	</insert>
 	
 	<select id="getReviewList" parameterType="String" resultType="Review">
-		select * from review where isbn=#{isbn} order by like_cnt
+		select * from review where isbn=#{isbn}
 	</select>
 	
 	<delete id="deleteReview" parameterType="hashMap">
 		delete from review where isbn= #{review_isbn} and id=#{review_id}
 	</delete>
-	
-	<update id="likecntplue" parameterType="hashmap">
-		update review set like_cnt = like_cnt+1
-		where isbn= #{review_isbn} and id=#{review_id}
-	</update>
 	
 	<select id="getReviewListOf_isbn_content" resultType="Review">
         select REVIEW.isbn, REVIEW.content from REVIEW,BOOK where REVIEW.isbn=BOOK.ISBN

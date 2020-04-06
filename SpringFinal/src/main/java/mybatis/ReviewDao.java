@@ -14,6 +14,7 @@ import model.ReviewDataBean;
 
 public class ReviewDao{
 	private final String namespace = "mybatis.Review";
+	private final String namespace2 = "mybatis.ReviewLike";
 	
 	@Autowired
 	public AbstractRepository ar;
@@ -34,7 +35,7 @@ public class ReviewDao{
 		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
 		
 		try{
-			String statement = namespace + ".getReviewList";			
+			String statement = namespace + ".getReviewList";
 			return sqlSession.selectList(statement, isbn);
 			
 		}finally{
@@ -47,16 +48,6 @@ public class ReviewDao{
 		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
 		try {
 			sqlSession.delete(namespace + ".deleteReview", reviewMap);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-	}
-	
-	public void likecntplue(Map<String, Object> reviewMap) {
-		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
-		try {
-			sqlSession.update(namespace + ".likecntplue", reviewMap);
 			sqlSession.commit();
 		} finally {
 			sqlSession.close();

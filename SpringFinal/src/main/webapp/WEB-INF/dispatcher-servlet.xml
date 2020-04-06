@@ -42,6 +42,10 @@
 		
 	</bean>
 	
+	<bean class="mybatis.ReviewLikeDao" >
+		
+	</bean>
+	
 	<bean class="mybatis.BoardDao" >
 		
 	</bean>
