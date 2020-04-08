@@ -620,6 +620,14 @@ function startTime() {
 	function login() {
 		location.href="<%=request.getContextPath()%>/member/login";
 	}
+	
+	function library() {
+		location.href="<%=request.getContextPath()%>/member/my_library";
+	}
+	
+	function logout() {
+		location.href="<%=request.getContextPath()%>/member/logout";
+	}
 
 	</script>
 
@@ -633,11 +641,26 @@ function startTime() {
 			alt="Example Navbar 1" class="mr-2 left-margin" height="30"> <a
 			class="navbar-brand logoname" href="#">SpringBooks</a>
 
+
+			<c:if test="${empty member}">
+
 		<div class="ml-auto right-margin">
 			<button type="button" class="btn btn-success join-button " onclick="join()">회원가입</button>
 			<span>&nbsp;&nbsp;</span>
 			<button type="button" class="btn btn-success login-button " onclick="login()">로그인</button>
 		</div>
+			</c:if>
+			
+			<c:if test="${!empty member}">
+
+		<div class="ml-auto right-margin">
+		
+			<button type="button" class="btn btn-success join-button " onclick="library()">내 서재</button>
+			
+			<button type="button" class="btn btn-success login-button " onclick="logout()">로그아웃</button>
+		</div>
+			</c:if>
+		
 		<input class="form-control search-bar" type="text"
 			placeholder="제목,저자,출판사 검색" aria-label="Search"
 			onkeydown="search(this)"> </nav>
@@ -667,7 +690,7 @@ function startTime() {
 						class="submenu-name">&nbsp;마이카트 </span>
 				</a></li>
 
-				<li class=""><a class="nav-link nav-link-margin" href="#">
+				<li class=""><a class="nav-link nav-link-margin" href="${pageContext.request.contextPath}/mypage/mymain">
 						<i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">assignment_ind</i> <span
 						class="submenu-name">&nbsp;마이페이지 </span>

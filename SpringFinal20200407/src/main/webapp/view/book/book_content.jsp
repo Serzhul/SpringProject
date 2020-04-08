@@ -285,7 +285,7 @@
 	border: 1px solid #d1d5d9;
 	box-shadow: 0 1px 1px 0 rgba(209, 213, 217, .3);
 	font-size: 16px;
-	padding: 16px 34px;
+	padding: 13px 17px;
 }
 
 .rui_button_red_50 {
@@ -314,11 +314,11 @@
 	-webkit-transition: background .2s, color .2s;
 	transition: background .2s, color .2s;
 	color: #808991;
-	background: red;
+	background: white;
 	border: 1px solid #d1d5d9;
 	box-shadow: 0 1px 1px 0 rgba(209, 213, 217, .3);
 	font-size: 16px;
-	padding: 16px 34px;
+	padding: 13px 17px;
 }
 
 
@@ -399,7 +399,7 @@ li {
 	border: 1px solid #0077d9;
 	box-shadow: 0 1px 1px 0 rgba(31, 140, 230, .3);
 	font-size: 16px;
-	padding: 16px 34px;
+	padding: 13px 17px;
 }
 
 #page_detail .rsg_title01 {
@@ -663,6 +663,11 @@ button, img, input, select, textarea {
 	margin-top: 7px;
 	padding-bottom: 4px;
 }
+
+.nav-subbar-icon {
+font-size: 30px;
+
+}
 </style>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.11.3.js"></script>
@@ -679,7 +684,7 @@ button, img, input, select, textarea {
 
 						<article class="detail_header">
 
-
+							<div>test : ${member.id}</div>
 							<div class="header_info_wrap">
 								<p class="info_category_wrap">
 
@@ -712,16 +717,19 @@ button, img, input, select, textarea {
 									</div>
 								</div>
 							</div>
-
-
+							
+							<!-- 로그인시 -->
+							<c:if test="${not empty member.id}">							
 							<div class="info_buttons_wrap">
 								<ul class="info_buttons rui_button_group_6">
 									<li class="rui_button_item">
 										<c:if test="${wishcheck eq 'no'}">
-											<button id="favorite" class="rui_button_white_50">찜하기</button>
+											<button id="favorite" class="rui_button_white_50"><i class="material-icons nav-subbar-icon">favorite</i></button>
+											
 										</c:if>
 										<c:if test="${wishcheck eq 'yes'}">
-											<button id="favorite" class="rui_button_red_50">취소하기</button>
+											<button id="favorite" class="rui_button_red_50">
+											<i class="material-icons nav-subbar-icon" style="color:red">favorite</i></button>
 										</c:if>
 										
 									</li>
@@ -738,6 +746,31 @@ button, img, input, select, textarea {
 
 								</ul>
 							</div>
+							</c:if>
+							<!-- 비로그인시 -->
+							<c:if test="${empty member.id}">							
+							<div class="info_buttons_wrap">
+								<ul class="info_buttons rui_button_group_6">
+									<li class="rui_button_item">
+										<button class="rui_button_white_50"
+										onclick="location.href='<%=request.getContextPath()%>/member/login'">
+											<i class="material-icons nav-subbar-icon">favorite</i>
+										</button>
+										
+									</li>
+									<li class="rui_button_item">
+										<button class="rui_button_white_50 btn_cart js_add_cart trackable"
+										onclick="location.href='<%=request.getContextPath()%>/member/login'">
+											<i class="material-icons nav-subbar-icon">add_shopping_cart</i>
+										</button>
+									</li>
+
+									<li class="rui_button_item">
+										<a class="rui_button_blue_50 btn_all_buy" href="<%=request.getContextPath()%>/member/login" disabled="disabled">구매하기</a>
+									</li>
+								</ul>
+							</div>
+							</c:if>
 
 							<div class="Header_Metadata_Block">
 								<div id="meta_data">
@@ -887,6 +920,28 @@ button, img, input, select, textarea {
 		</div>
 	</div>
 	</section>
+	
+<!-- Wishilist 모달 -->
+	<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 <script type="text/javascript">
 	var x;
@@ -964,9 +1019,7 @@ button, img, input, select, textarea {
     	var review_isbn = $(this).attr("review_isbn");
     	var review_id= $(this).attr("review_id");
     	var login_id= $(this).attr("login_id");
-    	console.log(review_isbn);
-    	console.log(review_id);
-    	console.log(login_id);
+
       
         //값 셋팅
         var objParams = {
@@ -992,10 +1045,10 @@ button, img, input, select, textarea {
   	
    //찜하기 
     $("#favorite").click(function(){
-    	if($(this).html() == '찜하기' ) {    		
+    	if($(this).html() == '<i class="material-icons nav-subbar-icon">favorite</i>' ) {    		
     		$(this).toggleClass('rui_button_white_50');
     		$(this).toggleClass('rui_button_red_50');
-    		$(this).html('취소하기');
+    		$(this).html('<i class="material-icons nav-subbar-icon" style="color:red">favorite</i>');
 			var objParams = {
 				wish_isbn       : '${book_content_article.isbn }',
 				wish_id        : '${member.id}',
@@ -1008,13 +1061,12 @@ button, img, input, select, textarea {
 				type         :    "post",
 				async        :     false, //동기: false, 비동기: ture
 				data        :    objParams
-			});
-			
+			});			
     		
     	}else{    		
     		$(this).toggleClass('rui_button_red_50');
     		$(this).toggleClass('rui_button_white_50');
-    		$(this).html('찜하기');
+    		$(this).html('<i class="material-icons nav-subbar-icon">favorite</i>');
 			var objParams = {
 				wish_isbn       : '${book_content_article.isbn }',
 				wish_id        : '${member.id}',

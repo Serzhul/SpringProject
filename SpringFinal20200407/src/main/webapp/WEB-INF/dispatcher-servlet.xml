@@ -52,6 +52,9 @@
 	<bean class="mybatis.MyCartDao" >		
 	</bean>
 	
+	<bean class="mybatis.MyPageDao" >
+	</bean>
+	
 <!-- 	<bean class="mybatis.MainDao">
 		<property name="dbname" value="Oracle"/>
 	</bean>
