@@ -10,8 +10,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>책 정보</title>
 
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/view/css/shards.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/view/css/shards-demo.min.css?v=3.0.0">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/view/carousel/slick/slick.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/view/carousel/slick/slick-theme.css" />
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/view/carousel/slick/slick.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
+	rel="stylesheet">
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 
 </head>
 <style>
@@ -255,8 +285,42 @@
 	border: 1px solid #d1d5d9;
 	box-shadow: 0 1px 1px 0 rgba(209, 213, 217, .3);
 	font-size: 16px;
-	padding: 16px 34px;
+	padding: 13px 17px;
 }
+
+.rui_button_red_50 {
+	font-family: ridi-roboto, Helvetica Neue, Apple SD Gothic Neo, "나눔고딕",
+		Nanum Gothic, "돋움", arial, Dotum, Tahoma, Geneva, sans-serif;
+	letter-spacing: -.03em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: transparent;
+	appearance: none;
+	border: 0;
+	box-shadow: none;
+	outline: 0;
+	text-decoration: none;
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-weight: 700;
+	display: inline-block;
+	text-align: center;
+	cursor: pointer;
+	line-height: 1em;
+	vertical-align: baseline;
+	-webkit-transition: background .2s, color .2s;
+	transition: background .2s, color .2s;
+	color: #808991;
+	background: white;
+	border: 1px solid #d1d5d9;
+	box-shadow: 0 1px 1px 0 rgba(209, 213, 217, .3);
+	font-size: 16px;
+	padding: 13px 17px;
+}
+
 
 #page_detail .detail_wrap .detail_body_wrap .detail_body .detail_header .header_info_wrap .info_buttons_wrap .info_buttons
 	{
@@ -335,7 +399,7 @@ li {
 	border: 1px solid #0077d9;
 	box-shadow: 0 1px 1px 0 rgba(31, 140, 230, .3);
 	font-size: 16px;
-	padding: 16px 34px;
+	padding: 13px 17px;
 }
 
 #page_detail .rsg_title01 {
@@ -599,6 +663,11 @@ button, img, input, select, textarea {
 	margin-top: 7px;
 	padding-bottom: 4px;
 }
+
+.nav-subbar-icon {
+font-size: 30px;
+
+}
 </style>
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-1.11.3.js"></script>
@@ -611,8 +680,7 @@ button, img, input, select, textarea {
 					<section class="detail_body">
 						<input type="hidden" id="book_isbn" name="book_isbn"
 							value="${book_content_article.isbn}" />
-						<%-- <button id="wish" name="wish" review_id="${reviewList.id }" review_isbn="${reviewList.isbn}">찜하기</button>
-		<button id="mycart" name="mycart" review_id="${reviewList.id }" review_isbn="${reviewList.isbn}">장바구니</button> --%>
+						
 
 						<article class="detail_header">
 
@@ -654,13 +722,18 @@ button, img, input, select, textarea {
 							<div class="info_buttons_wrap">
 								<ul class="info_buttons rui_button_group_6">
 									<li class="rui_button_item">
-										<button type="button"
-											class="rui_button_white_50 btn_wish js_add_wishlist trackable">
-											<i class="material-icons nav-subbar-icon">favorite</i>
-										</button>
+										<c:if test="${wishcheck eq 'no'}">
+											<button id="favorite" class="rui_button_white_50"><i class="material-icons nav-subbar-icon">favorite</i></button>
+											
+										</c:if>
+										<c:if test="${wishcheck eq 'yes'}">
+											<button id="favorite" class="rui_button_red_50">
+											<i class="material-icons nav-subbar-icon" style="color:red">favorite</i></button>
+										</c:if>
+										
 									</li>
 									<li class="rui_button_item">
-										<button type="button"
+										<button type="button" id="cart" name="cart"
 											class="rui_button_white_50 btn_cart js_add_cart trackable">
 											<i class="material-icons nav-subbar-icon">add_shopping_cart</i>
 										</button>
@@ -781,7 +854,7 @@ button, img, input, select, textarea {
 																	</span>
 																</button>
 															</c:if>
-															<c:if test="${reviewList.writercheck eq 'No'}">
+															<c:if test="${reviewList.writercheck eq 'no'}">
 																<button id="review_like_no" name="review_like_no"
 																	class="rui_button_white_25 like_button js_like_button">
 																	<i class="material-icons nav-subbar-icon">thumb_up</i> <span
@@ -821,6 +894,28 @@ button, img, input, select, textarea {
 		</div>
 	</div>
 	</section>
+	
+<!-- Wishilist 모달 -->
+	<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 <script type="text/javascript">
 	var x;
@@ -829,9 +924,7 @@ button, img, input, select, textarea {
 		$(".star").removeClass("on");
 		for (var i = 0; i <= idx; i++) {
 			$(".star").eq(i).addClass("on");
-			console.log(i);
 			x = i + 1;
-			console.log(x);
 		}
 	});
 	
@@ -923,6 +1016,74 @@ button, img, input, select, textarea {
             
         });
         location.reload();
+        
+    });
+  	
+   //찜하기 
+    $("#favorite").click(function(){
+    	if($(this).html() == '<i class="material-icons nav-subbar-icon">favorite</i>' ) {    		
+    		$(this).toggleClass('rui_button_white_50');
+    		$(this).toggleClass('rui_button_red_50');
+    		$(this).html('<i class="material-icons nav-subbar-icon" style="color:red">favorite</i>');
+			var objParams = {
+				wish_isbn       : '${book_content_article.isbn }',
+				wish_id        : '${member.id}',
+			};
+			
+			$.ajax({
+				url            :    "wish/wish_on",
+				dataType    :    "json",
+				contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
+				type         :    "post",
+				async        :     false, //동기: false, 비동기: ture
+				data        :    objParams
+			});
+			
+			
+			
+    		
+    	}else{    		
+    		$(this).toggleClass('rui_button_red_50');
+    		$(this).toggleClass('rui_button_white_50');
+    		$(this).html('<i class="material-icons nav-subbar-icon">favorite</i>');
+			var objParams = {
+				wish_isbn       : '${book_content_article.isbn }',
+				wish_id        : '${member.id}',
+			};
+			
+			$.ajax({
+				url            :    "wish/wish_off",
+				dataType    :    "json",
+				contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
+				type         :    "post",
+				async        :     false, //동기: false, 비동기: ture
+				data        :    objParams
+			});
+    		
+    	}    
+    });
+   
+    $(document).on("click","button[name='cart']", function(){
+    	var result = confirm("장바구니에 담으시겠습니까?");
+    	if(result){
+    		var objParams = {
+    			mycart_isbn       : '${book_content_article.isbn }',
+    			mycart_id        : '${member.id}',
+    		};
+    				
+    		$.ajax({
+    			url            :    "cart/addcart",
+    			dataType    :    "json",
+    			contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
+    			type         :    "post",
+    			async        :     false, //동기: false, 비동기: ture
+    			data        :    objParams
+    		});
+    	}else{
+    	    alert("취소하셨습니다");
+    	}
+    	
+    	
         
     });
 </script>

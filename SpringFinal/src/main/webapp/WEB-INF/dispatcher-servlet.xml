@@ -34,20 +34,22 @@
 	
 	<mvc:resources mapping="/images/**" location="/images/, /WEB-INF/resources/" cache-period="60" />
 	
-	<bean class="mybatis.BookDao" >	
-		
+	<bean class="mybatis.BookDao" >			
 	</bean> 
 	
-	<bean class="mybatis.ReviewDao" >
-		
+	<bean class="mybatis.ReviewDao" >		
 	</bean>
 	
-	<bean class="mybatis.ReviewLikeDao" >
-		
+	<bean class="mybatis.ReviewLikeDao" >		
 	</bean>
 	
-	<bean class="mybatis.BoardDao" >
-		
+	<bean class="mybatis.BoardDao" >		
+	</bean>
+	
+	<bean class="mybatis.WishDao" >		
+	</bean>
+	
+	<bean class="mybatis.MyCartDao" >		
 	</bean>
 	
 <!-- 	<bean class="mybatis.MainDao">

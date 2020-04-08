@@ -45,7 +45,7 @@ public class MemberController {
 
 	@RequestMapping(value = "main", method = RequestMethod.GET)
 	public String member_main() throws Exception {
-		return "member/main";
+		return "main/index";
 	}
 
 	// 회원가입 페이지 클릭
@@ -151,12 +151,13 @@ public class MemberController {
 
 	// 로그아웃
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String member_logout(HttpServletRequest req) throws Exception {
+	public String member_logout(HttpServletRequest req, Model model) throws Exception {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			session.invalidate();
 		}
-		return "member/main";
+		
+		return "main/index";
 	}
 
 	// 회원 탈퇴
@@ -328,4 +329,10 @@ public class MemberController {
 			return mav;
 		}
 	}*/
+	
+	// 라이브러리
+	@RequestMapping(value = "my_library")
+	public String my_library() throws Exception {
+		return "member/my_library";
+	}
 }
