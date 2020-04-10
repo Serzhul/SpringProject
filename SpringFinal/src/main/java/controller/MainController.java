@@ -42,7 +42,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "bestseller")
-	public String bestseller(Model m) throws Exception {
+	public String bestSeller(Model m) throws Exception {
 
 		int range = 9;
 		
@@ -54,7 +54,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "searchresult")
-	public String searchresult(HttpServletRequest request, Model m) throws Exception {
+	public String searchResult(HttpServletRequest request, Model m) throws Exception {
 		String keyword = request.getParameter("keyword");
 		
 		System.out.println(keyword);
@@ -67,6 +67,10 @@ public class MainController {
 		return "main/searchresult";
 	}
 	
+	
+	
+	
+
 
 	
 	

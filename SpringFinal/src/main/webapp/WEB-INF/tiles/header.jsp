@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <title>SpringBooks</title>
@@ -40,12 +39,6 @@
 	src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/view/carousel/slick/slick.min.js"></script>
-	
-	
-
-<style>
-
-</style>
 
 <script>
 $(document).ready(function(){
@@ -132,14 +125,15 @@ function startTime() {
 	</script>
 
 </head>
-<body onload="startTime()">
-	<%-- <div class="bg-success">
+</head>
+<body>
+<div class="bg-success">
 		<nav
 			class="navbar navbar-expand-lg navbar-dark bg-success navbar-margin-bottom">
 		<img
 			src="<%=request.getContextPath()%>/view/images/demo/shards-logo.svg"
 			alt="Example Navbar 1" class="mr-2 left-margin" height="30"> <a
-			class="navbar-brand logoname" href="#">SpringBooks</a>
+			class="navbar-brand logoname" href="<%=request.getContextPath()%>/main/index">SpringBooks</a>
 
 
 			<c:if test="${empty member}">
@@ -171,7 +165,7 @@ function startTime() {
 			<ul class="navbar-nav mr-auto nav-subbar">
 
 				<li class="nav-item active"><a class="nav-link nav-link-margin"
-					href="#"> <i class="material-icons nav-subbar-icon"
+					href="${pageContext.request.contextPath}/"> <i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">home_work</i> <span
 						class="submenu-name"> &nbsp; 홈 </span> <span
 						class="navbar-underline"></span>
@@ -200,157 +194,6 @@ function startTime() {
 
 		</div>
 		</nav>
-	</div> --%>
-	
-	<nav class="navbar navbar-expand-lg navbar-dark mb-2" style="padding:0">
-	<div class="navbar-collapse mr-auto left-margin"
-		id="navbarNavDropdown-3">
-		<ul class="navbar-nav mr-auto nav-subbar">
-
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/book_category"> <span
-					class="home-subbar "> <i
-						class="material-icons nav-subbar-icon"
-						style="margin-left: 26px; font-size: 26px">menu</i></span>
-			</a></li>
-
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=소설"> <span
-					class="home-subbar subbar-margin subbar-active">&nbsp; 소설 </span>
-			</a></li>
-
-
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발"
-				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin"> &nbsp; 자기 개발 </span>
-			</a></li>
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트"
-				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin">&nbsp; 건강/다이어트 </span>
-			</a></li>
-
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=외국어"
-				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin">&nbsp; 외국어 </span>
-			</a></li>
-
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=컴퓨터/IT"
-				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin"> &nbsp; 컴퓨터/IT </span>
-			</a></li>
-			<li class=""><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=경영/경제"
-				style="margin-right: 15px"> <span
-					class="home-subbar subbar-margin">&nbsp; 경영/경제 </span>
-			</a></li>
-
-		</ul>
-		<hr class="home-subbar-border" />
 	</div>
-	</nav>
-
-
-	<div class="book-items">
-
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-		<div class="carousel-container">
-			<img class="carousel-images"
-				src="<%=request.getContextPath()%>/view/images/carousel/carousel1.jpg">
-		</div>
-
-
-	</div>
-
-	<span class="slidenumber"></span>
-
-	<div>
-		<br>
-		<br>
-		<br>
-		<br>
-	</div>
-
-
-	<div class="review-items">
-		<c:set var="i" value="0" scope="page" />
-		<c:forEach var="br" items="${bestreview}">
-			<%--   <c:forEach var="i" begin="0" end="${fn:length(content)-1}"> --%>
-			<div class="carousel-container review-carousel">
-				<div class="row">
-					<div class="card review-margin">
-						<img class="card-img-top"
-							src="<%=request.getContextPath()%>/view/images/carousel/${br.isbn}.jpg"
-							alt="Card image cap" style="width: 100%; height: 300px">
-						<div class="card-body">
-							<h6 class="card-title">${br.book_subject}</h6>
-							<p class="card-text">
-
-								<c:if test="${fn:length(content.get(i))<=30}">
-                  ${content.get(i)}
-                 	 </c:if>
-								<c:if test="${fn:length(content.get(i))>30}">
-                  ${fn:substring(content.get(i), 0, 30)}...
-                 	 </c:if>
-							</p>
-							<a href="#" class="btn btn-primary">자세히 보기</a>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<c:set var="i" value="${i+1}" scope="page" />
-		</c:forEach>
-		<%-- </c:forEach> --%>
-	</div>
-
-	<br>
-	<br>
-
-	<div id="txt" class="timer"></div>
-	<span class="rank-menu"> &nbsp; 베스트 셀러</span>
-	<span><a href="<%=request.getContextPath()%>/main/bestseller" />
-		클릭!</span>
-	<div class="rank-list">
-		<ul class="rank-list-ul">
-			<c:forEach var="bs" items="${bestseller}">
-				<li class="rank-list-li">
-					<div class="rank-list-item">
-						<div class="rank-list-image">
-							<img
-								src="<%=request.getContextPath()%>/view/images/carousel/${bs.isbn}.jpg"
-								class="rank-list-thumbnail">
-						</div>
-					</div>
-					<div class="book-meta-box">
-						<a href=# class="book-meta-box-rank"> ${bs.rk} </a>
-						<div class="book-meta-box-books">
-							<h2 class="book-meta-box-title" style="display: inline">${bs.book_subject}
-							</h2>
-							<span class="book-meta-box-author"> ${bs.book_writer } </span>
-						</div>
-					</div>
-				</li>
-			</c:forEach>
-		</ul>
-
-	</div>
-
-
 </body>
 </html>

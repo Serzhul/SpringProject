@@ -8,24 +8,4 @@
 		insert into mycart values
 		(#{mycart_id}, #{mycart_isbn})
 	</insert>
-	<!-- 
-	<delete id="deleteWish" parameterType="hashMap">
-		delete from wish
-		where isbn= #{wish_isbn} and id=#{wish_id}
-	</delete>
-	
-	<select id="getwishcheck" parameterType="hashMap" resultType="int">
-		select  count(*) from wish
-		where id=#{id} and isbn= #{isbn}
-	</select>
-	
-	
-	
-	<select id="getReviewListOf_isbn_content" resultType="Review">
-        select REVIEW.isbn, REVIEW.content from REVIEW,BOOK where REVIEW.isbn=BOOK.ISBN
-    </select>
-
-    <select id="getReviewListOf_booksubject" resultType="Book">
-        select BOOK.BOOK_SUBJECT from REVIEW,BOOK where REVIEW.isbn=BOOK.ISBN
-    </select> -->
 </mapper>

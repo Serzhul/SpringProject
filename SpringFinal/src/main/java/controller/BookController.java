@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import model.BookDataBean;
 import model.MemberDataBean;
 import model.ReviewDataBean;
-import model.WishDataBean;
 import mybatis.BookDao;
 import mybatis.MyCartDao;
 import mybatis.ReviewDao;
@@ -214,6 +213,12 @@ public class BookController {
 	@RequestMapping(value="cart/addcart")
 	public void book_add_cart(@RequestParam Map<String, Object> reviewMap) throws Exception{
 		mycartservice.insertMyCart(reviewMap);
+	}
+	
+	@RequestMapping(value = "book_category")
+	public String bookCategory(HttpServletRequest request) throws Exception {
+		
+		return "book/category_list";
 	}
 	
 }

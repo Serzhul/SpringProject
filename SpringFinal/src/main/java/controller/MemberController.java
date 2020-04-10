@@ -140,7 +140,7 @@ public class MemberController {
 		}
 		model.addAttribute("message", "로그인 성공");
 		model.addAttribute("url", "main");
-		return "alert";
+		return "redirect:/main/index";
 	}
 
 	// 비밀번호 찾기

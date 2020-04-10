@@ -41,6 +41,8 @@
 	rel="stylesheet">
 <script
 	src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/header.css">
 
 
 </head>

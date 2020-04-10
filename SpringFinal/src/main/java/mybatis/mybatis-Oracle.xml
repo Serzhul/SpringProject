@@ -12,6 +12,7 @@
 		<typeAlias type="model.MemberDataBean" alias="Member" />
 		<typeAlias type="model.WishDataBean" alias="Wish" />
 		<typeAlias type="model.MyCartDataBean" alias="MyCart" />
+		<typeAlias type="model.LibraryDataBean" alias="Library" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -32,5 +33,6 @@
 		<mapper resource="mybatis/Member.xml" />
 		<mapper resource="mybatis/Wish.xml" />
 		<mapper resource="mybatis/MyCart.xml" />
+		<mapper resource="mybatis/MyPage.xml" />
 	</mappers>
 </configuration>

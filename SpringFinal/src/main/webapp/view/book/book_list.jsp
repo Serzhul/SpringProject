@@ -8,11 +8,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>list</title>
 
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="<%=request.getContextPath()%>/view/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/view/css/shards.min.css?v=3.0.0">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/view/css/shards-demo.min.css?v=3.0.0">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-<link href="<%=request.getContextPath()%>/view/css/animate.min.css" rel="stylesheet">
-<link href="<%=request.getContextPath()%>/view/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/view/carousel/slick/slick.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=request.getContextPath()%>/view/carousel/slick/slick-theme.css" />
+	
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/header.css">
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -22,18 +41,13 @@
     <script src="<%=request.getContextPath()%>/view/js/bootstrap-dropdownhover.min.js"></script>
 
 <style>
-		.main_category_wrapper{
-			width: 200px;
-			height: 600px;
-			border: 2px solid #e91bf5;
-		}
 		.box-container div{
 			padding: 10px;
 			border: 1px solid green;
 			background-color: #e3ffe0;
 		}
 		#list_menu { position: absolute; top: 20px; left: 30px; }
-		#content_page { position: absolute; top: 20px; left: 300px; }
+		#content_page { position: absolute; left: 300px; }
 		#box3 { position: absolute; top: 20px; right: 30px; }
 		#box4 { position: fixed; top: 20px; right: 30px; }
 		
@@ -313,10 +327,11 @@ nav ul,nav li {
 outline:0;
 margin:0;
 padding:0;
+list-style:none;
 }
 .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
 color:#fff;
-background-color:#00b894;
+background-color:#17c671;
 }
 
 .area {
@@ -333,189 +348,261 @@ height: 100%;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
 
+#ridi_books div#books_contents div#contents_wrap #contents_menu {
+    display: table-cell;
+    vertical-align: top;
+    padding-bottom: 320px;
+    width: 235px;
+    box-sizing: border-box;
+    padding-right: 33px;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list {
+    display: block;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list .main_category_button.opened {
+    background: #17c671;
+    color: #fff;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list .sub_category_wrapper {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list .sub_category_wrapper .sub_category_list .sub_category_list_item:focus, #contents_menu .menu_wrapper .main_category_wrapper .main_category_list .sub_category_wrapper .sub_category_list .sub_category_list_item:hover, #contents_menu .menu_wrapper .main_category_wrapper .main_category_list .sub_category_wrapper .sub_category_list.selected .sub_category_list_item {
+    color: #17c671;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list .sub_category_wrapper .sub_category_list .sub_category_list_item {
+    display: block;
+    width: 130px;
+    line-height: 1.5em;
+    padding: 3px 10px;
+    font-size: 13px;
+    color: #636c73;
+    letter-spacing: -.03em;
+}
+
+#ridi_books div#books_contents div#contents_wrap {
+    display: flex;
+    width: 900px;
+    margin: 0 auto;
+    position: relative;
+    clear: both;
+    margin-top: 33px;
+    width: 953px;
+    padding: 0 24px;
+}
+
+#ridi_books {
+    cursor: default;
+    min-width: 320px;
+}
+
+#contents_menu .menu_wrapper .main_category_wrapper .main_category_list .main_category_button {
+    position: relative;
+    display: block;
+    width: 110px;
+    height: 24px;
+    padding-left: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    line-height: 24px;
+    text-align: left;
+    border: none;
+    background: 0 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    box-shadow: none;
+    border-radius: 4px;
+}
+
+#ridi_books div#books_contents {
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    min-height: 500px;
+}
+
+
 
 
 	</style>
+	
+	<script>
+
+function searchParam(key) {
+	  return new URLSearchParams(location.search).get(key);
+	};
+
+function addClass(element, className) { element.className += " " + className; };
+
+function removeClass(element, className) {
+	var check = new RegExp("(\\s|^)" + className + "(\\s|$)"); 
+	element.className = element.className.replace(check, " ").trim(); };
+
+
+	  window.onload = function() {
+		  
+		  var param = searchParam("book_m_category");
+		  
+		  
+			
+		  
+		  var atag = document.getElementsByClassName("main_category_button");
+		  for (var i = 0; i < atag.length; i++) {
+		    var categoryname = atag[i].innerText;
+		    
+		    if(param==categoryname) {
+		    	addClass(atag[i], "opened");
+		    	break;
+		    }
+		   
+		    
+		    
+		  };
+	  };
+
+
+</script>
 </head>
-<body>
-<div class="area">
+<body id="ridi_books">
 
-</div>
+<div id="books_contents">
 
+<div id="contents_wrap">
 
-<div class="dropdown">
-
-  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
-   카테고리 <span class="caret"></span>
-  </button>
-  
-  <ul class="dropdown-menu">
-
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=소설">소설</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">일반</a></li>
-        <li><a href="#">SF</a></li>
-        <li><a href="#">추리</a></li>
-        <li><a href="#">판타지/무협</a></li>
-        <li><a href="#">로맨스</a></li>
-       </ul>
-    </li>
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발">자기개발</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">성공/삶의 자세</a></li>
-        <li><a href="#">취업/창업</a></li>
-        <li><a href="#">설득/화술/협상</a></li>
-       </ul>
-    </li>
-    
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트">건강/다이어트</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">스마일/뷰티</a></li>
-        <li><a href="#">건강/다이어트</a></li>
-        <li><a href="#">운동/스포츠</a></li>
-       </ul>
-    </li>
-    
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=외국어">외국어</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">비즈니스 영어</a></li>
-        <li><a href="#">일반 영어</a></li>
-        <li><a href="#">제2 외국어</a></li>
-       </ul>
-    </li>
-    
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=컴퓨터/IT">컴퓨터/IT</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">IT비즈니스</a></li>
-        <li><a href="#">IT자격증</a></li>
-        <li><a href="#">개발/프로그래밍</a></li>
-        <li><a href="#">IT해외원서</a></li>
-       </ul>
-    </li>
-    
-    <li class="dropdown">
-      <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=경영/경제">경영/경제</a>
-      <ul class="dropdown-menu">
-        <li><a href="#">경영 일반</a></li>
-        <li><a href="#">경제 일반</a></li>
-        <li><a href="#">마케팅/세일즈</a></li>
-        <li><a href="#">CEO/리더십</a></li>
-       </ul>
-    </li>
-    
-    
-    
-  </ul>
-</div>
-
-<%-- <nav class="main-menu">
-            <ul>
-                <li>
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=소설">
-                        <i class="fa fa-home fa-2x"></i>
-                        <span class="nav-text">
-                            소설
-                        </span>
-                    </a>
-                  
-                </li>
-                <li class="has-subnav">
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발">
-                        <i class="fa fa-laptop fa-2x"></i>
-                        <span class="nav-text">
-                            자기개발
-                        </span>
-                    </a>
-                    
-                </li>
-                <li class="has-subnav">
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트">
-                       <i class="fa fa-list fa-2x"></i>
-                        <span class="nav-text">
-                            건강/다이어트
-                        </span>
-                    </a>
-                    
-                </li>
-                <li class="has-subnav">
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=외국어">
-                       <i class="fa fa-folder-open fa-2x"></i>
-                        <span class="nav-text">
-                            외국어
-                        </span>
-                    </a>
-                   
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=컴퓨터/IT">
-                        <i class="fa fa-bar-chart-o fa-2x"></i>
-                        <span class="nav-text">
-                            컴퓨터/IT
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/book/book_list?book_m_category=경영/경제">
-                        <i class="fa fa-font fa-2x"></i>
-                        <span class="nav-text">
-                           경영/경제
-                        </span>
-                    </a>
-                </li>
-
-            </ul>
-
-            <ul class="logout">
-                <li>
-                   <a href="#">
-                         <i class="fa fa-power-off fa-2x"></i>
-                        <span class="nav-text">
-                            Logout
-                        </span>
-                    </a>
-                </li>  
-            </ul>
-        </nav> --%>
-
-
-	<%-- <div id="list_menu">
+<div id="contents_menu">
+	<nav class="menu_wrapper">
 		<ul class="main_category_wrapper">
 			<li class="main_category_list">
-				<a class="" href=>소설</a>
-				<ul class="sub_category_wrapper">
-					<li class="sub_category_list">
-						<a class="" href="">소설 전체</a>
-					</li>
-					<li class="sub_category_list">
-						<a class="" href="">일반</a>
-					</li>
-					<li class="sub_category_list">
-						<a class="" href="">SF</a>
-					</li>
-					<li class="sub_category_list">
-						<a class="" href="">추리</a>
-					</li>
-					<li class="sub_category_list">
-						<a class="" href="">판타지 무협</a>
-					</li>
-					<li class="sub_category_list">
-						<a class="" href="">로맨스</a>
-					</li>
-				</ul>
+				<a class="main_category_button"
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=소설"
+				
+				onclick="open();">소설</a>
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">일반</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">SF</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">추리</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">판타지/무협</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">로맨스</a>
+				</li>
+			</ul>
 			
-			</li>
-			<li class="main_category list"><a class="" href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발">자기 개발</a></li>
-			<li class="main_category list"><a class="" href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트">건강/다이어트</a></li>
-			<li class="main_category list"><a class="" href="${pageContext.request.contextPath}/book/book_list?book_m_category=외국어">외국어</a></li>
-			<li class="main_category list"><a class="" href="${pageContext.request.contextPath}/book/book_list?book_m_category=컴퓨터/IT">컴퓨터/IT</a></li>
-			<li class="main_category list"><a class="" href="${pageContext.request.contextPath}/book/book_list?book_m_category=경영/경제">경영/경제</a></li>
+			<li class="main_category_list">
+				<a class="main_category_button" 
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=자기개발"
+				onclick="open();">자기개발</a>
+				
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">성공/삶의 자세</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">취업/창업</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">설득/화술/협상</a>
+				</li>
+			</ul>
+			
+			<li class="main_category_list">
+				<a class="main_category_button" 
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=건강/다이어트">건강/다이어트</a>
+				
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">스마일/뷰티</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">건강/다이어트</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">운동/스포츠</a>
+				</li>
+			</ul>
+			
+			<li class="main_category_list">
+				<a class="main_category_button" 
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=외국어">외국어</a>
+				
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">비즈니스 영어</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">일반 영어</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">제2 외국어</a>
+				</li>
+			</ul>
+			
+			<li class="main_category_list">
+				<a class="main_category_button" 
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=컴퓨터/IT">컴퓨터/IT</a>
+				
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">IT비즈니스</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">IT자격증</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">개발/프로그래밍</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">IT해외원서</a>
+				</li>
+			</ul>
+			
+			<li class="main_category_list">
+				<a class="main_category_button" 
+				href="${pageContext.request.contextPath}/book/book_list?book_m_category=경영/경제">경영/경제</a>
+				
+			<ul class="sub_category_wrapper">
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">경영 일반</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">경제 일반</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">마케팅/세일즈</a>
+				</li>
+				<li class="sub_category_list">
+					<a class="sub_category_list_item">CEO/리더십</a>
+				</li>
+			</ul>
+			
+		
 		</ul>
-	</div> --%>
+	
+	</nav>
+</div>
+
 	
 	<div id="content_page">
 		<div id="selected_category">
@@ -570,6 +657,9 @@ height: 100%;
 				
 		</div>
 	</div>
+
+</div>
+</div>
 
 
 
