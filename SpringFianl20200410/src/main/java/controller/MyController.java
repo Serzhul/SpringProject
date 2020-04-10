@@ -48,7 +48,6 @@ public class MyController {
 		String id=memberid.getId();
 		
 		List<LibraryDataBean> library=mypageservice.getlibrary(id);
-		System.out.println(library.toString());
 		m.addAttribute("library", library);
 		return "mypage/mylibrary";
 	}
@@ -82,5 +81,12 @@ public class MyController {
 	@RequestMapping(value = "deleteWish")
 	public void deleteWish(@RequestParam Map<String, Object> map) throws Exception {
 		mypageservice.deleteWish(map);
+	}
+	
+	@RequestMapping(value = "viewer")
+	public String view(@RequestParam String isbn, Model m) throws Exception {
+		System.out.println(isbn);
+		m.addAttribute("isbn", isbn);
+		return "mypage/viewer";
 	}
 }

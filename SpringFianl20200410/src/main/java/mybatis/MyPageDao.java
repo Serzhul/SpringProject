@@ -91,4 +91,19 @@ private final String namespace = "mybatis.MyPage";
 			sqlSession.close();
 		}
 	}
+	
+	public String view(Map<String, Object> map) {
+		System.out.println("view"+map.toString());
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		/*try {
+			sqlSession.delete(namespace + ".deleteWish", map);
+			sqlSession.commit();
+		} catch (Exception e) {e.printStackTrace(); } 
+		finally {
+			sqlSession.close();
+		}*/
+		return null;
+	}
+	
+	
 }

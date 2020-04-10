@@ -115,14 +115,15 @@ function startTime() {
 	}
 	
 	function library() {
-		location.href="<%=request.getContextPath()%>/mypage/mylibrary"; 
+		location.href="<%=request.getContextPath()%>/mypage/mylibrary";
 	}
 	
+	
 	function logout() {
-		location.href="<%=request.getContextPath()%>/member/logout";
+		location.href="<%=request.getContextPath()%>
+	/member/logout";
 	}
-
-	</script>
+</script>
 
 </head>
 </head>
