@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.Book">
+	<cache />
+	<select id="getBookInfo" parameterType="String" resultType="Book">
+		select * from book where ISBN = #{isbn} order by isbn
+	</select>
+
+	<select id="getBookCount" parameterType="String" resultType="int">
+		select nvl(count(*),0) from book where book_m_category =
+		#{book_m_category}
+	</select>
+
+	<select id="getBooks" parameterType="hashmap" resultType="Book">
+		select * from(select row_number() over (order by isbn) num, A.* from BOOK A
+		where book_m_category = #{book_m_category} order by isbn) where num
+		between #{startRow} and #{endRow}
+	</select>
+
+	<select id="getBooksbyMainCategory" parameterType="String"
+		resultType="Book">
+		select * from book where book_m_category = #{book_m_category} order by isbn
+	</select>
+
+	<select id="getBestSeller" parameterType="int" resultType="Book">
+		select isbn, sales, b.book_subject, b.book_writer, b.book_m_category,
+		avgr, rk, rm
+		from (SELECT isbn i, count(isbn) as sales , RANK() OVER
+		(ORDER BY count(isbn) DESC) as rk
+		FROM library group by isbn) a, book b, (select isbn i2, avg(rating) avgr,
+		count(isbn) rm from review group by isbn) c
+		<where>
+			AND c.i2 = b.isbn
+			AND a.i = b.isbn
+			AND rk &lt;= #{range}
+		</where>
+		order by sales desc, isbn
+	</select>
+
+	<select id="getSearchResult" parameterType="String" resultType="Book">
+		select * from book where upper(book_subject)
+		like '%' ||
+		upper(#{keyword}) || '%'
+		or book_writer like '%' || #{keyword} || '%'
+	</select>
+
+	<select id="getBestReview" resultType="Review">
+		select content, book_subject, review.isbn, like_cnt
+	from review, book, (select count(num) like_cnt, isbn from reviewlike group by isbn) b
+	where book.isbn=review.isbn
+	and b.isbn=book.isbn
+	and like_cnt>=2
+	</select>
+
+	<select id="getBestReviewContent" resultType="String">
+		select content
+	from review, book, (select count(num) like_cnt, isbn from reviewlike group by isbn) b
+	where book.isbn=review.isbn
+	and b.isbn=book.isbn
+	and like_cnt>=2
+	</select>
+	
+	<insert id="registerBook" parameterType="Book">
+        INSERT INTO BOOK VALUES
+        (#{isbn},#{book_m_category},#{book_s_category},#{book_subject},#{book_writer},
+         #{book_pday},#{book_summary},#{book_filename},#{book_filesize},#{book_price})
+    </insert>
+
+
+
+
+
+</mapper>
