@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	
+<configuration>
+	<typeAliases>
+		<typeAlias type="model.BoardDataBean"	alias="Board"/>
+		<typeAlias type="model.BookDataBean"	alias="Book"/>
+		<typeAlias type="model.ReviewDataBean"	alias="Review"/>
+		<typeAlias type="model.ReviewLikeDataBean"	alias="ReviewLike"/>
+		<typeAlias type="model.MemberDataBean" alias="Member" />
+		<typeAlias type="model.MyWishDataBean" alias="MyWish" />
+		<typeAlias type="model.MyCartDataBean" alias="MyCart" />
+		<typeAlias type="model.LibraryDataBean" alias="Library" />
+		<typeAlias type="model.ResumeDataBean" alias="Resume" />
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+				<property name="username" value="scott"/>
+				<property name="password" value="1111"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="mybatis/Book.xml"/>
+		<mapper resource="mybatis/Review.xml"/>
+		<mapper resource="mybatis/ReviewLike.xml"/>
+		<mapper resource="mybatis/Board.xml"/>
+		<mapper resource="mybatis/Member.xml" />
+		<mapper resource="mybatis/MyCart.xml" />
+		<mapper resource="mybatis/MyPage.xml" />
+		<mapper resource="mybatis/Wish.xml" />
+	</mappers>
+</configuration>
