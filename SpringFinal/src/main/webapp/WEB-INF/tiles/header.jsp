@@ -81,6 +81,42 @@ $('.slick-next').on('click', function() {
 
 	    });
 	    
+	    
+	    
+const urls = window.location.pathname.split('/');
+
+var nav_items = document.getElementsByName("main_nav");
+var nav_links = document.getElementsByClassName("nav-link");
+
+var span = document.createElement("span");
+
+
+    if(urls[2]=="main") {
+    	addClass(nav_items[0], "active");
+    	
+    }
+    
+    else if(urls[3]=="notice") {
+    	addClass(nav_items[1], "active");
+    
+    }
+    
+    else if(urls[3]=="mycart") {
+    	addClass(nav_items[2], "active");
+    	
+    }
+    
+    else if(urls[2]=="mypage") {
+    	addClass(nav_items[3], "active");
+    	
+    };
+    
+    
+    
+    
+    
+    
+	    
 	});
 
 function startTime() {
@@ -114,14 +150,21 @@ function startTime() {
 		location.href="<%=request.getContextPath()%>/member/login";
 	}
 	
-	function library() {
-		location.href="<%=request.getContextPath()%>/member/my_library";
-	}
 	
 	function logout() {
 		location.href="<%=request.getContextPath()%>/member/logout";
 	}
+	
+	function searchParam(key) {
+		  return new URLSearchParams(location.search).get(key);
+		};
 
+	function addClass(element, className) { element.className += " " + className; };
+
+	function removeClass(element, className) {
+		var check = new RegExp("(\\s|^)" + className + "(\\s|$)"); 
+		element.className = element.className.replace(check, " ").trim(); };
+		
 	</script>
 
 </head>
@@ -157,34 +200,34 @@ function startTime() {
 		
 		<input class="form-control search-bar" type="text"
 			placeholder="제목,저자,출판사 검색" aria-label="Search"
-			onkeydown="search(this)"> </nav>
+			onkeydown="search(this)" id="autocomplete"> </nav>
 
 		<nav class="navbar navbar-expand-lg navbar-dark bg-success">
 		<div class="navbar-collapse mr-auto left-margin"
 			id="navbarNavDropdown-3">
 			<ul class="navbar-nav mr-auto nav-subbar">
 
-				<li class="nav-item active"><a class="nav-link nav-link-margin"
-					href="${pageContext.request.contextPath}/"> <i class="material-icons nav-subbar-icon"
+				<li name="main_nav" class="nav-item"><a class="nav-link nav-link-margin"
+					href="${pageContext.request.contextPath}/main/index">
+					<i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">home_work</i> <span
-						class="submenu-name"> &nbsp; 홈 </span> <span
-						class="navbar-underline"></span>
+						class="submenu-name"> &nbsp; 홈 </span>
 
 				</a></li>
 
-				<li class=""><a class="nav-link nav-link-margin" href="#">
+				<li name="main_nav" class="nav-item"><a class="nav-link nav-link-margin" href="#">
 						<i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">alarm</i> <span class="submenu-name">
 							&nbsp; 알림 </span>
 				</a></li>
 
-				<li class=""><a class="nav-link nav-link-margin" href="#">
+				<li name="main_nav" class=""><a class="nav-link nav-link-margin" href="<%=request.getContextPath()%>/mypage/mycart">
 						<i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">shopping_cart</i> <span
 						class="submenu-name">&nbsp;마이카트 </span>
 				</a></li>
 
-				<li class=""><a class="nav-link nav-link-margin" href="#">
+				<li name="main_nav" class=""><a class="nav-link nav-link-margin" href="<%=request.getContextPath()%>/mypage/mymain">
 						<i class="material-icons nav-subbar-icon"
 						style="margin: 0; padding: 0">assignment_ind</i> <span
 						class="submenu-name">&nbsp;마이페이지 </span>

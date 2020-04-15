@@ -1042,7 +1042,6 @@ font-size: 30px;
 			});
 			
 			
-			
     		
     	}else{    		
     		$(this).toggleClass('rui_button_red_50');
@@ -1081,11 +1080,11 @@ font-size: 30px;
     			async        :     false, //동기: false, 비동기: ture
     			data        :    objParams
     		});
-    	}else{
+    		
+    	} else{
     	    alert("취소하셨습니다");
     	}
-    	
-    	
+
         
     });
 </script>

@@ -11,12 +11,31 @@
 </head>
 <body>
 <c:forEach var="article" items="${library}">
-	<div>${article.isbn}
-	</div>
-	<div>${article.book_subject}
-	</div>
-		
+	<div>${article.isbn}//${article.book_subject}//	
+	
+	
+	<%-- <button type="button" onclick="viewer(${article.isbn})">내 서재</button> --%>
+	<button type="button" id="viewer" name="viewer" viewer_isbn="${article.isbn}">보기</button>
 </c:forEach>
 
 </body>
+<script type="text/javascript">
+<%-- function viewer(isbn) {
+	location.href="<%=request.getContextPath()%>/mypage/viewer?isbn="+isbn;
+} --%>
+
+//좋아요
+$(document).on("click","button[name='viewer']", function(){
+	var viewer_isbn = $(this).attr("viewer_isbn");
+	var result = confirm("책을 보시겠습니까?");
+	console.log(viewer_isbn);
+    
+    if(result){
+    	location.href="viewer?isbn="+viewer_isbn;
+	}else{
+	    alert("취소하셨습니다");
+	}
+    
+});
+</script>
 </html>

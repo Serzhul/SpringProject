@@ -156,6 +156,22 @@ public class BookDao {
         }
         return RegisteredBookList;
     }
+    
+	public List<String> Book_subject() {
+		List<String> content = new ArrayList<String>();
+
+		
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		
+		try {
+			content = sqlSession.selectList(namespace + ".getBestReviewContent");
+			
+			return content;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
 	
 	
 	

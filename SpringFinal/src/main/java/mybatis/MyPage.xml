@@ -24,4 +24,20 @@
 		delete from mycart
 		where isbn= #{mycart_isbn} and id=#{mycart_id}
 	</delete>
+	
+	<select id="getmywishList" parameterType="String" resultType="MYCART">
+		select wish.id, wish.isbn, book.book_subject, book.book_price
+		from wish, book
+		where id = #{id} and wish.isbn=book.isbn
+	</select>
+	
+	<delete id="deleteWish" parameterType="hashMap">
+		delete from wish
+		where isbn= #{mywish_isbn} and id=#{mywish_id}
+	</delete>
+	
+	<select id="getbookFileName" parameterType="String" resultType="String">
+		select book_filename from book
+		where isbn = #{isbn}
+	</select>
 </mapper>

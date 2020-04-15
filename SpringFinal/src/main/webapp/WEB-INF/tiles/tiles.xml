@@ -6,7 +6,7 @@
  
     <!-- 메뉴 표시 -->
     <definition name="base" template="/WEB-INF/tiles/template.jsp">
-        <put-attribute name="left"   value="/WEB-INF/tiles/left.jsp" />
+        <!-- <put-attribute name="left"   value="/WEB-INF/tiles/left.jsp" /> -->
         <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
     </definition>
@@ -27,6 +27,10 @@
      
      <definition name="book/*" extends="base">
          <put-attribute name="body" value="/view/book/{1}.jsp" />
+     </definition>
+     
+     <definition name="mypage/*" extends="base">
+         <put-attribute name="body" value="/view/mypage/{1}.jsp" />
      </definition>
      
      

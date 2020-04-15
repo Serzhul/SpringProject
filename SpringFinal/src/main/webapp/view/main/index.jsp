@@ -42,13 +42,11 @@
 	src="<%=request.getContextPath()%>/view/carousel/slick/slick.min.js"></script>
 	
 	
-
 <style>
 
 </style>
 
-<script>
-$(document).ready(function(){
+<%-- $(document).ready(function(){
 
 	  $('.book-items').slick({
 		  infinite: true,
@@ -89,6 +87,8 @@ $('.slick-next').on('click', function() {
 	    });
 	    
 	});
+	
+	
 
 function startTime() {
 	  var today = new Date();
@@ -128,8 +128,8 @@ function startTime() {
 	function logout() {
 		location.href="<%=request.getContextPath()%>/member/logout";
 	}
-
-	</script>
+	
+--%>
 
 </head>
 <body onload="startTime()">
@@ -214,7 +214,7 @@ function startTime() {
 			</a></li>
 
 			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/book_list?book_m_category=소설"> <span
-					class="home-subbar subbar-margin subbar-active">&nbsp; 소설 </span>
+					class="home-subbar subbar-margin">&nbsp; 소설 </span>
 			</a></li>
 
 
@@ -301,14 +301,14 @@ function startTime() {
 							<h6 class="card-title">${br.book_subject}</h6>
 							<p class="card-text">
 
-								<c:if test="${fn:length(content.get(i))<=30}">
+					 <c:if test="${fn:length(content.get(i))<=30}">
                   ${content.get(i)}
                  	 </c:if>
 								<c:if test="${fn:length(content.get(i))>30}">
                   ${fn:substring(content.get(i), 0, 30)}...
                  	 </c:if>
 							</p>
-							<a href="#" class="btn btn-primary">자세히 보기</a>
+							<a href="<%=request.getContextPath()%>/book/book_content?isbn=${br.isbn}" class="btn btn-primary">자세히 보기</a>
 						</div>
 					</div>
 
@@ -324,24 +324,29 @@ function startTime() {
 
 	<div id="txt" class="timer"></div>
 	<span class="rank-menu"> &nbsp; 베스트 셀러</span>
-	<span><a href="<%=request.getContextPath()%>/main/bestseller" />
-		클릭!</span>
+	<span><a href="<%=request.getContextPath()%>/main/bestseller" /><i class="material-icons nav-subbar-icon">double_arrow</i>
+		</span>
 	<div class="rank-list">
 		<ul class="rank-list-ul">
 			<c:forEach var="bs" items="${bestseller}">
 				<li class="rank-list-li">
 					<div class="rank-list-item">
 						<div class="rank-list-image">
+						<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}">
 							<img
 								src="<%=request.getContextPath()%>/view/images/carousel/${bs.isbn}.jpg"
 								class="rank-list-thumbnail">
+						</a>
 						</div>
 					</div>
 					<div class="book-meta-box">
-						<a href=# class="book-meta-box-rank"> ${bs.rk} </a>
+						<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}" class="book-meta-box-rank"> ${bs.rk} </a>
 						<div class="book-meta-box-books">
-							<h2 class="book-meta-box-title" style="display: inline">${bs.book_subject}
+						<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}">
+							<h2 class="book-meta-box-title" style="display: inline">
+							${bs.book_subject}
 							</h2>
+						</a>
 							<span class="book-meta-box-author"> ${bs.book_writer } </span>
 						</div>
 					</div>

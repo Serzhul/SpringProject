@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import model.LibraryDataBean;
 import model.MemberDataBean;
 import model.MyCartDataBean;
+import model.MyWishDataBean;
 import mybatis.MyPageDao;
 
 @Controller
@@ -47,7 +51,6 @@ public class MyController {
 		String id=memberid.getId();
 		
 		List<LibraryDataBean> library=mypageservice.getlibrary(id);
-		System.out.println(library.toString());
 		m.addAttribute("library", library);
 		return "mypage/mylibrary";
 	}
@@ -66,5 +69,80 @@ public class MyController {
 	@RequestMapping(value = "deleteCart")
 	public void deleteCart(@RequestParam Map<String, Object> map) throws Exception {
 		mypageservice.deleteCart(map);
+	}
+	
+	@RequestMapping(value = "mywish")
+	public String mywish(HttpServletRequest request, Model m) throws Exception {
+		HttpSession session = request.getSession();	
+		MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
+		String id=memberid.getId();
+		List<MyWishDataBean> mywishList=mypageservice.getmywishList(id);
+		m.addAttribute("mywishList", mywishList);
+		return "mypage/mywish";
+	}
+	
+	@RequestMapping(value = "deleteWish")
+	public void deleteWish(@RequestParam Map<String, Object> map) throws Exception {
+		mypageservice.deleteWish(map);
+	}
+	
+	@RequestMapping(value = "viewer")
+	public String view(@RequestParam String isbn, Model m, HttpServletRequest  req) throws Exception {
+		System.out.println(isbn);
+		String path = req.getServletContext().getRealPath("/");
+		
+		String viewbookfilename=mypageservice.getbookFileName(isbn);
+		
+		/*path=path+"view/booktxt/"+viewbookfilename+".txt";
+
+	
+		BufferedReader reader = new BufferedReader(new FileReader (path));
+	    String         line = null;
+	    StringBuilder  stringBuilder = new StringBuilder();
+	    String         ls = System.getProperty("line.separator");
+
+	    try {
+	        while((line = reader.readLine()) != null) {
+	            stringBuilder.append(line);
+	            stringBuilder.append(ls);
+	        }	       
+	    } finally {
+	        reader.close();
+	    }*/
+		
+		path=path+"view/booktxt/pride and prejudice.txt";
+
+		
+		BufferedReader reader = new BufferedReader(new FileReader (path));
+	    String         line = null;
+	    StringBuilder  stringBuilder = new StringBuilder();
+	    String         ls = System.getProperty("line.separator");
+
+	    try {
+	        while((line = reader.readLine()) != null) {
+	            stringBuilder.append(line);
+	            stringBuilder.append(ls);
+	        }	       
+	    } finally {
+	        reader.close();
+	    }
+		
+	    
+	    System.out.println("length : "+stringBuilder.length());
+		List<String> booklet = new ArrayList<String>();
+		for(int i=0; i<stringBuilder.toString().length(); i=i+1000){
+			if (i+1000<stringBuilder.toString().length()) {			
+				booklet.add(stringBuilder.toString().substring(i, i+1000));
+			} else {
+				booklet.add(stringBuilder.toString().substring(i));
+			}		
+		}
+		
+		
+		//System.out.println(viewbookfilename);
+		//m.addAttribute("isbn", isbn);
+		//m.addAttribute("viewbookfilename", stringBuilder.toString());
+		m.addAttribute("booklet", booklet);
+		return "mypage/viewer";
 	}
 }

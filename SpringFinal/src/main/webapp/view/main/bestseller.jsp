@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -543,7 +544,7 @@
 }
 
 .bestseller_colum {
-	width: 16.66666667%;
+	width: 16.66666667%; 
 	float: left;
 	margin-top: 20px;
 	text-align: center;
@@ -573,6 +574,16 @@
 	line-height: 1em;
 	vertical-align: -35%;
 }
+
+a {
+color: black;
+text-decoration: none;
+}
+
+a:hover {
+color: black;
+text-decoration: none;
+}
 </style>
 <script>
 
@@ -598,27 +609,42 @@ function rankStar(avgr) {
 <span class="rank-menu"> &nbsp; 베스트 셀러</span>
 <div class="rank-list">
 	<c:forEach var="bs" items="${bestseller}">
+	<c:set var="title" value="${bs.book_subject}" />
+	
 		<div class="bestseller_colum">
 			<div class="rank-list-item">
-				<a href=# class="book-meta-box-rank"> ${bs.rk} </a>
+				<p class="book-meta-box-rank"> ${bs.rk} </p>
 				<div class="rank-list-image">
+				<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}">
 					<img
 						src="<%=request.getContextPath()%>/view/images/carousel/${bs.isbn}.jpg"
 						class="rank-list-thumbnail">
+				</a>
 				</div>
 			</div>
 
 			<div class="book-meta-box-wrapper" id="avgr">
-				<div class="book-meta-box-title">${bs.book_subject}</div>
+				<div class="book-meta-box-title">
+				<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}">
+				<c:if test="${fn:length(title)<=10}">
+							${title}
+						</c:if>
+						<c:if test="${fn:length(title)>10}">
+							${fn:substring(title, 0, 10)}...
+						</c:if>
+				</a>
+				</div>
+				<a href="<%=request.getContextPath()%>/book/book_content?isbn=${bs.isbn}">
 				<span class="book-meta-box-author"> ${bs.book_writer} </span>
+				</a>
 				<p>
 					<span class="StarRate_IconBox"> 
 						<c:forEach begin="1" end="${bs.avgr}">
-
+							
 							<img
 								src="<%=request.getContextPath()%>/view/images/common/greenstar.png"
 								class="Rating-Star">
-
+							
 						</c:forEach> 
 					<span class="Rating-Member">&nbsp; ${bs.rm}명</span>
 					</span>
