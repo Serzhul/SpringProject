@@ -47,18 +47,21 @@
 	</select>
 
 	<select id="getBestReview" resultType="Review">
-		select content, regdate,
-		book_subject, review.isbn
-		from review, book
-		where like_cnt >=3 and
-		book.isbn=review.isbn
+	select content, book_subject, review.isbn, like_cnt
+	from review, book, (select count(num) like_cnt, isbn, num from reviewlike group by isbn,num) b
+	where book.isbn=review.isbn
+	and b.isbn=book.isbn
+  	and review.num = b.num
+	and like_cnt>=2
 	</select>
 
 	<select id="getBestReviewContent" resultType="String">
-		select content
-		from
-		review, book
-		where like_cnt >=3 and book.isbn=review.isbn
+	select content
+	from review, book, (select count(num) like_cnt, isbn, num from reviewlike group by isbn, num) b
+	where book.isbn=review.isbn
+	and b.isbn=book.isbn
+	and review.num = b.num
+	and like_cnt>=2
 	</select>
 	
 	<insert id="registerBook" parameterType="Book">
@@ -66,36 +69,14 @@
         (#{isbn},#{book_m_category},#{book_s_category},#{book_subject},#{book_writer},
          #{book_pday},#{book_summary},#{book_filename},#{book_filesize},#{book_price})
     </insert>
+    
+    <select id="getBookSubject" resultType="String">
+	select content
+	from book;
+	</select>
+    
+    
 
-    <select id="getRegisteredBookList" resultType="Book" >
-        select BOOK_SUBJECT, ISBN, BOOK_WRITER, BOOK_M_CATEGORY, BOOK_S_CATEGORY, BOOK_PDAY,BOOK_PRICE from BOOK
-    </select>
-
-    <!--<select id="boardList"  parameterType="hashmap"  resultType="Board" >
-		select * from board
-		<if test="num != null">
-			WHERE num = #{num}
-		</if>
-	 </select>
-	 <select id="getArticles"  parameterType="hashmap" 
-	 resultType="Board">
-			select * from board where boardid = #{boardid} 
-			 order by ref desc, re_step  limit #{start}
-			 </select>
-    <update id="update_update"  parameterType="hashmap">
-		update board set 
-		writer=#{writer},
-		email=#{email},
-		subject=#{subject},
-		passwd=#{passwd},
-		content=#{content} 
-		where num=#{num}
-	</update>
-	<insert id="insertArticle_insert" parameterType="Board">
-		insert into board values 
-(#{num},#{writer},#{email},#{subject},#{passwd},sysdate,0,
-    #{ref},#{re_step},#{re_level},#{content},#{ip})
-	</insert>-->
 
 
 

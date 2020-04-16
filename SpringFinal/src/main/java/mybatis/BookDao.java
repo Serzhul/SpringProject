@@ -61,15 +61,15 @@ public class BookDao {
 	}
 	
 	
-	/*public BookDataBean getBook(String isbn){
-		SqlSession sqlSession = getSqlSessionFactory().openSession();
+	public BookDataBean getBook(String isbn){
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".getBookInfo";
 			return sqlSession.selectOne(statement, isbn);
 		} finally {
 			sqlSession.close();
 		}		
-	}*/
+	}
 	
 	public List<BookDataBean> getBestSeller(int rank) {
 
@@ -156,6 +156,22 @@ public class BookDao {
         }
         return RegisteredBookList;
     }
+    
+	public List<String> Book_subject() {
+		List<String> content = new ArrayList<String>();
+
+		
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		
+		try {
+			content = sqlSession.selectList(namespace + ".getBestReviewContent");
+			
+			return content;
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
 	
 	
 	

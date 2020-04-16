@@ -14,7 +14,6 @@ import model.ReviewDataBean;
 
 public class ReviewDao{
 	private final String namespace = "mybatis.Review";
-	private final String namespace2 = "mybatis.ReviewLike";
 	
 	@Autowired
 	public AbstractRepository ar;

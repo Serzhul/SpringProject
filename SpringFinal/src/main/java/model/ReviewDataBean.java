@@ -11,9 +11,10 @@ public class ReviewDataBean implements Serializable{
 	private double like_cnt;
 	private String regdate;
 	private String writercheck;
+	private String book_subject;
 	
 	
-	ReviewDataBean() {
+	ReviewDataBean () {
 		
 	}
 	
@@ -59,33 +60,49 @@ public class ReviewDataBean implements Serializable{
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	
 	public String getWritercheck() {
 		return writercheck;
 	}
-
-
 	public void setWritercheck(String writercheck) {
 		this.writercheck = writercheck;
 	}
-
-	public ReviewDataBean(int num, String isbn, String id, String content, double rating, double like_cnt, String regdate,
-			String book_subject, String writercheck) {
-		super();
-		this.num=num;
+	public String getBook_subject() {
+		return book_subject;
+	}
+	public void setBook_subject(String book_subject) {
+		this.book_subject = book_subject;
+	}
+	@Override
+	public String toString() {
+		return "ReviewDataBean [num=" + num + ", isbn=" + isbn + ", id=" + id + ", content=" + content + ", rating="
+				+ rating + ", like_cnt=" + like_cnt + ", regdate=" + regdate + ", writercheck=" + writercheck
+				+ ", book_subject=" + book_subject + "]";
+	}
+	
+	
+	public ReviewDataBean(int num, String isbn, String id, String content, double rating, double like_cnt,
+			String regdate, String writercheck, String book_subject) {
+		this.num = num;
 		this.isbn = isbn;
 		this.id = id;
 		this.content = content;
 		this.rating = rating;
 		this.like_cnt = like_cnt;
 		this.regdate = regdate;
-		this.writercheck=writercheck;
+		this.writercheck = writercheck;
+		this.book_subject = book_subject;
 	}
-
-	@Override
-	public String toString() {
-		return "ReviewDataBean [num=" + num + ", isbn=" + isbn + ", id=" + id + ", content=" + content + ", rating="
-				+ rating + ", like_cnt=" + like_cnt + ", regdate=" + regdate + ", writercheck=" + writercheck + "]";
+	
+	public ReviewDataBean(String isbn, String content, String book_subject, double like_cnt) {
+		this.isbn = isbn;
+		this.content = content;
+		this.book_subject = book_subject;
+		this.like_cnt = like_cnt;
 	}
+	
+	
+	
+	
+	
 	
 }

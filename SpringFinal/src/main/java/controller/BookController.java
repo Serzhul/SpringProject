@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import model.BookDataBean;
 import model.MemberDataBean;
 import model.ReviewDataBean;
-import model.ReviewLikeDataBean;
 import mybatis.BookDao;
+import mybatis.MyCartDao;
 import mybatis.ReviewDao;
 import mybatis.ReviewLikeDao;
+import mybatis.WishDao;
 
 @Controller
 @RequestMapping("/book/")
@@ -35,6 +36,12 @@ public class BookController {
 	
 	@Autowired
 	ReviewLikeDao reviewlikeservice;
+	
+	@Autowired
+	WishDao wishservice;
+	
+	@Autowired
+	MyCartDao mycartservice;
 	
 	
 	@ModelAttribute
@@ -129,7 +136,18 @@ public class BookController {
 		MemberDataBean m2 = new MemberDataBean();
 		m2 = (MemberDataBean)session.getAttribute("member");	
 		
+		//리뷰 상태 저장하는 변수
 		String reviewcheck="";
+		
+		//위시리스트 상태 저장하는 변수m2.getId와 isbn을 이용하여 체크
+		String wishcheck="no";
+		int wish=wishservice.getwishcheck(m2.getId(), isbn);		
+		System.out.println(wish);
+		if(wish==0){
+			wishcheck="no";
+		}else{
+			wishcheck="yes";
+		}
 		
 		BookDataBean book_content_article=service.getBookInfo(isbn);
 		List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
@@ -144,44 +162,63 @@ public class BookController {
 				reviewList.get(i).setWritercheck("yes");
 			}else{
 				//리뷰에 안했을때 상태를 저장함
-				reviewList.get(i).setWritercheck("No");
+				reviewList.get(i).setWritercheck("no");
 			}
 			
 			//내가 쓴 리뷰가 존재하는지 체크
 			if((useisbn.equals(isbn)) && (useid.equals(m2.getId()))){
-				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
-				System.out.println("m2.getId() : "+m2.getId());
 				reviewcheck="yes";
 			}else{
-				System.out.println("useisbn:"+useisbn+"useid:"+ useid);
-				System.out.println("m2.getId() : "+m2.getId());
 				reviewcheck="no";
 			}
+		}
+		
+		if(reviewList.isEmpty()) {
+			reviewcheck="no";
 		}
 		
 		m.addAttribute("book_content_article", book_content_article);
 		m.addAttribute("reviewList", reviewList);
 		m.addAttribute("reviewcheck",reviewcheck);
+		m.addAttribute("wishcheck", wishcheck);
 		
 		return "book/book_content";
 	}
 	
 	@RequestMapping(value="review/save")
 	public void book_review_save(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		System.out.println(reviewMap.toString());
 		reviewservice.insertReview(reviewMap);	
 	}
 	
 	@RequestMapping(value="review/del")
 	public void book_review_del(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		System.out.println(reviewMap.toString());
 		reviewservice.deleteReview(reviewMap);	
 	}
 	
 	@RequestMapping(value="review/review_like")
 	public void book_review_like(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		System.out.println(reviewMap.toString());
 		reviewlikeservice.likecntplue(reviewMap);	
+	}
+	
+	@RequestMapping(value="wish/wish_on")
+	public void book_wish_on(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		wishservice.insertWish(reviewMap);
+	}
+	
+	@RequestMapping(value="wish/wish_off")
+	public void book_wish_off(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		wishservice.deleteWish(reviewMap);
+	}
+	
+	@RequestMapping(value="cart/addcart")
+	public void book_add_cart(@RequestParam Map<String, Object> reviewMap) throws Exception{
+		mycartservice.insertMyCart(reviewMap);
+	}
+	
+	@RequestMapping(value = "book_category")
+	public String bookCategory(HttpServletRequest request) throws Exception {
+		
+		return "book/category_list";
 	}
 	
 }

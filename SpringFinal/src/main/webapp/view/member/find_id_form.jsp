@@ -1,64 +1,122 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   	
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<meta name="description"
-	content="A free and modern UI toolkit for web makers based on the popular Bootstrap 4 framework.">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/shards.min.css?v=3.0.0">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/shards-demo.min.css?v=3.0.0">
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Custom style -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css"
-	media="screen" title="no title" charset="utf-8">
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+body {
+  background: #17C66F;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #17C66F, #17C66F);
+  background: -moz-linear-gradient(to top, #17C66F, #17C66F);
+  background: -o-linear-gradient(to top, #17C66F, #17C66F);
+  background: linear-gradient(to top, #17C66F, #17C66F);
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Roboto', sans-serif;
+}
 
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #8DC26F;
+}
+}
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
+}
+button[type="submit"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
+}
+button[type="button"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
+}
+</style>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ì•„ì´ë”” ì°¾ê¸°</title>
+	<title>Login V5</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/view/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
+<!--===============================================================================================-->
+<title>¾ÆÀÌµğ Ã£±â</title>
 </head>
 <body>
-	<div class="container">
-		<div class="page-header">
-			<h1>
-				ì•„ì´ë””ì°¾ê¸°<small>Find ID</small>
-			</h1>
-		</div>
-		<form action="${pageContext.request.contextPath}/member/find_id" method="POST">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="form-group">
-					<label for="InputEmail"></label> 
-					<input type="text"	class="form-control" name="email" id="email" placeholder="ì´ë©”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”" value="${param.email}" required>
-						<c:if test="${errors.emailNotFound }">ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì´ë©”ì¼ì…ë‹ˆë‹¤</c:if>
-				     <input type="submit"
-						class="form-control" value="ì•„ì´ë”” ì°¾ê¸° ">
-				</div>
-				<div>
-					<button type="button" onclick="history.go(-1);" class="form-control">ë’¤ë¡œê°€ê¸°</button>
-				</div>
+	<div class="limiter">
+		<div class="container-login100">
+		
+			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/find_id" method="POST" autocomplete=¡±off¡±>
+					<span class="login100-form-title p-b-53">
+						¾ÆÀÌµğ Ã£±â
+					</span>
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä
+						</span>
+					</div>
+					<input type="hidden" name="id" value="${member.id}">
+					<div class="wrap-input100 validate-input" data-validate = "ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä" >
+						<input class="input100" type="email"  name="email" id="email"  value="${param.email}" required>
+						<span class="focus-input100"></span>	
+					</div>
+						<c:if test="${errors.emailNotFound }">Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù</c:if>
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit">
+							¾ÆÀÌµğ Ã£±â
+						</button>
+						<button class="login100-form-btn" type="button" onclick="history.go(-1);">
+							µÚ·Î°¡±â
+						</button>
+					</div>
+				</form>
 			</div>
-		</form>
+		</div>
 	</div>
 </body>
 

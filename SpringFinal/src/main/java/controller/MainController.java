@@ -27,30 +27,27 @@ public class MainController {
 	public String index(Model m) throws Exception {
 		int range = 9;
 		
-		
-	//	List<BookDataBean>booklist = service.getBooks();
-		
-		//List<BookDataBean>bestseller = service.getBestSeller(range);
-		//List<BookDataBean>bestreview = service.getBestReview();
-		//List<String>content = service.getBestReviewContent();
-		
-		
-		
-		//m.addAttribute("booklist", booklist);
-		//m.addAttribute("bestseller", bestseller);
-		//m.addAttribute("bestreview", bestreview);
-		//m.addAttribute("content", content);
-		
+		  
+		  List<BookDataBean>bestseller = service.getBestSeller(range);
+		 List<BookDataBean>bestreview = service.getBestReview(); 
+		 List<String>content = service.getBestReviewContent(); 
+
+		  
+		  m.addAttribute("bestseller",bestseller); 
+		 m.addAttribute("bestreview", bestreview); 
+		 m.addAttribute("content", content); 
+		 		
 		
 		return "main/index";
 	}
 	
 	@RequestMapping(value = "bestseller")
-	public String bestseller(Model m) throws Exception {
+	public String bestSeller(Model m) throws Exception {
 
 		int range = 9;
 		
 		List<BookDataBean>bestseller = service.getBestSeller(range);
+		System.out.println("bestseller"+bestseller.toString());
 		
 		m.addAttribute("bestseller", bestseller);
 
@@ -58,7 +55,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "searchresult")
-	public String searchresult(HttpServletRequest request, Model m) throws Exception {
+	public String searchResult(HttpServletRequest request, Model m) throws Exception {
 		String keyword = request.getParameter("keyword");
 		
 		System.out.println(keyword);
@@ -71,6 +68,10 @@ public class MainController {
 		return "main/searchresult";
 	}
 	
+	
+	
+	
+
 
 	
 	

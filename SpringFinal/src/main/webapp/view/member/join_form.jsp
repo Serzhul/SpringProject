@@ -1,115 +1,280 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Bootstrap -->
-<link
-	href="${pageContext.request.contextPath}/view/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Custom style -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/view/css/style.css"
-	media="screen" title="no title" charset="utf-8">
+<style type="text/css">
+input[type="text"], input[type="email"], input[type="password"] {
+    font-size: 0.9em;
+    color: #fff;
+    font-weight: 100;
+    width: 94.5%;
+    display: block;
+    border: none;
+    padding: 0.8em;
+    border: solid 1px rgba(255, 255, 255, 0.37);
+    -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+    transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #fff 4%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #fff 4%);
+    background-position: -800px 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+}
 
+label {
+  margin: 0;
+}
+
+body {
+  background: #17C66F;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #17C66F, #17C66F);
+  background: -moz-linear-gradient(to top, #17C66F, #17C66F);
+  background: -o-linear-gradient(to top, #17C66F, #17C66F);
+  background: linear-gradient(to top, #17C66F, #17C66F);
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Roboto', sans-serif;
+}
+
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
+}
+
+input[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
+}
+}
+button[type="submit"]:hover {
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    -o-transition: .5s all;
+    -ms-transition: .5s all;
+    transition: .5s all;
+    background: #17C66F;
+}
+button[type="submit"] {
+    font-size: .9em;
+    color: #fff;
+    background: #17C66F;
+    outline: none;
+    border: 1px solid #76b852;
+    cursor: pointer;
+    -webkit-appearance: none;
+    width: 100%;
+    margin-top: 20px;
+    letter-spacing: 4px;
+}
+
+input[type="radio"] {
+  font-family: Poppins-Regular;
+  color: #333333;
+  font-size: 18px;
+  width: 10%;
+  height: 20px;
+}
+
+input.checkbox {
+  background: #e2d7d7;
+  cursor: pointer;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+input.checkbox:before {
+  content: "";
+  position: absolute;
+  width: 1.2em;
+  height: 1.2em;
+  background: inherit;
+  cursor: pointer;
+}
+
+input.checkbox:after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0;
+  z-index: 1;
+  width: 1.2em;
+  height: 1.2em;
+  border: 1px solid #fff;
+  -webkit-transition: .4s ease-in-out;
+  -moz-transition: .4s ease-in-out;
+  -o-transition: .4s ease-in-out;
+  transition: .4s ease-in-out;
+}
+.container-login100 {
+    width: 100%;
+    min-height: 50vh;
+    max-height: 50vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+</style>
+<link href="${pageContext.request.contextPath}/view/css/joinFormNew.css" rel="stylesheet">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/view/images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
+
+<head>
+<title>회원가입</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%-- <link href="${pageContext.request.contextPath}/view/css/joinForm.css" rel="stylesheet" type="text/css" media="all" /> --%>
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
 </head>
 <body>
-
-
-	<article class="container">
-	<div class="page-header">
-		<h1>
-			회원가입 <small>Sign up</small>
-		</h1>
-	</div>
-	<form action="${pageContext.request.contextPath}/member/join"
-		method="POST" onsubmit="return checkAll()" name="form">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="form-group">
-				<label for="InputId">아이디</label> <input type="text"
-					class="form-control" id="id" name="id" value="${param.id}"
-					placeholder="아이디는 4~12자 이내의 영문과 숫자만 가능합니다" maxlength="10" onkeyup="noSpace(this);">
-				<button type="button" id="check" class="btn btn-primary mb-2">중복체크</button>
-				<table>
-					<tr>
-						<td colspan=3 id="idCheck"></td>
-						<td class="check_font" id="idCheck"></td>
-					</tr>
-				</table>
-			</div>
-		
-
-			<div class="form-group">
-				<label for="InputEmail">이메일 주소</label> <input type="email"
-					class="form-control" name="email" id="email"
-					value="${param.email} " placeholder="Ex)example@example.com"onkeyup="noSpace(this);" >
-				<c:if test="${errors.email }">이메일을 입력하세요</c:if>
-				<c:if test="${errors.duplicateEmail }">이미 사용중인 이메일 입니다.</c:if>
-			</div>
-
-			<div>
-				<div class="form-group">
-					<label for="InputPassword1">비밀번호</label> <input type="password"
-						class="form-control" id="pw1" name="pw" value="${param.pw}"
-						placeholder="비밀번호는 4~12자 이내의 영문과 숫자만 가능합니다." maxlength="12" onkeyup="noSpace(this);">
-				</div>
-
-				<div class="form-group">
-					<label for="InputPassword2">비밀번호 확인</label> 
-					<input type="password" class="form-control" id="pw2" name="pw2"
-						placeholder="아이디와 같은 비밀번호는 불가능합니다" maxlength="10" onkeyup="noSpace(this);"	>
-					<p class="help-block">비밀번호 확인을 위해 다시 한번 입력 해 주세요</p>
-					<div class="password-danger" id="password-danger">공백은 허용하지 않습니다.</div>
+	<!-- main -->
+		<div class="limiter">
+			<div class="container-login100">
+				<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/join" method="POST" onsubmit="return checkAll()" name="form"   autocomplete=”off”>
+					<span class="login100-form-title p-b-53">
+						회원가입
+					</span>
+					<!-- 아이디  -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							아이디
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="아이디를 입력해 주세요">
+						<input class="input100" type="text"  name="id" placeholder="아이디는 4~12자 영문소문자와 숫자만 가능"   id="id" name="id" value="${param.id}" maxlength="10" onkeyup="noSpace(this);">
+						<span class="focus-input100"></span>	
+					<div class="wrap-input100 ">
+						<label class="anim" id="check">
+							<input type="checkbox" class="checkbox">
+								<span  id="idCheck" >중복확인</span>
+							<!-- 	<span class="check_font" id="idCheck"></span> -->
+						</label>
+					</div>
+					</div>	
+					<!-- 이름  -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1">
+							이름
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "이름을 입력해 주세요">
+					<input class="input100" type="text" placeholder="이름을 적어주세요"  onkeyup="noSpace(this);" name="name" value="${param.name}">
+					<span class="focus-input100"></span>	
+					<c:if test="${errors.name }">이름을 입력하세요</c:if>
+					</div>
+					<!-- 이메일  -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							이메일
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "이메일을 입력해 주세요">
+					<input class="input100" type="email" name="email" id="email" placeholder="이메일을 적어주세요" onkeyup="noSpace(this);">
+					<span class="focus-input100"></span>	
+					<c:if test="${errors.email }">이메일을 입력하세요</c:if>
+					<c:if test="${errors.duplicateEmail }">이미 사용중인 이메일 입니다.</c:if>
+					</div>
+					<!-- 비밀번호  -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							비밀번호
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "비밀번호를 입력해 주세요">
+					<input class="input100" type="password" placeholder="비밀번호를 적어주세요"  id="pw1" name="pw" value="${param.pw}"  maxlength="12" onkeyup="noSpace(this);">
+					<span class="focus-input100"></span>	
+					</div>
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							비밀번호 확인
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "비밀번호 확인">
+					<input class="input100" type="password" name="password" placeholder="비밀번호 확인"  id="pw2" name="pw2" maxlength="12" onkeyup="noSpace(this);">
+					<span class="focus-input100"></span>	
 					<div class="check_font" id="alert-success">비밀번호가 일치합니다.</div>
 					<div class="check_font" id="alert-danger">비밀번호가 일치하지 않습니다</div>
-				</div>
-				<div class="form-group">
-					<label for="username">이름</label><input type="text"
-						class="form-control username" name="name" value="${param.name} "
-						placeholder="이름을 입력하세요" onkeyup="noSpace(this);">
-					<c:if test="${errors.name }">이름을 입력하세요</c:if>
-					<div class="check_font" id="name_check"></div>
-				</div>
-					<div class="form-group required">
-				<label for="user_birth">생년월일</label>
-					<input type="text" class="form-control" id="user_birth" name="birth" placeholder="ex) 19990415" onkeyup="noSpace(this);">
-				<div class="check_font" id="birth_check"></div>
-				</div>
-				<label for="InputPassword2">성별</label>
-				<div class="custom-control custom-radio">
-
-					<input type="radio" id="customRadio1" name="gender"	class="custom-control-input" value="남자"> 
-					<label	class="custom-control-label" for="customRadio1">남자</label> 
-					<input	type="radio" id="customRadio1" name="gender" class="custom-control-input" value="여자"> 
-					<label	class="custom-control-label" for="customRadio1">여자</label>
-					<c:if test="${errors.gender}">성별을 입력하세요</c:if>
-				</div>
-
-				<div class="form-group text-center">
-					<button type="submit" class="btn btn-info">
-						회원가입<i class="fa fa-check spaceLeft"></i>
-					</button>
-					<div class="btn btn-warning" id="mainBtn">
-					가입취소
-					<i class="fa fa-times spaceLeft"></i>
 					</div>
-				</div>
+					<!-- 생년월일  -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							생년월일
+						</span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "생년월일을 입력해주세요">
+					<input class="input100" type="text" placeholder="생년월일을 적어주세요 ex)19930312"   onkeyup="noSpace(this);" id="user_birth" name="birth" >
+					<span class="focus-input100"></span>	
+					</div>
+					<!-- 성별 -->
+					<div class="p-t-31 p-b-9">
+						<span class="txt1" >
+							성별
+						</span>
+					</div>
+					
+					<div class="wrap-input100" data-validate = "성별을 선택해주세요">
+					<input type="radio" id="customRadio1" name="gender"value="남자" > 
+					<label	for="customRadio1" >남자</label> 
+					<input	type="radio" id="customRadio1"  name="gender" value="여자"> 
+					<label 	for="customRadio1" >여자</label>
+					<!-- <input type="button" class="btn btn-secondary" name="gender"value="남자" id="customRadio1"></button>
+					<input type="button" class="btn btn-secondary" name="gender"  value="여자" id="customRadio1"></button> -->
+					</div>
+					<input type="submit" value="회원가입 하기">
+					<p>이미 회원이라면?? </p>
+					<span id="loginBtn">
+							로그인하러 가기
+					</span>
+				</form>
 			</div>
-		</div>	
-	</form>
-	</article>
+		</div>
+	</div>	
 
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
 </body>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 $(function() {
@@ -117,11 +282,14 @@ $(function() {
 		location.href = '${pageContext.request.contextPath}/member/main';
 	})
 })
-
+$(function() {
+	$("#loginBtn").click(function() {
+		location.href = '${pageContext.request.contextPath}/member/login';
+	})
+})
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 // 아이디 중복 검사 Ajax
-	$(document).ready(
-	function checkId(obj) {
+ 	$(document).ready(function checkId(obj) {
 	var idx = false;
 	$('#check').click(function() {
 	$.ajax({
@@ -151,11 +319,8 @@ $(function() {
 		});
 
 		});
-	});
- 
+	}); 
 
-
-	/* 비밀번호 공백 제거 */
 	function noSpace(obj) {
 		$("#password-danger").hide();
 		$("input").keyup(function() {
