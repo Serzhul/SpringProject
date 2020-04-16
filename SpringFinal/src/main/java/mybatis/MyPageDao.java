@@ -58,6 +58,17 @@ private final String namespace = "mybatis.MyPage";
 		}
 	}
 	
+	public void insertWish(Map<String, Object> map) {
+		System.out.println(map);
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			sqlSession.insert(namespace + ".insertWish", map);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	public List<MyWishDataBean> getmywishList(String id) {
 		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
 		try {

@@ -657,7 +657,7 @@ p {
 
 											<div class="book_thumbnail">
 												<div class="thumbnail_checkbox">
-													<input name="chkbox" type="checkbox" value="${article.book_price }" onClick="itemSum(this.form,0);"
+													<input name="chkbox" type="checkbox" value="${article.book_price},${article.isbn}" onClick="itemSum(this.form,0);"
 													class="rui_checkbox_input">
 													<label class="rui_checkbox_label"> </label>
 												</div>
@@ -806,12 +806,13 @@ function itemSum(frm, id){
 			var count = frm.chkbox.length;
 			for(var i=0; i < count; i++ ){
 				if( frm.chkbox[i].checked == true ){
+					console.log(frm.chkbox[i].value);
 					sum += parseInt(frm.chkbox[i].value);
 				}
 			}
-			document.getElementById("total_sum").innerHTML=sum;
+			/* document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
-			document.getElementById("total_count").innerHTML=count;
+			document.getElementById("total_count").innerHTML=count; */
 		}else{
 			//해당화면에 모든 checkbox들의 체크를해제시킨다.
 			$("input[type=checkbox]").prop("checked",false);
@@ -819,24 +820,26 @@ function itemSum(frm, id){
 			var count = frm.chkbox.length;
 			for(var i=0; i < count; i++ ){
 				if( frm.chkbox[i].checked == true ){
+					console.log(frm.chkbox[i].value);
 					sum += parseInt(frm.chkbox[i].value);
 				}
 			}
-			document.getElementById("total_sum").innerHTML=sum;
+			/* document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
-			document.getElementById("total_count").innerHTML=0;
+			document.getElementById("total_count").innerHTML=0; */
 		}
 	}else{
 		var count2=0;
 		for(var i=0; i < count; i++ ){
 			if( frm.chkbox[i].checked == true ){
+				console.log(frm.chkbox[i].value);
 				sum += parseInt(frm.chkbox[i].value);
 				count2+=1;
 				}
 		}
-		document.getElementById("total_sum").innerHTML=sum;
+		/* document.getElementById("total_sum").innerHTML=sum;
 		document.getElementById("total_sum2").innerHTML=sum;
-		document.getElementById("total_count").innerHTML=count2;
+		document.getElementById("total_count").innerHTML=count2; */
 	};	
 }	
 </script>

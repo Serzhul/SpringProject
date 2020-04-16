@@ -36,6 +36,11 @@
 		where isbn= #{mywish_isbn} and id=#{mywish_id}
 	</delete>
 	
+	<insert id="insertWish" parameterType="hashMap">
+		insert into wish values
+		(#{mycart_id}, #{mycart_isbn})
+	</insert>
+	
 	<select id="getbookFileName" parameterType="String" resultType="String">
 		select book_filename from book
 		where isbn = #{isbn}
@@ -61,4 +66,6 @@
 		set pagenum = #{currentPage}
 		where isbn = #{isbn} and id=#{id}
 	</update>
+	
+	
 </mapper>

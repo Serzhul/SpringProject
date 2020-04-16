@@ -750,7 +750,7 @@ font-size: 30px;
 
 							<div class="Header_Metadata_Block">
 								<div id="meta_data">
-									출간 일 : ${book_content_article.book_pday } <br /> 듣기 기능 : ox <br />
+									출간 일 : ${book_content_article.book_pday } <br />
 								</div>
 							</div>
 

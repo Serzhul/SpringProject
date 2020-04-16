@@ -66,9 +66,30 @@ public class MyController {
 		return "mypage/mycart";
 	}
 	
+	@RequestMapping(value = "mycart2")
+	public String mycart2(HttpServletRequest request, Model m) throws Exception {
+		HttpSession session = request.getSession();	
+		MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
+		String id=memberid.getId();
+		List<MyCartDataBean> mycartList=mypageservice.getmycartList(id);
+		m.addAttribute("mycartList", mycartList);
+		return "mypage/mycart2";
+	}
+	
 	@RequestMapping(value = "deleteCart")
-	public void deleteCart(@RequestParam Map<String, Object> map) throws Exception {
+	public String deleteCart(@RequestParam Map<String, Object> map) throws Exception {
 		mypageservice.deleteCart(map);
+		
+		return "mypage/mymain";
+		
+	}
+	
+	@RequestMapping(value = "movetoWish")
+	public String movetoWish(@RequestParam Map<String, Object> map) throws Exception {
+		mypageservice.deleteCart(map);
+		mypageservice.insertWish(map);
+		
+		return "mypage/mymain";
 	}
 	
 	@RequestMapping(value = "mywish")

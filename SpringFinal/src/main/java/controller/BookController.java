@@ -137,7 +137,7 @@ public class BookController {
 		m2 = (MemberDataBean)session.getAttribute("member");	
 		
 		//리뷰 상태 저장하는 변수
-		String reviewcheck="";
+		String reviewcheck="no";
 		
 		//위시리스트 상태 저장하는 변수m2.getId와 isbn을 이용하여 체크
 		String wishcheck="no";
@@ -177,6 +177,7 @@ public class BookController {
 			reviewcheck="no";
 		}
 		
+		System.out.println("reviewcheck"+reviewcheck);
 		m.addAttribute("book_content_article", book_content_article);
 		m.addAttribute("reviewList", reviewList);
 		m.addAttribute("reviewcheck",reviewcheck);

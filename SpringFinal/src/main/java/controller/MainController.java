@@ -28,10 +28,11 @@ public class MainController {
 		int range = 9;
 		
 		  
-		  List<BookDataBean>bestseller = service.getBestSeller(range);
-		 List<BookDataBean>bestreview = service.getBestReview(); 
+		 List<BookDataBean> bestseller = service.getBestSeller(range);
+		 List<BookDataBean> bestreview = service.getBestReview(); 
 		 List<String>content = service.getBestReviewContent(); 
-
+		 System.out.println("bestseller"+bestseller);
+		 System.out.println("bestreview"+bestreview);
 		  
 		  m.addAttribute("bestseller",bestseller); 
 		 m.addAttribute("bestreview", bestreview); 
