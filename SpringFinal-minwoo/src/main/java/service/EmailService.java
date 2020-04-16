@@ -30,11 +30,11 @@ public class EmailService {
     	   String htmlMsg = email.getContent();
     	   
     	   mimeMessage.setContent(htmlMsg, "text/html; charset=UTF-8");
-           helper.setText(htmlMsg, true);
+    	   helper.setText(htmlMsg, true);
     	   helper.setTo(email.getReceiver());
            helper.setSubject(email.getSubject());
            mimeMessage.setRecipients(MimeMessage.RecipientType.TO , InternetAddress.parse(email.getReceiver()));
-          
+           mimeMessage.setFrom(new InternetAddress("SpringBooks@final.com", "스프리이이잉살라마이쿰"));
        }catch(MessagingException e) {
            System.out.println("MessagingException");
            e.printStackTrace();

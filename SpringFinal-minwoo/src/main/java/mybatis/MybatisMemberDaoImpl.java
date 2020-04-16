@@ -89,7 +89,7 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 	}
 
 	@Override
-	public int idCheck(String id) throws Exception {
+	public String idCheck(String id) throws Exception {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".idCheck";

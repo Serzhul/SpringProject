@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 아이디 중복 체크  중복 = 1 아닐시 = 0-->
-	<select id="idCheck" parameterType="int" resultType="int" >
+	<select id="idCheck" parameterType="String" resultType="String" >
 		select count(*) from member	where id = #{id}
 	</select>
 	

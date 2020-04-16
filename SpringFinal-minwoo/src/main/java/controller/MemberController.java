@@ -25,7 +25,6 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 
 import excep.DuplicateEmailException;
 import excep.DuplicateldException;
-import excep.IdNotFoundException;
 import excep.InvalidPasswordException;
 import excep.LoginFailException;
 import excep.MemberNotFoundException;
@@ -69,8 +68,8 @@ public class MemberController {
 	public String idCheck(HttpServletRequest request) {
 
 		String id = request.getParameter("id");
-		int result = service.idCheck(id);
-		return Integer.toString(result);
+		String result = service.idCheck(id);
+		return result;
 	}
 
 	// 회원가입 요청
@@ -165,7 +164,7 @@ public class MemberController {
 		if (session != null) {
 			session.invalidate();
 		}
-		
+
 		return "main/index";
 	}
 
@@ -189,34 +188,36 @@ public class MemberController {
 
 	// 회월 탈퇴
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-	public String member_deletePro(MemberDataBean inputData, Model model, HttpSession session, RedirectAttributes rttr) throws Exception{
-		
+	public String member_deletePro(MemberDataBean inputData, Model model, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
+
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		try{
+		try {
 			MemberDataBean deletememberId = dbPro.selectById(inputData.getId());
 			System.out.println("이건 DB에 있는 아이디" + deletememberId.getId());
 			System.out.println("이건 DB에 있는 패스워드" + deletememberId.getPw());
 			//
 			System.out.println("이건 히든 입력 값 아이디" + inputData.getId());
-			System.out.println("이건 사용자 입력 값 패스워드" + inputData.getPw());		
-			if((deletememberId.getId().equals(inputData.getId())) && (deletememberId.getPw().equals(inputData.getPw()))){
+			System.out.println("이건 사용자 입력 값 패스워드" + inputData.getPw());
+			if ((deletememberId.getId().equals(inputData.getId()))
+					&& (deletememberId.getPw().equals(inputData.getPw()))) {
 				System.out.println("삭제가 될 거에유");
 				dbPro.delete(inputData);
 				session.invalidate();
 				model.addAttribute("message", "안녕히가세요...");
 				model.addAttribute("url", "main");
 				return "alert";
-			} else if(!deletememberId.getPw().equals(inputData.getPw())) {
+			} else if (!deletememberId.getPw().equals(inputData.getPw())) {
 				System.out.println("비밀번호 에러지롱");
 				errors.put("wrongPw", Boolean.TRUE);
 				return "member/delete";
-			} else if(inputData.getPw() == null){
+			} else if (inputData.getPw() == null) {
 				errors.put("null", Boolean.TRUE);
 			}
-			return "alert";			
+			return "alert";
 		} catch (MemberNotFoundException e) {
-			errors.put("pwError", Boolean.TRUE);	
+			errors.put("pwError", Boolean.TRUE);
 			return "member/delete";
 		}
 	}
@@ -247,7 +248,7 @@ public class MemberController {
 
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		
+
 		if (inputData.getPw() == null || inputData.getPw().isEmpty())
 			errors.put("curPwd", Boolean.TRUE);
 		if (inputData.getNewPw() == null || inputData.getNewPw().isEmpty())
@@ -263,20 +264,20 @@ public class MemberController {
 			System.out.println("db에 있는 비밀번호" + member.getPw());
 			System.out.println("사용자가 입력한 현재 pw " + inputData.getPw());
 			System.out.println("사용자가 입력한 새로운 pw " + inputData.getNewPw());
-			
+
 			if (!inputData.getPw().equals(member.getPw())) {
 				System.out.println("비밀번호가 맞지 않아유!");
 				errors.put("badCurPwd", Boolean.TRUE);
 				throw new InvalidPasswordException();
-			} else if (inputData.getNewPw().equals(member.getId())){
+			} else if (inputData.getNewPw().equals(member.getId())) {
 				errors.put("wrongPw", Boolean.TRUE);
 				System.out.println("아이디와 비밀번호가 같을 수 없슈");
 				throw new InvalidPasswordException();
-			} else if (inputData.getPw().equals(member.getPw())){
+			} else if (inputData.getPw().equals(member.getPw())) {
 				System.out.println("실행된다아아아");
-			member.changePassword(inputData.getNewPw());
-			System.out.println("위에서 바뀐 데이터 " + member.getPw());
-			dbPro.update(inputData);
+				member.changePassword(inputData.getNewPw());
+				System.out.println("위에서 바뀐 데이터 " + member.getPw());
+				dbPro.update(inputData);
 			}
 			model.addAttribute("message", "회원 정보 수정 완료");
 			model.addAttribute("url", "main");
@@ -310,37 +311,25 @@ public class MemberController {
 	public String find_pw_form() throws Exception {
 		return "member/find_pw_form";
 	}
-	
+
 	// 라이브러리
 	@RequestMapping(value = "my_library")
 	public String my_library() throws Exception {
 		return "member/my_library";
 	}
-	
+
 	@Autowired
-	EmailService emailService; // �꽌鍮꾩뒪瑜� �샇異쒗븯湲곗쐞�븳 �쓽議댁꽦 二쇱엯
+	EmailService emailService; 
 
 	@Autowired
 	private EmailDTO email;
 
-	@RequestMapping(value = "mail_form", method = RequestMethod.GET) // �씠硫붿씪
-																		// �벐湲곕��
-																		// �늻瑜대㈃
-																		// �씠
-																		// 硫붿냼�뱶濡�
-																		// 留듯븨�릺�뼱�꽌
+	@RequestMapping(value = "mail_form", method = RequestMethod.GET) 
 	public String write() {
-		return "member/mailForm"; // �떎�떆 mailform jsp �럹�씠吏�濡� �씠�룞�븯怨�
-									// jsp�럹�씠吏��뿉�꽌 �궡�슜�쓣 �떎 梨꾩슫 �뮘�뿉 �솗�씤
-									// 踰꾪듉�쓣 �늻瑜대㈃ send.do濡� �꽆�뼱媛�
+		return "member/mailForm"; 
 	}
 
-	@RequestMapping(value = "mail_form", method = RequestMethod.POST) // �솗�씤
-																		// (硫붿씪諛쒖넚)
-																		// 踰꾪듉�쓣
-																		// �늻瑜대㈃
-																		// 留듯븨�릺�뒗
-																		// 硫붿냼�뱶
+	@RequestMapping(value = "mail_form", method = RequestMethod.POST)
 	public String sendEmailAction(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
@@ -353,11 +342,11 @@ public class MemberController {
 			errors.put("badId", Boolean.TRUE);
 			System.out.println("Id");
 		}
-/*		if (inputData.getPw() == null || inputData.getPw().isEmpty()) {
-			errors.put("IdAndEmailNo", Boolean.TRUE);
-			System.out.println("Pw");
-		}*/
-		if (!errors.isEmpty()) 
+		/*
+		 * if (inputData.getPw() == null || inputData.getPw().isEmpty()) {
+		 * errors.put("IdAndEmailNo", Boolean.TRUE); System.out.println("Pw"); }
+		 */
+		if (!errors.isEmpty())
 			return "member/find_pw_form";
 		try {
 			String e_mail = inputData.getEmail();
@@ -368,31 +357,44 @@ public class MemberController {
 			System.out.println(pw);
 			if (inputData.getEmail().equals(member.getEmail()) && inputData.getId().equals(member.getId())) {
 				StringBuffer sb = new StringBuffer();
-		   		   sb.append("<div class=bg style= background-color: #17C66F;  width: 480px; overflow: hidden; margin: 0 auto;  box-sizing: border-box;  padding: 40px;  font-family: 'Roboto';  margin-top: 40px;>");
-		   		   sb.append("<div class=card style=background-color: white;");
-		   		   sb.append("width: 100%;  float: center;  margin-top: 40px;  border-radius: 5px;  box-sizing: border-box;");
-		   		   sb.append("padding: 80px 30px 25px 30px;  text-align: center;  position: relative;  box-shadow: 0 1px 3");
-		   		   sb.append("px rgba(0,0,0,0.12), 0 1px 2	px rgba(0,0,0,0.24)  &amp;__success {   position: absolute;");
-		   		   sb.append("top: -50px;    left: 145px;    width: 100px;    height: 100px;    border-radius: 100%;    background-color: #60c878;");
-		   		   sb.append("border: 5px solid white;     i {      color: white;      line-height: 100px;      font-size: 45px;>");
-		   		   sb.append("<span class=card__success></span>");
-		   		   sb.append("<h1 class=card__msg></h1>");
-		   		   sb.append("<h1 class=card__submsg></h1>");
-		   		   sb.append("<div class=card__body>");
-		   		   sb.append("<div class=card__recipient-info>");
-		   		   sb.append("<p class=card__recipient></p>");
-		   		   sb.append("<p class=card__email></p>");
-		   		   sb.append("<h1 class=card__price>");
-			   	   sb.append("<span> +ㅁㄴㅇㅁㄴㅇ</span></h1></div><div>");
-			   	   sb.append("<class><button class=btn style=background-color: #17C66F;");
-			   	   sb.append("border: none; color: white;  padding: 12px 16px; font-size: 16px; cursor: pointer;></button>  </class>");
-			   	   sb.append("</div></div><div class=card__tags></div>");
-		   		   sb.append(" </div> </div></body></html>");		
-			email.setContent(sb+ "야야야야야야야");
-			email.setReceiver(e_mail);
-			email.setSubject(id + "님의 비밀번호 찾기 입니다");
-			emailService.SendEmail(email);
-			return "member/find_pw";
+				sb.append("<html>");
+				sb.append("<head>");
+				sb.append("<title></title>");
+				sb.append("<meta http-equiv=ontent-Typecontent=text/html; charset=utf-8/>");
+				sb.append("</head>");
+				sb.append("<body style=background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=100%>");
+				sb.append("<tr>");
+				sb.append("<td bgcolor=#17C66F align=center>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append("<tr>");
+				sb.append("<td align=center valign=top style=padding: 40px 10px 40px 10px;>");
+				sb.append(
+						"</td> </tr>  </table>    </td>  </tr>   <tr>   <td bgcolor=#17C66F align=center style=padding: 0px 10px 0px 10px;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append(
+						"<tr> <td bgcolor=#ffffff align=center valign=top style=padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;>");
+				sb.append("<h1 style=font-size: 32px; font-weight: 400; margin: 0;>비밀번호 찾기 결과</h1>");
+				sb.append("</td>   </tr>   </table>        </td>    </tr>    <tr>");
+				sb.append("        <td align=center style=padding: 0px 10px 0px 10px;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append("<tr>");
+				sb.append(
+						"<td align=center style=padding: 20px 30px 40px 30px; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;>");
+				sb.append("<p style=margin: 0; text-align: center>" + "<b>" + id + "</b>" + "님의 비밀번호는" + "<b>" + pw
+						+ "</b>" + "입니다. <br> 로그인을 하려면 아래 버튼을 클릭해 주세요. </p>");
+				sb.append("</td>   </tr>  <td bgcolor=#ffffff align=left>    <tr>");
+				sb.append("<td bgcolor=#ffffff align=center style=padding: 20px 30px 60px 30px;>");
+				sb.append("<table border=0 cellspacing=0 cellpadding=0>");
+				sb.append(
+						"<tr> <td align=center style=border-radius: 3px;><a href=http://localhost:8082/SpringFinal/member/login target=_blank style=font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;>로그인 하러가기</a></td>");
+				sb.append("</tr>    </table>  </body></html>");
+				email.setSender("Spring Books 비밀번호 찾기");
+				email.setContent(sb.toString());
+				email.setReceiver(e_mail);
+				email.setSubject(id + "님의 비밀번호 찾기 입니다");
+				emailService.SendEmail(email);
+				return "member/find_pw";
 			}
 		} catch (MemberNotFoundException e) {
 			errors.put("IdAndEmailX", Boolean.TRUE);
@@ -452,13 +454,12 @@ public class MemberController {
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
 		MemberDataBean member_email = dbPro.selectByEmail((String) response_obj.get("email"));
 		String e_mail = (String) response_obj.get("email");
-		
+
 		System.out.println(member_email);
 		System.out.println(e_mail);
-		
 
-		if (member_email == null){
-			/*String id = (String) response_obj.get("email");*/
+		if (member_email == null) {
+			/* String id = (String) response_obj.get("email"); */
 			String id = (String) response_obj.get("id");
 			String pw = (String) "1111";
 			String email = (String) response_obj.get("email");
@@ -466,11 +467,10 @@ public class MemberController {
 			String birth = (String) response_obj.get("birthday");
 			String gender = (String) response_obj.get("gender");
 			System.out.printf(id, pw, email, name, birth, gender);
-			MemberDataBean newMember = new MemberDataBean
-					(id,pw,email,name,birth,gender);
-					dbPro.insert(newMember);
-					System.out.println("DB에 회원 정보 저장 완료");
-		}		
+			MemberDataBean newMember = new MemberDataBean(id, pw, email, name, birth, gender);
+			dbPro.insert(newMember);
+			System.out.println("DB에 회원 정보 저장 완료");
+		}
 		// response의 nickname값 파싱
 		String name = (String) response_obj.get("name");
 		System.out.println(name);

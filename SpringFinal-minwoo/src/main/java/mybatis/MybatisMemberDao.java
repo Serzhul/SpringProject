@@ -25,7 +25,7 @@ public interface MybatisMemberDao {
 	public List<MemberDataBean> memberList() throws Exception;
 
 	//아이디 중복 체크
-	public int idCheck(String id) throws Exception ;
+	public String idCheck(String id) throws Exception ;
 	
 	public String find_id(String email) throws Exception;
 	public String check_id(String id) throws Exception;
