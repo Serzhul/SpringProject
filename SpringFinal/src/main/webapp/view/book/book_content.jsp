@@ -675,6 +675,7 @@ font-size: 30px;
 	src="http://code.jquery.com/jquery-1.11.3.js"></script>
 
 <body id="ridi_books">
+	<c:if test="${!empty member}">
 	<div id="base_contents_wrapper">
 		<div id="page_detail">
 			<div class="detail_wrap">
@@ -895,6 +896,224 @@ font-size: 30px;
 			</div>
 		</div>
 	</div>
+	</c:if>
+<c:if test="${empty member}">
+	<div id="base_contents_wrapper">
+		<div id="page_detail">
+			<div class="detail_wrap">
+				<div class="detail_body_wrap">
+					<section class="detail_body">
+						<input type="hidden" id="book_isbn" name="book_isbn"
+							value="${book_content_article.isbn}" />
+						
+
+						<article class="detail_header">
+
+
+							<div class="header_info_wrap">
+								<p class="info_category_wrap">
+
+									${book_content_article.book_m_category }->${book_content_article.book_s_category }
+								</p>
+								<div class="info_title_wrap">
+									${book_content_article.book_subject }</div>
+								<div class="info_metadata_wrap">저자 :
+									${book_content_article.book_writer }</div>
+								<div class="info_price_wrap">가격 :
+									${book_content_article.book_price }</div>
+							</div>
+
+							<div class="header_thumbnail_wrap">
+								<div
+									class="header_thumbnail book_macro_200 detail_scalable_thumbnail">
+									<div class="book_thumbnail_wrapper">
+										<div class="book_thumbnail">
+											<div class="thumbnail_image">
+												<img class="thumbnail"
+													src="<%=request.getContextPath()%>/view/images/carousel/${book_content_article.isbn}.jpg">
+												<span class="border"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="info_buttons_wrap">
+								<ul class="info_buttons rui_button_group_6">
+									<li class="rui_button_item">
+										<%-- <c:if test="${wishcheck eq 'no'}">
+											<button id="favorite" class="rui_button_white_50"><i class="material-icons nav-subbar-icon">favorite</i></button>
+											
+										</c:if>
+										<c:if test="${wishcheck eq 'yes'}">
+											<button id="favorite" class="rui_button_red_50">
+											<i class="material-icons nav-subbar-icon" style="color:red">favorite</i></button>
+										</c:if> --%>
+										
+									</li>
+									<li class="rui_button_item">
+										<!-- <button type="button" id="cart" name="cart"
+											class="rui_button_white_50 btn_cart js_add_cart trackable">
+											<i class="material-icons nav-subbar-icon">add_shopping_cart</i>
+										</button> -->
+									</li>
+
+									<li class="rui_button_item"><a
+										class="rui_button_blue_50 btn_all_buy" href="#">구매하기</a></li>
+
+
+								</ul>
+							</div>
+
+							<div class="Header_Metadata_Block">
+								<div id="meta_data">
+									출간 일 : ${book_content_article.book_pday } <br />
+								</div>
+							</div>
+
+
+
+
+							<div id="summary">
+								<h3>요약</h3>
+								${book_content_article.book_summary }
+							</div>
+						</article>
+
+						<article id="detail_review"
+							class="detail_box_module detail_review js_detail_review">
+							<div class=rsg_title01">
+								<h3 class="title_text">리뷰</h3>
+							</div>
+							<div id="review_info_section">
+								<div class="review_input_right">
+									<div
+										class="review_input_wrapper js_review_input_wrapper rate_after">
+										<div class="star_rate_wrapper js_star_rate_wrapper"></div>
+
+										<div class="star-box">
+											<span class="star star_left"></span> <span
+												class="star star_right"></span> <span class="star star_left"></span>
+											<span class="star star_right"></span> <span
+												class="star star_left"></span> <span class="star star_right"></span>
+											<span class="star star_left"></span> <span
+												class="star star_right"></span> <span class="star star_left"></span>
+											<span class="star star_right"></span>
+										</div>
+
+										<div
+											class="review_textarea_wrapper js_review_textarea_wrapper">
+											<textarea id="review_content" name="review_content"
+												class="review_input_textarea js_review_input_textarea"
+												placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 비공개될 수 있습니다."></textarea>
+										</div>
+									</div>
+								</div>
+								
+								<%-- <c:if test="${reviewcheck eq 'no'}">
+									<div class="write_review_bottom">
+										<div class="buttons_wrapper">
+											<div class="write_button_wrapper">
+												<button id="review_submit" name="review_submit"
+													class="rui_button_blue_30 js_review_write_btn write_button disabled">리뷰
+													등록												
+												</button>
+											</div>
+										</div>
+									</div>								
+								</c:if> --%>
+								
+							</div>
+							<br /> <br />
+
+							<div id="review_list_section">
+								<div class="review_list_wrapper js_review_list_wrapper active">
+									<ul>
+
+										<c:forEach var="reviewList" items="${reviewList}">
+											<li class="review_list">
+												<div class="list_left js_review_info_wrapper">
+													<div class="left_contents">
+														<p>
+															<span class="star_rate"> <c:forEach var="rating"
+																	begin="1" end="${ reviewList.rating }">★
+															</c:forEach>
+															</span> <span class="reviewer_id"> ${reviewList.id } </span>
+														</p>
+
+														<ul class="review_date_and_report_wrapper">
+															<li class="review_date">${reviewList.regdate}</li>
+														</ul>
+													</div>
+
+												</div>
+
+												<div class="list_right js_review_info_wrapepr">
+
+													<p class="review_content js_review_content">
+														<span> ${reviewList.content } </span>
+													</p>
+
+													<div class="review_status">
+														<div
+															class="review_recommend_count js_review_recommend_count">
+
+															<%-- <c:if test="${reviewList.writercheck eq 'yes'}">
+																<button id="review_like" name="review_like"
+																	review_num="${reviewList.num}"
+																	review_id="${reviewList.id }"
+																	review_isbn="${reviewList.isbn}"
+																	login_id="${member.id}"
+																	class="rui_button_white_25 like_button js_like_button">
+																	<i class="material-icons nav-subbar-icon">thumb_up</i> <span
+																		class="like_count"> <fmt:formatNumber
+																			value="${reviewList.like_cnt }" type="number"
+																			maxFractionDigits="0" />
+																	</span>
+																</button>
+															</c:if>
+															<c:if test="${reviewList.writercheck eq 'no'}">
+																<button id="review_like_no" name="review_like_no"
+																	class="rui_button_white_25 like_button js_like_button">
+																	<i class="material-icons nav-subbar-icon">thumb_up</i> <span
+																		class="like_count"> <fmt:formatNumber
+																			value="${reviewList.like_cnt }" type="number"
+																			maxFractionDigits="0" />
+																	</span>
+																</button>
+															</c:if>
+															
+															
+															<c:set var="mId" value="${member.id}"/>
+															<c:if test="${reviewList.id eq mId}">
+																<button id="review_delete" name="review_delete"
+																	review_id="${reviewList.id }"
+																	review_isbn="${reviewList.isbn}"
+																	class="rui_button_white_25 like_button js_like_button">
+
+																	<i class="material-icons nav-subbar-icon">delete</i>삭제
+															</button>
+															</c:if> --%>
+
+														</div>
+													</div>
+												</div>
+											</li>
+
+
+
+										</c:forEach>
+									</ul>
+								</div>
+							</div>
+						</article>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</c:if>
 	</section>
 	
 <!-- Wishilist 모달 -->
@@ -1099,5 +1318,4 @@ font-size: 30px;
         
     });
 </script>
-
 </html>
