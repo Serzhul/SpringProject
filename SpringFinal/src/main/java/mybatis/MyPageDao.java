@@ -154,4 +154,37 @@ private final String namespace = "mybatis.MyPage";
 			sqlSession.close();
 		}
 	}
+	
+	public int checkWish(Map<String, Object> map) {
+		
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".checkWish";
+			return sqlSession.selectOne(statement, map);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	public int checkCart(Map<String, Object> map) {
+		System.out.println("dao"+map.toString());
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".checkCart";
+			return sqlSession.selectOne(statement, map);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	public void insertMyCart(Map<String, Object> map) {
+		System.out.println(map.toString());
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			sqlSession.insert(namespace + ".insertMyCart", map);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

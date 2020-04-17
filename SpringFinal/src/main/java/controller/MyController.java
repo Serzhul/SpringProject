@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.LibraryDataBean;
 import model.MemberDataBean;
@@ -51,7 +52,6 @@ public class MyController {
 		String id=memberid.getId();
 		
 		List<LibraryDataBean> library=mypageservice.getlibrary(id);
-		System.out.println("controller"+library.toString());
 		m.addAttribute("library", library);
 		return "mypage/mylibrary";
 	}
@@ -85,11 +85,38 @@ public class MyController {
 	}
 	
 	@RequestMapping(value = "movetoWish")
+	@ResponseBody
 	public String movetoWish(@RequestParam Map<String, Object> map) throws Exception {
-		mypageservice.deleteCart(map);
-		mypageservice.insertWish(map);
+		String checkwish="";
+		if(mypageservice.checkWish(map)>=1){
+			//위시리스트에 이미 있을때
+			checkwish="false";
+		}else{
+			//위시리스트에 없을때
+			checkwish="true";
+			mypageservice.deleteCart(map);
+			mypageservice.insertWish(map);
+		}
 		
-		return "mypage/mymain";
+		return checkwish;
+	}
+	
+	@RequestMapping(value = "movetoCart")
+	@ResponseBody
+	public String movetoCart(@RequestParam Map<String, Object> map) throws Exception {
+		String checkcart="";
+		System.out.println("controller"+map.toString());
+		if(mypageservice.checkCart(map)>=1){
+			//위시리스트에 이미 있을때
+			checkcart="false";
+		}else{
+			//위시리스트에 없을때
+			checkcart="true";
+			mypageservice.deleteWish(map);
+			mypageservice.insertMyCart(map);
+		}
+		
+		return checkcart;
 	}
 	
 	@RequestMapping(value = "mywish")

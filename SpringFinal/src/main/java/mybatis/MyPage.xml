@@ -67,5 +67,18 @@
 		where isbn = #{isbn} and id=#{id}
 	</update>
 	
+	<select id="checkWish" parameterType="hashMap" resultType="int">
+		select count(id) from wish
+		where id=#{mycart_id} and isbn = #{mycart_isbn} 
+	</select>
 	
+	<select id="checkCart" parameterType="hashMap" resultType="int">
+		select count(id) from mycart
+		where id=#{mywish_id} and isbn = #{mywish_isbn} 
+	</select>
+	
+	<insert id="insertMyCart" parameterType="hashMap">
+		insert into mycart values
+		(#{mywish_id}, #{mywish_isbn})
+	</insert>
 </mapper>

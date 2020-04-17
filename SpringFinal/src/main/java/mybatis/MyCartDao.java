@@ -21,4 +21,14 @@ public class MyCartDao {
 			sqlSession.close();
 		}
 	}
+	
+	public int checkMyCart(Map<String, Object> reviewMap) {
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".checkMyCart";			
+			return sqlSession.selectOne(statement, reviewMap);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

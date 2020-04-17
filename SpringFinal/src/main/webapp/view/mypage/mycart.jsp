@@ -748,7 +748,7 @@ p {
 </body>
 <script type="text/javascript">
 $(document).on("click", "button[name='deleteCart']", function() {
-	var result = confirm("장바구니에서 삭제 담으시겠습니까?");
+	var result = confirm("장바구니에서 삭제 하시겠습니까?");
 	var isbn = $(this).attr("mycart_isbn");
 	var id = $(this).attr("mycart_id");
 	if (result) {
@@ -785,7 +785,18 @@ $(document).on("click", "button[name='movetoWish']", function() {
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
 			type : "post",
 			async : false, //동기: false, 비동기: ture
-			data : objParams
+			data : objParams,
+			success: function (response) {
+				if(response==true){
+					alert("위시리스트로 이동했습니다");
+				}else{
+					alert("위시리스트에 이미 있는 상품입니다");
+				}
+				
+			},
+			error: function (e) {
+				alert("통신실패" + e)
+			}
 		});
 		location.reload();
 	} else {
@@ -795,7 +806,7 @@ $(document).on("click", "button[name='movetoWish']", function() {
 
 function itemSum(frm, id){
 	var sum = 0;
-	var count = frm.chkbox.length;
+	//var count = frm.chkbox.length;
 	//전체선택 체크박스 클릭 
 	if (id==1) {
 		//만약 전체 선택 체크박스가 체크된상태일경우 
@@ -803,15 +814,24 @@ function itemSum(frm, id){
 			//해당화면에 전체 checkbox들을 체크해준다 
 			$("input[type=checkbox]").prop("checked",true);
 			var sum = 0;
-			var count = frm.chkbox.length;
-			for(var i=0; i < count; i++ ){
-				if( frm.chkbox[i].checked == true ){
-					sum += parseInt(frm.chkbox[i].value);
+			//var count = frm.chkbox.length;
+			if(frm.chkbox.length==undefined){
+				sum += parseInt(frm.chkbox.value); 
+				var count=1; 
+			}else{
+				var count = frm.chkbox.length;
+				console.log(count);
+				for(var i=0; i < count; i++ ){
+					if( frm.chkbox[i].checked == true ){
+						sum += parseInt(frm.chkbox[i].value);
+					}
 				}
 			}
+			
 			document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
 			document.getElementById("total_count").innerHTML=count;
+			console.log(count);
 		}else{
 			//해당화면에 모든 checkbox들의 체크를해제시킨다.
 			$("input[type=checkbox]").prop("checked",false);
@@ -828,15 +848,33 @@ function itemSum(frm, id){
 		}
 	}else{
 		var count2=0;
-		for(var i=0; i < count; i++ ){
-			if( frm.chkbox[i].checked == true ){
-				sum += parseInt(frm.chkbox[i].value);
-				count2+=1;
+		if(frm.chkbox.length==undefined){
+			if(frm.chkbox.checked == true){
+				sum += parseInt(frm.chkbox.value); 
+				var count=1; 
+			}else{
+				sum = 0; 
+				var count=0; 
+			}
+			
+			document.getElementById("total_sum").innerHTML=sum;
+			document.getElementById("total_sum2").innerHTML=sum;
+			document.getElementById("total_count").innerHTML=count;
+		}else{
+			var count = frm.chkbox.length;
+			for(var i=0; i < count; i++ ){
+				if( frm.chkbox[i].checked == true ){
+					sum += parseInt(frm.chkbox[i].value);
+					count2+=1;
+					console.log(sum);
 				}
+			}
+			document.getElementById("total_sum").innerHTML=sum;
+			document.getElementById("total_sum2").innerHTML=sum;
+			document.getElementById("total_count").innerHTML=count2;
 		}
-		document.getElementById("total_sum").innerHTML=sum;
-		document.getElementById("total_sum2").innerHTML=sum;
-		document.getElementById("total_count").innerHTML=count2;
+		
+		
 	};	
 }	
 </script>

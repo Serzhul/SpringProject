@@ -1078,7 +1078,18 @@ font-size: 30px;
     			contentType :    "application/x-www-form-urlencoded; charset=UTF-8",
     			type         :    "post",
     			async        :     false, //동기: false, 비동기: ture
-    			data        :    objParams
+    			data        :    objParams,
+    			success: function (response) {
+    				if(response==true){
+    					alert("장바구니에 담으셨습니다");
+    				}else{
+    					alert("장바구니에 이미 있는 상품입니다");
+    				}
+    				
+    			},
+    			error: function (e) {
+    				alert("통신실패" + e)
+    			}
     		});
     		
     	} else{

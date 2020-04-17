@@ -8,4 +8,9 @@
 		insert into mycart values
 		(#{mycart_id}, #{mycart_isbn})
 	</insert>
+	
+	<select id="checkMyCart" parameterType="hashMap" resultType="int">
+		select  count(id)   from mycart
+		where id=#{mycart_id} and isbn = #{mycart_isbn}
+	</select>
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.BookDataBean;
 import model.MemberDataBean;
@@ -212,8 +213,19 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="cart/addcart")
-	public void book_add_cart(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		mycartservice.insertMyCart(reviewMap);
+	@ResponseBody
+	public String book_add_cart(@RequestParam Map<String, Object> reviewMap, Model m) throws Exception{	
+		String mycartcheck="";
+		if(mycartservice.checkMyCart(reviewMap)>=1){
+			//장바구니에 이미 있으니 에러 띄움
+			mycartcheck="false";
+			
+		}else{
+			mycartservice.insertMyCart(reviewMap);
+			mycartcheck="true";
+		}
+		
+		return mycartcheck;
 	}
 	
 	@RequestMapping(value = "book_category")
