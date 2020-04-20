@@ -187,4 +187,15 @@ private final String namespace = "mybatis.MyPage";
 			sqlSession.close();
 		}
 	}
+	
+	public void insertMyLibrary(Map<String, Object> map) {
+		System.out.println(map.toString());
+		SqlSession sqlSession = ar.getSqlSessionFactory().openSession();
+		try {
+			sqlSession.insert(namespace + ".insertMyLibrary", map);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

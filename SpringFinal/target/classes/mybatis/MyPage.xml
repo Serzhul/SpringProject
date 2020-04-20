@@ -81,4 +81,9 @@
 		insert into mycart values
 		(#{mywish_id}, #{mywish_isbn})
 	</insert>
+	
+	<insert id="insertMyLibrary" parameterType="hashMap">
+		insert into library values
+		(#{mycart_id}, #{mycart_isbn})
+	</insert>
 </mapper>

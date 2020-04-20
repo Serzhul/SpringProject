@@ -3,11 +3,13 @@ package controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ import model.MemberDataBean;
 import model.MyCartDataBean;
 import model.MyWishDataBean;
 import mybatis.MyPageDao;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 
 @Controller
 @RequestMapping("/mypage/")
@@ -254,5 +259,29 @@ public class MyController {
 		m.addAttribute("str1", str1);
 		m.addAttribute("str2", str2);
 		return "mypage/viewer";
+	}
+	
+	@RequestMapping(value = "buy")
+	public void buy(@RequestParam String jsonData, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();	
+		MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
+		String id=memberid.getId();
+		
+		JSONArray array = JSONArray.fromObject(jsonData);
+		System.out.println("test"+array.toString());
+        
+	    
+	    for(int i=0; i<array.size(); i++){
+	    	Map<String, Object> insertLibrary = new HashMap<String, Object>();
+	        
+	        //JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.    
+	        JSONObject obj = (JSONObject)array.get(i);
+	        insertLibrary.put("mycart_isbn", obj.get("book_isbn"));
+	        insertLibrary.put("mycart_id", id);
+	        
+	        mypageservice.insertMyLibrary(insertLibrary);
+	        mypageservice.deleteCart(insertLibrary);
+	        //여기서 인서트 부르면 됨
+	    }
 	}
 }

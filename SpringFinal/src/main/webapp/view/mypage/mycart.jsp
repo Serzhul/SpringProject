@@ -610,10 +610,18 @@ p {
 							</span>
 						</p>
 					</div>
-					<div class="buy_button_wrapper">
-						<button class="blue_button buy_button">선택 구매하기</button>
-
-					</div>
+					<!-- <div class="buy_button_wrapper">
+						<button class="blue_button buy_button"
+						id="buy" name="buy"
+						>선택 구매하기</button>
+					</div> -->
+					<button type="button" id="buy" name="buy"
+					class="rui_button_white_30 rui_button_eink_black_line_30 book_button btn_move_to_wishlist js_btn_move_to_wishlist">
+					선택 구매</button>
+					
+					<!-- <button id="buy" name="buy">
+					선택 구매
+					</button> -->
 				</div>
 
 				</article>
@@ -657,7 +665,7 @@ p {
 
 											<div class="book_thumbnail">
 												<div class="thumbnail_checkbox">
-													<input name="chkbox" type="checkbox" value="${article.book_price }" onClick="itemSum(this.form,0);"
+													<input name="chkbox" type="checkbox" value="${article.book_price},${article.isbn}" onClick="itemSum(this.form,0);"
 													class="rui_checkbox_input">
 													<label class="rui_checkbox_label"> </label>
 												</div>
@@ -804,6 +812,45 @@ $(document).on("click", "button[name='movetoWish']", function() {
 	}
 });
 
+$(document).on("click", "button[name='buy']", function() {
+	var result = confirm("구매페이지로 이동하시겠습니까?");
+	var param=[];
+	if (result) {
+		$("input[name=chkbox]:checked").each(function(){
+			var test = $(this).val();
+			var test2=test.split(',');
+			var price=test2[0];
+			var isbn=test2[1];
+			
+			var data={
+					book_price : price,
+					book_isbn : isbn
+			}
+			
+			param.push(data);
+		});
+		
+		var jsonData=JSON.stringify(param);
+		jQuery.ajaxSettings.traditional = true;
+
+		$.ajax({
+			url : "buy",
+			dataType : "json",
+			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+			type : "post",
+			async : false, //동기: false, 비동기: ture
+			data : {"jsonData" : jsonData}
+		});
+		location.reload();
+	}else{
+		alert("취소하셨습니다");
+	}
+	
+});
+
+
+
+
 function itemSum(frm, id){
 	var sum = 0;
 	//var count = frm.chkbox.length;
@@ -820,9 +867,9 @@ function itemSum(frm, id){
 				var count=1; 
 			}else{
 				var count = frm.chkbox.length;
-				console.log(count);
 				for(var i=0; i < count; i++ ){
 					if( frm.chkbox[i].checked == true ){
+						console.log(frm.chkbox[i].value);
 						sum += parseInt(frm.chkbox[i].value);
 					}
 				}
@@ -877,5 +924,7 @@ function itemSum(frm, id){
 		
 	};	
 }	
+
+
 </script>
 </html>
