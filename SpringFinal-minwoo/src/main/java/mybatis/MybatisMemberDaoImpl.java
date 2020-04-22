@@ -39,9 +39,9 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 	@Override
 	public void insert(MemberDataBean member) {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		System.out.println("�쐞"+member.toString());
 		try {
 			String statement = namespace + ".insert";
-			member.setAuth("normal");
 			System.out.println(member.toString());
 			sqlSession.insert(statement, member);
 			sqlSession.commit();
@@ -154,6 +154,17 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 		try {
 			String statement = namespace + ".allByIdAndEmail";
 			return sqlSession.selectOne(statement, member);
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<MemberDataBean> selectEmail() throws Exception {
+		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		try {
+			String statement = namespace + ".selectEmail";
+			return sqlSession.selectList(statement);
 		} finally {
 			sqlSession.close();
 		}

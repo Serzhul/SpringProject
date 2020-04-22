@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -457,9 +458,7 @@ function removeClass(element, className) {
 	  window.onload = function() {
 		  
 		  var param = searchParam("book_m_category");
-		  
-		  
-			
+
 		  
 		  var atag = document.getElementsByClassName("main_category_button");
 		  for (var i = 0; i < atag.length; i++) {
@@ -469,7 +468,6 @@ function removeClass(element, className) {
 		    	addClass(atag[i], "opened");
 		    	break;
 		    }
-		   
 		    
 		    
 		  };
@@ -614,13 +612,17 @@ function removeClass(element, className) {
 			</div>
 			
 				<c:forEach var="article" items="${booklist}">
+				<c:set var="title" value="${article.book_subject}" />
+
 				<div class="book_macro_110 book_macro_column_5 book_macro_portrait">
 					<div class="book_thumbnail_wrapper">
 					<div class="book_thumbnail">
 						<div class="thumnail_image">
+						<a href="${pageContext.request.contextPath}/book/book_content?isbn=${article.isbn}">
 						<img
 						src="<%=request.getContextPath()%>/view/images/carousel/${article.isbn}.jpg"
 						class="book-list-thumbnail">
+						</a>
 						</div>
 					</div>
 					</div>
@@ -629,10 +631,21 @@ function removeClass(element, className) {
 					
 					<a class="title_link" href="${pageContext.request.contextPath}/book/book_content?isbn=${article.isbn}">
 						
+						
+						
+						
 						<span class="title_text js_highlight_helper">
+						<c:if test="${fn:length(title)<=10}">
 							${article.book_subject }
+						</c:if>
+						<c:if test="${fn:length(title)>10}">
+							${fn:substring(title, 0, 10)}...
+						</c:if>
 						</span></a>
+						
+						
 						</h3>
+						
 					
 						<p class="book_metadata author">
 						<a>${article.book_writer }</a></p>

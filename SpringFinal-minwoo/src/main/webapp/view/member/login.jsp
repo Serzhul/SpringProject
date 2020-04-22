@@ -62,37 +62,9 @@ button[type="button"] {
 }
 </style>
 <head>
-<title>Login V5</title>
+<title>로그인 페이지</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-<link rel="icon" type="image/png"
-	href="<%=request.getContextPath()%>/view/images/icons/favicon.ico" />
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/view/css/util.css">
 <link rel="stylesheet" type="text/css"
@@ -116,9 +88,8 @@ button[type="button"] {
 					<div class="wrap-input100 validate-input"
 						data-validate="아이디를 입력해주세요">
 						<c:if test="${errors.badEmail }">이미 가입한 이메일이 있습니다.</c:if>
-						<c:if test="${errors.alreadyMember}">이미 네이버 아이디로 가입하셨습니다</c:if>
 						<input class="input100" type="text" id="id" name="id"
-							value="${param.id}"> <span class="focus-input100"></span>
+							value="${param.id}" required> <span class="focus-input100"></span>
 					</div>
 					<c:if test="${errors.idOrPwNotMatch }">	아이디나 암호가 일치하지 않습니다.</c:if>
 
@@ -129,16 +100,19 @@ button[type="button"] {
 					<div class="wrap-input100 validate-input"
 						data-validate="비밀번호를 입력하세요 ">
 						<input class="input100" type="password" id="pw" name="pw"
-							value="${param.pw}"> <span class="focus-input100"></span>
+							value="${param.pw}" required> <span class="focus-input100"></span>
 					</div>
 
 					<br>
 				<div style="margin-top: 20px">
-					<a href="${url}"> <img width="223" height="50"
+					<a href="${url}"> <img width="225" height="50" align="top"
 						src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
-					<a href="${url}"> <img width="223" height="50" style="margin-left: 5px"
-						src="<%=request.getContextPath()%>/images/kakao_login_btn_medium_narrow.png" /></a>
 				</div>
+			  <div style="margin-top: 20px">
+				 <a href="https://kauth.kakao.com/oauth/authorize?client_id=3ef8d9de8d6e54b2b36e9a5c816d413d&redirect_uri=http://localhost:8082/SpringFinal/member/kakao_login&response_type=code">
+                       <img width="225" height="50" align="top" src="${pageContext.request.contextPath}/images/kakao_login_btn_medium_narrow.png">
+					</a>
+					</div>
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn" type="submit">로그인하기</button>
 					</div>
@@ -151,38 +125,9 @@ button[type="button"] {
 					</div>
 				</form>
 				<br>
-
-			<!-- 	<div id="" style="text-align: center">
-				 <img src="/img/kakao_account_login_btn_medium_wide_ov.png">
-				</div> -->
 			</div>
 		</div>
 	</div>
-
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/animsition/js/animsition.min.js"></script>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/bootstrap/js/popper.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/select2/select2.min.js"></script>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/daterangepicker/moment.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.js"></script>
-	<!--===============================================================================================-->
-	<script
-		src="<%=request.getContextPath()%>/view/vendor/countdowntime/countdowntime.js"></script>
-	<!--===============================================================================================-->
-	<%-- 	<script src="<%=request.getContextPath()%>/view/js/main.js"></script> --%>
 
 </body>
 
@@ -200,13 +145,6 @@ button[type="button"] {
 		form.action = "${pageContext.request.contextPath}/member/login_2"
 		form.submit();
 	}
-
-	$(function() {
-		$("#loginBtn").click(function() {
-			location.href = '${pageContext.request.contextPath}/member/login';
-		})
-	})
-	// 회원가입
 	$(function() {
 		$("#joinBtn").click(function() {
 			location.href = '${pageContext.request.contextPath}/member/join';

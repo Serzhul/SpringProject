@@ -84,7 +84,7 @@ button[type="button"] {
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
 </head>
-<title>아이디 찾기</title>
+<title>아이디 찾기 결과</title>
 </head>
 <body>
 	<div class="limiter">
@@ -96,7 +96,7 @@ button[type="button"] {
 						아이디 찾기 검색 결과
 					</span>
 					<div  class="login100-form-title p-b-53" style="text-align: center">
-							<h3>${ id }</h3>
+							<h3>${ member.id }</h3>
 					</div>
 						<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit" id="loginBtn">

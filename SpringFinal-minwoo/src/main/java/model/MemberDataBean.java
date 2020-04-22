@@ -153,15 +153,6 @@ public class MemberDataBean implements Serializable {
 		this.auth = "Noraml";
 	}
 
-	public MemberDataBean(String id, String pw, String email, String name, String birth, String gender, String auth) {
-		this.id = id;
-		this.pw = pw;
-		this.email = email;
-		this.name = name;
-		this.birth = birth;
-		this.gender = gender;
-		this.auth = "Noraml";
-	}
 	// 컨트롤러에서 join할때 쓰이는 생성자
 /*	public MemberDataBean(String id, String pw, String email, String name, String birth, String gender) {
 		this.id = id;

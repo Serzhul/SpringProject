@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.BookDataBean;
 import model.MemberDataBean;
@@ -137,48 +138,56 @@ public class BookController {
 		m2 = (MemberDataBean)session.getAttribute("member");	
 		
 		//리뷰 상태 저장하는 변수
-		String reviewcheck="";
+		String reviewcheck="no";
 		
 		//위시리스트 상태 저장하는 변수m2.getId와 isbn을 이용하여 체크
 		String wishcheck="no";
-		int wish=wishservice.getwishcheck(m2.getId(), isbn);		
-		System.out.println(wish);
-		if(wish==0){
-			wishcheck="no";
-		}else{
-			wishcheck="yes";
-		}
-		
-		BookDataBean book_content_article=service.getBookInfo(isbn);
-		List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
-		for(int i=0; i<reviewList.size(); i++){
-			String useisbn=reviewList.get(i).getIsbn();
-			String useid=reviewList.get(i).getId();
-			reviewList.get(i).setLike_cnt(reviewlikeservice.getReviewLikeCnt(useisbn, useid));//리뷰 좋아요 개수 체크
-			reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId());//리뷰를 했는지체크 하는 메소드
-			
-			if(reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId()).isEmpty()){
-				//리뷰에 좋아요 했을때 상태를 저장함
-				reviewList.get(i).setWritercheck("yes");
+		if(m2 != null){
+			int wish=wishservice.getwishcheck(m2.getId(), isbn);	
+			if(wish==0){
+				wishcheck="no";
 			}else{
-				//리뷰에 안했을때 상태를 저장함
-				reviewList.get(i).setWritercheck("no");
+				wishcheck="yes";
 			}
 			
-			//내가 쓴 리뷰가 존재하는지 체크
-			if((useisbn.equals(isbn)) && (useid.equals(m2.getId()))){
-				reviewcheck="yes";
-			}else{
+			List<ReviewDataBean> reviewList = reviewservice.getReviewList(isbn);
+			for(int i=0; i<reviewList.size(); i++){
+				String useisbn=reviewList.get(i).getIsbn();
+				String useid=reviewList.get(i).getId();
+				reviewList.get(i).setLike_cnt(reviewlikeservice.getReviewLikeCnt(useisbn, useid));//리뷰 좋아요 개수 체크
+				reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId());//리뷰를 했는지체크 하는 메소드
+				
+				if(reviewlikeservice.getReviewLikeCheck(reviewList.get(i).getNum(), m2.getId()).isEmpty()){
+					//리뷰에 좋아요 했을때 상태를 저장함
+					reviewList.get(i).setWritercheck("yes");
+				}else{
+					//리뷰에 안했을때 상태를 저장함
+					reviewList.get(i).setWritercheck("no");
+				}
+				
+				//내가 쓴 리뷰가 존재하는지 체크
+				if((useisbn.equals(isbn)) && (useid.equals(m2.getId()))){
+					reviewcheck="yes";
+				}else{
+					reviewcheck="no";
+				}
+			}
+			
+			if(reviewList.isEmpty()) {
 				reviewcheck="no";
 			}
+			
+			m.addAttribute("reviewList", reviewList);
 		}
 		
-		if(reviewList.isEmpty()) {
-			reviewcheck="no";
-		}
 		
+		
+		BookDataBean book_content_article=service.getBookInfo(isbn);
+		
+		
+		System.out.println("reviewcheck"+reviewcheck);
 		m.addAttribute("book_content_article", book_content_article);
-		m.addAttribute("reviewList", reviewList);
+		
 		m.addAttribute("reviewcheck",reviewcheck);
 		m.addAttribute("wishcheck", wishcheck);
 		
@@ -211,8 +220,19 @@ public class BookController {
 	}
 	
 	@RequestMapping(value="cart/addcart")
-	public void book_add_cart(@RequestParam Map<String, Object> reviewMap) throws Exception{
-		mycartservice.insertMyCart(reviewMap);
+	@ResponseBody
+	public String book_add_cart(@RequestParam Map<String, Object> reviewMap, Model m) throws Exception{	
+		String mycartcheck="";
+		if(mycartservice.checkMyCart(reviewMap)>=1){
+			//장바구니에 이미 있으니 에러 띄움
+			mycartcheck="false";
+			
+		}else{
+			mycartservice.insertMyCart(reviewMap);
+			mycartcheck="true";
+		}
+		
+		return mycartcheck;
 	}
 	
 	@RequestMapping(value = "book_category")

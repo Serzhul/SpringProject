@@ -84,7 +84,7 @@ button[type="button"] {
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
 </head>
-<title>아이디 찾기</title>
+<title>네이버 아이디 로그인</title>
 </head>
 <body>
 	<div class="limiter">
@@ -93,7 +93,7 @@ button[type="button"] {
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form>
 					<span class="login100-form-title p-b-53">
-						네이버로 소셜 로그인이 완료되었습니다.
+						소셜 로그인이 완료되었습니다.
 					</span>
 						<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="button" id="mainBtn">
@@ -104,7 +104,7 @@ button[type="button"] {
 			</div>
 		</div>
 	</div>
-	<meta http-equiv="Refresh" content="1; url=${pageContext.request.contextPath}/member/main">
+	<meta http-equiv="Refresh" content="1; url=${pageContext.request.contextPath}/main/index">
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 

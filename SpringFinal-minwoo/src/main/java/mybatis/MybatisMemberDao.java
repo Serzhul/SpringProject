@@ -6,25 +6,27 @@ import model.MemberDataBean;
 
 public interface MybatisMemberDao {
 
-	// 아이디 검색
+	// �븘�씠�뵒 寃��깋
 	public MemberDataBean selectById(String id) throws Exception;
 
-	// 이메일 검색
+	// �씠硫붿씪 寃��깋
 	public MemberDataBean selectByEmail(String Email) throws Exception;
 
-	// 회원 가입
+	
+	// �쉶�썝 媛��엯
 	public void insert(MemberDataBean member) throws Exception;
 
-	// 정보 수정
+	// �젙蹂� �닔�젙
 	public void update(MemberDataBean member) throws Exception;
 
-	//회원 탈퇴
+	//�쉶�썝 �깉�눜
 	public void delete(MemberDataBean member) throws Exception;
 	
-	//회원 리스트
+	//�쉶�썝 由ъ뒪�듃
 	public List<MemberDataBean> memberList() throws Exception;
-
-	//아이디 중복 체크
+	// 이메일
+	public List<MemberDataBean> selectEmail() throws Exception;
+	//�븘�씠�뵒 以묐났 泥댄겕
 	public String idCheck(String id) throws Exception ;
 	
 	public String find_id(String email) throws Exception;

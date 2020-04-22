@@ -59,7 +59,7 @@ button[type="button"] {
 }
 </style>
 <head>
-	<title>Login V5</title>
+	<title>아이디 찾기 페이지</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -105,7 +105,7 @@ button[type="button"] {
 						<input class="input100" type="email"  name="email" id="email"  value="${param.email}" required>
 						<span class="focus-input100"></span>	
 					</div>
-						<c:if test="${errors.emailNotFound }">존재하지 않는 회원입니다</c:if>
+						<c:if test="${errors.noMember }">존재하지 않는 회원입니다</c:if>
 					<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit">
 							아이디 찾기

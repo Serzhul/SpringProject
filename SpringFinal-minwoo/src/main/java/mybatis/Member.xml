@@ -4,11 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.Member">
 	<cache />
-	<select id="selectById" parameterType="String" resultType="Member">
+	<select id="selectById" parameterType="Member" resultType="Member">
 		select * from member where id = #{id}
 	</select>
 
-	<select id="selectByEmail" parameterType="String" resultType="Member">
+	<select id="selectByEmail" parameterType="Member" resultType="Member">
 		select * from member where email = #{email}
 	</select>
 
@@ -24,6 +24,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where id = #{id}
 	</update>
 	<select id="memberList" resultType="Member">
+		select * from member
+	</select>
+	
+	<select id="selectEmail" resultType="Member">
 		select * from member
 	</select>
 	<!-- 아이디 삭제 -->

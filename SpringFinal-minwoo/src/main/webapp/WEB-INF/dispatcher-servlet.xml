@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -9,85 +10,83 @@
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
-
+	
+	
 	<mvc:annotation-driven />
-
+	
 	<mvc:default-servlet-handler />
 
-	<mvc:view-controller path="/index" view-name="index" />
-
-	<context:component-scan base-package="controller, service" />
-
+	<mvc:view-controller path="/index" view-name="index" />	
+	
+	<context:component-scan base-package="controller, service"/>
+	
 	<!-- Tiles -->
-	<bean id="tilesConfigurer"
-		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-		<property name="definitions">
-			<list>
-				<value>/WEB-INF/tiles/tiles.xml</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="tilesViewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.tiles3.TilesView" />
-		<property name="order" value="1" />
-	</bean>
-
-
-
+    <bean id="tilesConfigurer" 
+                class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles/tiles.xml</value>
+            </list>
+        </property>
+    </bean>
+            
+  <bean id="tilesViewResolver" 
+                class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" 
+                        value="org.springframework.web.servlet.view.tiles3.TilesView" />
+        <property name="order" value="1" />
+    </bean>   
+	
+	
 	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/view/" />
-		<property name="suffix" value=".jsp" />
-		<property name="order" value="2" />
+	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/view/" />
+	<property name="suffix" value=".jsp" />
+	 <property name="order" value="2" />
 	</bean>
-
-
+	
+	
 	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="utf-8" />
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+	
+	<mvc:resources mapping="/images/**" location="/images/, /WEB-INF/resources/" cache-period="60" />
+	
+	<bean class="mybatis.BookDao" >			
+	</bean> 
+	
+	<bean class="mybatis.ReviewDao" >		
 	</bean>
-
-	<mvc:resources mapping="/images/**" location="/images/, /WEB-INF/resources/"
-		cache-period="60" />
-
-	<bean class="mybatis.BookDao">
+	
+	<bean class="mybatis.ReviewLikeDao" >		
 	</bean>
-
-	<bean class="mybatis.ReviewDao">
+	
+	<bean class="mybatis.BoardDao" >		
 	</bean>
-
-	<bean class="mybatis.ReviewLikeDao">
+	
+	<bean class="mybatis.WishDao" >		
 	</bean>
-
-	<bean class="mybatis.BoardDao">
+	
+	<bean class="mybatis.MyCartDao" >		
 	</bean>
-
-	<bean class="mybatis.WishDao">
-	</bean>
-
-	<bean class="mybatis.MyCartDao">
-	</bean>
-
+	
 	<bean class="mybatis.MyPageDao">
 	</bean>
-
-	<bean class="mybatis.MybatisMemberDaoImpl">
-
+	
+	<bean class="mybatis.MybatisMemberDaoImpl" >
+		
 	</bean>
-
+	
 	<bean class="mybatis.AbstractRepository">
-		<property name="dbname" value="Oracle" />
+	<property name="dbname" value="Oracle" />
 	</bean>
-
+	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" /> <!-- smtp 서버명 -->
 		<property name="port" value="587" /> <!-- 포트 번호 -->
-		<property name="username" value="---" /> <!-- id(일반적인 id가 아니니 확인 필요) -->
-		<property name="password" value="---" /> <!-- 비밀번호 -->
+		<property name="username" value="" /> <!-- id(일반적인 id가 아니니 확인 필요) -->
+		<property name="password" value="!" /> <!-- 비밀번호 -->
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
@@ -102,16 +101,18 @@
 	</bean>
 	<bean id="emailService" class="service.EmailService">
 	</bean>
+	
+	<bean id="kakaoAPI" class="service.KakaoAPI">
+	</bean>
+	
 
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<bean id="NaverLoginBO" class="test.NaverLoginBO" />
 
+	
+	
 
-
-
-
-
-
+	
 </beans>
 	
 	

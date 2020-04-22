@@ -84,7 +84,7 @@ button[type="button"] {
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
 </head>
-<title>비밀번호 찾기</title>
+<title>비밀번호 찾기 결과</title>
 </head>
 <body>
 	<div class="limiter">

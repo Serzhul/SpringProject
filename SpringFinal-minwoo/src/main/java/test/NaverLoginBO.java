@@ -13,64 +13,64 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class NaverLoginBO {
-	/* 인증 요청문을 구성하는 파라미터 */
-	// client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디
-	// response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
-	// redirect_uri: 네이버 로그인 인증의 결과를 전달받을 콜백 URL(URL 인코딩). 애플리케이션을 등록할 때
-	// Callback URL에 설정한 정보입니다.
-	// state: 애플리케이션이 생성한 상태 토큰
+	/* �씤利� �슂泥�臾몄쓣 援ъ꽦�븯�뒗 �뙆�씪誘명꽣 */
+	// client_id: �븷�뵆由ъ��씠�뀡 �벑濡� �썑 諛쒓툒諛쏆� �겢�씪�씠�뼵�듃 �븘�씠�뵒
+	// response_type: �씤利� 怨쇱젙�뿉 ���븳 援щ텇媛�. code濡� 媛믪씠 怨좎젙�뤌 �엳�뒿�땲�떎.
+	// redirect_uri: �꽕�씠踰� 濡쒓렇�씤 �씤利앹쓽 寃곌낵瑜� �쟾�떖諛쏆쓣 肄쒕갚 URL(URL �씤肄붾뵫). �븷�뵆由ъ��씠�뀡�쓣 �벑濡앺븷 �븣
+	// Callback URL�뿉 �꽕�젙�븳 �젙蹂댁엯�땲�떎.
+	// state: �븷�뵆由ъ��씠�뀡�씠 �깮�꽦�븳 �긽�깭 �넗�겙
 	private final static String CLIENT_ID = "2iqXcbPWigTlUgdKpAwD";
-	private final static String CLIENT_SECRET = "----";
-	private final static String REDIRECT_URI = "http://127.0.0.1:8082/SpringFinal/member/callback";
+	private final static String CLIENT_SECRET = "PVfqUzATGw";
+	private final static String REDIRECT_URI = "http://localhost:8082/SpringFinal/member/callback";
 	private final static String SESSION_STATE = "oauth_state";
-	/* 프로필 조회 API URL */
+	/* �봽濡쒗븘 議고쉶 API URL */
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
 
-	/* 네이버 아이디로 인증 URL 생성 Method */
-	/* 네이버 아이디로 인증 URL 생성 Method */
+	/* �꽕�씠踰� �븘�씠�뵒濡� �씤利� URL �깮�꽦 Method */
+	/* �꽕�씠踰� �븘�씠�뵒濡� �씤利� URL �깮�꽦 Method */
 	public String getAuthorizationUrl(HttpSession session) {
-		/* 세션 유효성 검증을 위하여 난수를 생성 */
+		/* �꽭�뀡 �쑀�슚�꽦 寃�利앹쓣 �쐞�븯�뿬 �궃�닔瑜� �깮�꽦 */
 		String state = generateRandomString();
-		/* 생성한 난수 값을 session에 저장 */
+		/* �깮�꽦�븳 �궃�닔 媛믪쓣 session�뿉 ���옣 */
 		setSession(session, state);
-		/* Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네아로 인증 URL 생성 */
+		/* Scribe�뿉�꽌 �젣怨듯븯�뒗 �씤利� URL �깮�꽦 湲곕뒫�쓣 �씠�슜�븯�뿬 �꽕�븘濡� �씤利� URL �깮�꽦 */
 		OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
-				.callback(REDIRECT_URI).state(state) // 앞서 생성한 난수값을 인증 URL생성시
-														// 사용함
+				.callback(REDIRECT_URI).state(state) // �븵�꽌 �깮�꽦�븳 �궃�닔媛믪쓣 �씤利� URL�깮�꽦�떆
+														// �궗�슜�븿
 				.build(NaverLoginApi.instance());
 		return oauthService.getAuthorizationUrl();
 	}
 
-	/* 네이버아이디로 Callback 처리 및 AccessToken 획득 Method */
+	/* �꽕�씠踰꾩븘�씠�뵒濡� Callback 泥섎━ 諛� AccessToken �쉷�뱷 Method */
 	public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException {
-		/* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
+		/* Callback�쑝濡� �쟾�떖諛쏆� �꽭�꽑寃�利앹슜 �궃�닔媛믨낵 �꽭�뀡�뿉 ���옣�릺�뼱�엳�뒗 媛믪씠 �씪移섑븯�뒗吏� �솗�씤 */
 		String sessionState = getSession(session);
 		if (StringUtils.pathEquals(sessionState, state)) {
 			OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
 					.callback(REDIRECT_URI).state(state).build(NaverLoginApi.instance());
-			/* Scribe에서 제공하는 AccessToken 획득 기능으로 네아로 Access Token을 획득 */
+			/* Scribe�뿉�꽌 �젣怨듯븯�뒗 AccessToken �쉷�뱷 湲곕뒫�쑝濡� �꽕�븘濡� Access Token�쓣 �쉷�뱷 */
 			OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
 			return accessToken;
 		}
 		return null;
 	}
 
-	/* 세션 유효성 검증을 위한 난수 생성기 */
+	/* �꽭�뀡 �쑀�슚�꽦 寃�利앹쓣 �쐞�븳 �궃�닔 �깮�꽦湲� */
 	private String generateRandomString() {
 		return UUID.randomUUID().toString();
 	}
 
-	/* http session에 데이터 저장 */
+	/* http session�뿉 �뜲�씠�꽣 ���옣 */
 	private void setSession(HttpSession session, String state) {
 		session.setAttribute(SESSION_STATE, state);
 	}
 
-	/* http session에서 데이터 가져오기 */
+	/* http session�뿉�꽌 �뜲�씠�꽣 媛��졇�삤湲� */
 	private String getSession(HttpSession session) {
 		return (String) session.getAttribute(SESSION_STATE);
 	}
 
-	/* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
+	/* Access Token�쓣 �씠�슜�븯�뿬 �꽕�씠踰� �궗�슜�옄 �봽濡쒗븘 API瑜� �샇異� */
 	public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException {
 		OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
 				.callback(REDIRECT_URI).build(NaverLoginApi.instance());

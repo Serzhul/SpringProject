@@ -47,18 +47,20 @@
 	</select>
 
 	<select id="getBestReview" resultType="Review">
-		select content, book_subject, review.isbn, like_cnt
-	from review, book, (select count(num) like_cnt, isbn from reviewlike group by isbn) b
+	select content, book_subject, review.isbn, like_cnt
+	from review, book, (select count(num) like_cnt, isbn, num from reviewlike group by isbn,num) b
 	where book.isbn=review.isbn
 	and b.isbn=book.isbn
+  	and review.num = b.num
 	and like_cnt>=2
 	</select>
 
 	<select id="getBestReviewContent" resultType="String">
-		select content
-	from review, book, (select count(num) like_cnt, isbn from reviewlike group by isbn) b
+	select content
+	from review, book, (select count(num) like_cnt, isbn, num from reviewlike group by isbn, num) b
 	where book.isbn=review.isbn
 	and b.isbn=book.isbn
+	and review.num = b.num
 	and like_cnt>=2
 	</select>
 	
@@ -67,6 +69,13 @@
         (#{isbn},#{book_m_category},#{book_s_category},#{book_subject},#{book_writer},
          #{book_pday},#{book_summary},#{book_filename},#{book_filesize},#{book_price})
     </insert>
+    
+    <select id="getBookSubject" resultType="String">
+	select content
+	from book;
+	</select>
+    
+    
 
 
 

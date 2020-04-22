@@ -25,6 +25,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 
 import excep.DuplicateEmailException;
 import excep.DuplicateldException;
+import excep.DuplicateldException2;
 import excep.InvalidPasswordException;
 import excep.LoginFailException;
 import excep.MemberNotFoundException;
@@ -33,6 +34,7 @@ import mybatis.MybatisMemberDaoImpl;
 import pack.EmailDTO;
 import service.EmailService;
 import service.SignUpService;
+import service.KakaoAPI;
 import test.NaverLoginBO;
 
 @Controller
@@ -44,11 +46,14 @@ public class MemberController {
 
 	@Autowired
 	SignUpService service;
+	
+	@Autowired
+	KakaoAPI kakao;
 
 	@ModelAttribute
-	// ë©”ì†Œë“œì— ì´ê²Œ ìˆìœ¼ë©´ í•´ë‹¹ë˜ëŠ” ë©”ì†Œë“œì˜ ë¦¬í„´íƒ€ì…ì„ ë¦¬í€˜ìŠ¤íŠ¸ë¡œ ë³´ë‚¸ë‹¤?
-	// voidë©´ ì‹¤í–‰ì€ í•˜ì§€ë§Œ ë³´ë‚´ì§€ ì•Šì•„
-	public void initProcess(HttpServletRequest request) {
+	// ¸Ş¼Òµå¿¡ ÀÌ°Ô ÀÖÀ¸¸é ÇØ´çµÇ´Â ¸Ş¼ÒµåÀÇ ¸®ÅÏÅ¸ÀÔÀ» ¸®Äù½ºÆ®·Î º¸³½´Ù?
+	// void¸é ½ÇÇàÀº ÇÏÁö¸¸ º¸³»Áö ¾Ê¾Æ
+	public void initProcess() {
 	}
 
 	@RequestMapping(value = "main", method = RequestMethod.GET)
@@ -56,36 +61,30 @@ public class MemberController {
 		return "main/index";
 	}
 
-	// íšŒì›ê°€ì… í˜ì´ì§€ í´ë¦­
+	// È¸¿ø°¡ÀÔ ÆäÀÌÁö Å¬¸¯
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String member_joinForm() throws Exception {
 		return "member/join_form";
 	}
 
-	// producesëŠ” ajaxê°€ ë°ì´í„° ë„˜ê²¨ë°›ì„ë•Œ ê¹¨ì§ ë°©ì§€
+	// produces´Â ajax°¡ µ¥ÀÌÅÍ ³Ñ°Ü¹ŞÀ»¶§ ±úÁü ¹æÁö
 	@RequestMapping(value = "id_check", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String idCheck(HttpServletRequest request) {
-
 		String id = request.getParameter("id");
 		String result = service.idCheck(id);
 		return result;
 	}
 
-	// íšŒì›ê°€ì… ìš”ì²­
+	// È¸¿ø°¡ÀÔ ¿äÃ»
 	@RequestMapping(value = "join", method = RequestMethod.POST)
 	public String member_joinPro(MemberDataBean newMember, Model model, HttpServletRequest req) throws Exception {
-		// Modelì€ ë‚´ê°€ ì•„ë˜ì²˜ë¦¼ addAttributeë„ í•´ ì¤˜ì•¼í•˜ê³ 
-		// @ModelAttritubeëŠ” ì¨ ì£¼ë©´ ê·¸ëŒ€ë¡œ ë°”ë¡œ ë‚ ë¼ê°„ë‹¤.
-		System.out.println("1" + newMember.toString());
+		// ModelÀº ³»°¡ ¾Æ·¡Ã³¸² addAttributeµµ ÇØ Áà¾ßÇÏ°í
+		// @ModelAttritube´Â ½á ÁÖ¸é ±×´ë·Î ¹Ù·Î ³¯¶ó°£´Ù.
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-
-		newMember.vaildate(errors);
-
 		if (!errors.isEmpty())
 			return "member/join_form";
-
 		try {
 			MemberDataBean memberId = dbPro.selectById(newMember.getId());
 			MemberDataBean memberEmail = dbPro.selectByEmail(newMember.getEmail());
@@ -94,14 +93,11 @@ public class MemberController {
 			if (memberEmail != null)
 				throw new DuplicateEmailException();
 			dbPro.insert(newMember);
-
 			MemberDataBean joinUser = new MemberDataBean(newMember.getId(), newMember.getName(), newMember.getAuth());
 			req.getSession().setAttribute("member", joinUser);
-
-			model.addAttribute("message", "í™˜ì˜í•©ë‹ˆë‹¤ :D");
+			model.addAttribute("message", "È¯¿µÇÕ´Ï´Ù :D");
 			model.addAttribute("url", "main");
 			return "alert";
-
 		} catch (DuplicateldException e) {
 			errors.put("duplicateId", Boolean.TRUE);
 			return "member/joinform";
@@ -111,74 +107,59 @@ public class MemberController {
 		}
 	}
 
-	// ë¡œê·¸ì¸ í™”ë©´
+	// ·Î±×ÀÎ È­¸é
 	@RequestMapping(value = "login_2")
 	public String member_login() throws Exception {
 		return "redirect:/member/login";
 	}
 
-	// ë¡œê·¸ì¸ ìš”ì²­
+	// ·Î±×ÀÎ ¿äÃ»
 	@RequestMapping(value = "login_2", method = RequestMethod.POST)
 	public String member_loginPro(MemberDataBean inputData, Model model, HttpServletRequest req) throws Exception {
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-
-		if (inputData.getId() == null || inputData.getId().isEmpty())
-			errors.put("id", Boolean.TRUE);
-		if (inputData.getPw() == null || inputData.getPw().isEmpty())
-			errors.put("pw", Boolean.TRUE);
-		if (!errors.isEmpty())
-			return "redirect:/member/login";
 		try {
-			// ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
+			// µ¥ÀÌÅÍ °¡Á®¿À±â
 			MemberDataBean member = dbPro.selectById(inputData.getId());
 			if (member == null) {
 				throw new LoginFailException();
 			}
-			System.out.println("ì•„ì´ë””" + member.getId());
-			System.out.println("ë¹„ë°€ë²ˆí˜¸" + member.getPw());
 			if (!inputData.matchPassword(member.getPw()))
 				throw new LoginFailException();
 			MemberDataBean loginUser = new MemberDataBean(member.getId(), member.getName(), member.getAuth());
 			req.getSession().setAttribute("member", loginUser);
-
 		} catch (LoginFailException e) {
 			errors.put("idOrPwNotMatch", Boolean.TRUE);
-			return "redirect:/member/login";
+			return "member/login";
 		}
-		model.addAttribute("message", "ë¡œê·¸ì¸ ì„±ê³µ");
-		model.addAttribute("url", "main");
 		return "redirect:/main/index";
 	}
 
-	// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°
+	// ºñ¹Ğ¹øÈ£ Ã£±â
 	@RequestMapping(value = "find_pw", method = RequestMethod.GET)
 	public String member_findPw() throws Exception {
 		return "member/find_pw";
 	}
 
-	// ë¡œê·¸ì•„ì›ƒ
+	// ·Î±×¾Æ¿ô
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String member_logout(HttpServletRequest req, Model model) throws Exception {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			session.invalidate();
+		  
 		}
-
 		return "main/index";
 	}
 
-	// íšŒì› íƒˆí‡´
+	// È¸¿ø Å»Åğ
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String member_delete(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("member");
-
 		try {
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
-
 			req.setAttribute("myInfo", myInfo);
 			return "member/delete";
-
 		} catch (MemberNotFoundException e) {
 			req.getServletContext().log("not login", e);
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -186,7 +167,7 @@ public class MemberController {
 		}
 	}
 
-	// íšŒì›” íƒˆí‡´
+	// È¸¿ø Å»Åğ
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public String member_deletePro(MemberDataBean inputData, Model model, HttpSession session, RedirectAttributes rttr)
 			throws Exception {
@@ -195,21 +176,12 @@ public class MemberController {
 		model.addAttribute("errors", errors);
 		try {
 			MemberDataBean deletememberId = dbPro.selectById(inputData.getId());
-			System.out.println("ì´ê±´ DBì— ìˆëŠ” ì•„ì´ë””" + deletememberId.getId());
-			System.out.println("ì´ê±´ DBì— ìˆëŠ” íŒ¨ìŠ¤ì›Œë“œ" + deletememberId.getPw());
-			//
-			System.out.println("ì´ê±´ íˆë“  ì…ë ¥ ê°’ ì•„ì´ë””" + inputData.getId());
-			System.out.println("ì´ê±´ ì‚¬ìš©ì ì…ë ¥ ê°’ íŒ¨ìŠ¤ì›Œë“œ" + inputData.getPw());
 			if ((deletememberId.getId().equals(inputData.getId()))
 					&& (deletememberId.getPw().equals(inputData.getPw()))) {
-				System.out.println("ì‚­ì œê°€ ë  ê±°ì—ìœ ");
 				dbPro.delete(inputData);
 				session.invalidate();
-				model.addAttribute("message", "ì•ˆë…•íˆê°€ì„¸ìš”...");
-				model.addAttribute("url", "main");
-				return "alert";
+				return "redirect:/main/index";
 			} else if (!deletememberId.getPw().equals(inputData.getPw())) {
-				System.out.println("ë¹„ë°€ë²ˆí˜¸ ì—ëŸ¬ì§€ë¡±");
 				errors.put("wrongPw", Boolean.TRUE);
 				return "member/delete";
 			} else if (inputData.getPw() == null) {
@@ -221,7 +193,7 @@ public class MemberController {
 			return "member/delete";
 		}
 	}
-	// ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ í˜ì´ì§€ í´ë¦­
+	// ºñ¹Ğ¹øÈ£ º¯°æ ÆäÀÌÁö Å¬¸¯
 
 	@RequestMapping(value = "change_pw")
 	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -242,121 +214,105 @@ public class MemberController {
 
 	}
 
-	// ë¹„ë°€ë²ˆí˜¸ ë³€ê²½
+	// ºñ¹Ğ¹øÈ£ º¯°æ
 	@RequestMapping(value = "change_pw", method = RequestMethod.POST)
-	public String member_changePwPro(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
+	public String member_changePwPro(MemberDataBean inputData, Model model) throws Exception {
 
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-
-		if (inputData.getPw() == null || inputData.getPw().isEmpty())
-			errors.put("curPwd", Boolean.TRUE);
-		if (inputData.getNewPw() == null || inputData.getNewPw().isEmpty())
-			errors.put("newPwd", Boolean.TRUE);
-		if (!errors.isEmpty())
-			return "member/change_pw";
-
 		try {
 			MemberDataBean member = dbPro.selectById(inputData.getId());
-			if (member == null) {
-				throw new MemberNotFoundException();
-			}
-			System.out.println("dbì— ìˆëŠ” ë¹„ë°€ë²ˆí˜¸" + member.getPw());
-			System.out.println("ì‚¬ìš©ìê°€ ì…ë ¥í•œ í˜„ì¬ pw " + inputData.getPw());
-			System.out.println("ì‚¬ìš©ìê°€ ì…ë ¥í•œ ìƒˆë¡œìš´ pw " + inputData.getNewPw());
-
-			if (!inputData.getPw().equals(member.getPw())) {
-				System.out.println("ë¹„ë°€ë²ˆí˜¸ê°€ ë§ì§€ ì•Šì•„ìœ !");
-				errors.put("badCurPwd", Boolean.TRUE);
+			if (inputData.getPw().equals(member.getPw())) {
 				throw new InvalidPasswordException();
 			} else if (inputData.getNewPw().equals(member.getId())) {
-				errors.put("wrongPw", Boolean.TRUE);
-				System.out.println("ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ê°€ ê°™ì„ ìˆ˜ ì—†ìŠˆ");
-				throw new InvalidPasswordException();
-			} else if (inputData.getPw().equals(member.getPw())) {
-				System.out.println("ì‹¤í–‰ëœë‹¤ì•„ì•„ì•„");
+				throw new DuplicateldException();
+			} else if (!inputData.getPw().equals(member.getPw())) {
+				throw new DuplicateldException2();
+			} else {
 				member.changePassword(inputData.getNewPw());
-				System.out.println("ìœ„ì—ì„œ ë°”ë€ ë°ì´í„° " + member.getPw());
 				dbPro.update(inputData);
 			}
-			model.addAttribute("message", "íšŒì› ì •ë³´ ìˆ˜ì • ì™„ë£Œ");
+			model.addAttribute("message", "È¸¿ø Á¤º¸ ¼öÁ¤ ¿Ï·á");
 			model.addAttribute("url", "main");
 			return "alert";
-		} catch (InvalidPasswordException e) {
-			errors.put("fatalError", Boolean.TRUE);
+		} catch (DuplicateldException e) {
+			errors.put("WrongPw", Boolean.TRUE);
 			return "member/change_pw";
-		} catch (MemberNotFoundException e) {
-			res.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			return "member/main";
+		} catch (InvalidPasswordException e) {
+			errors.put("badCurPwd", Boolean.TRUE);
+			return "member/change_pw";
+		} catch (DuplicateldException2 e) {
+			errors.put("WrongPw2", Boolean.TRUE);
+			return "member/change_pw";
 		}
-
 	}
 
-	// ì•„ì´ë”” ì°¾ê¸°
+	// ¾ÆÀÌµğ Ã£±â
 	@RequestMapping(value = "find_id", method = RequestMethod.POST)
 	public String find_id(HttpServletResponse response, @RequestParam("email") String email, Model model)
 			throws Exception {
-		model.addAttribute("id", service.findId(response, email));
+		Map<String, Boolean> errors = new HashMap<>();
+		model.addAttribute("errors", errors);
+		try {
+			MemberDataBean member = dbPro.selectByEmail(email);
+			model.addAttribute("id", service.findId(response, email));
+			model.addAttribute("member", member);
+			if (member == null) {
+				throw new MemberNotFoundException();
+			}
+		} catch (MemberNotFoundException e) {
+			errors.put("noMember", Boolean.TRUE);
+			return "member/find_id_form";
+		}
 		return "member/find_id";
 	}
 
-	// ì•„ì´ë”” ì°¾ê¸°
+	// ¾ÆÀÌµğ Ã£±â
 	@RequestMapping(value = "find_id_form", method = RequestMethod.GET)
 	public String find_id_form() throws Exception {
 		return "member/find_id_form";
 	}
 
-	// ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° í¼
+	// ºñ¹Ğ¹øÈ£ Ã£±â Æû
 	@RequestMapping(value = "find_pw_form")
 	public String find_pw_form() throws Exception {
 		return "member/find_pw_form";
 	}
 
-	// ë¼ì´ë¸ŒëŸ¬ë¦¬
+	// ¶óÀÌºê·¯¸®
 	@RequestMapping(value = "my_library")
 	public String my_library() throws Exception {
 		return "member/my_library";
 	}
 
 	@Autowired
-	EmailService emailService; 
+	EmailService emailService;
 
 	@Autowired
 	private EmailDTO email;
 
-	@RequestMapping(value = "mail_form", method = RequestMethod.GET) 
+	@RequestMapping(value = "mail_form", method = RequestMethod.GET)
 	public String write() {
-		return "member/mailForm"; 
+		return "member/mailForm";
 	}
 
 	@RequestMapping(value = "mail_form", method = RequestMethod.POST)
-	public String sendEmailAction(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
+	public String sendEmailAction(MemberDataBean inputData, Model model, HttpServletRequest req) throws Exception {
 		Map<String, Boolean> errors = new HashMap<>();
+
 		model.addAttribute("errors", errors);
 		MemberDataBean member = dbPro.allByIdAndEmail(inputData);
-		if (inputData.getEmail() == null || inputData.getEmail().isEmpty()) {
-			errors.put("badEmail", Boolean.TRUE);
-			System.out.println("Email");
-		}
-		if (inputData.getId() == null || inputData.getId().isEmpty()) {
-			errors.put("badId", Boolean.TRUE);
-			System.out.println("Id");
-		}
-		/*
-		 * if (inputData.getPw() == null || inputData.getPw().isEmpty()) {
-		 * errors.put("IdAndEmailNo", Boolean.TRUE); System.out.println("Pw"); }
-		 */
-		if (!errors.isEmpty())
-			return "member/find_pw_form";
 		try {
-			String e_mail = inputData.getEmail();
-			String id = inputData.getId();
-			String pw = member.getPw();
-			System.out.println(e_mail);
-			System.out.println(id);
-			System.out.println(pw);
+			if (member == null) {
+				throw new MemberNotFoundException();
+			}
+
 			if (inputData.getEmail().equals(member.getEmail()) && inputData.getId().equals(member.getId())) {
 				StringBuffer sb = new StringBuffer();
+				String e_mail = inputData.getEmail();
+				String id = inputData.getId();
+				String pw = member.getPw();
+				System.out.println(pw);
 				sb.append("<html>");
 				sb.append("<head>");
 				sb.append("<title></title>");
@@ -374,35 +330,34 @@ public class MemberController {
 				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
 				sb.append(
 						"<tr> <td bgcolor=#ffffff align=center valign=top style=padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;>");
-				sb.append("<h1 style=font-size: 32px; font-weight: 400; margin: 0;>ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ê²°ê³¼</h1>");
+				sb.append("<h1 style=font-size: 32px; font-weight: 400; margin: 0;>ºñ¹Ğ¹øÈ£ Ã£±â °á°ú</h1>");
 				sb.append("</td>   </tr>   </table>        </td>    </tr>    <tr>");
 				sb.append("        <td align=center style=padding: 0px 10px 0px 10px;>");
 				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
 				sb.append("<tr>");
 				sb.append(
 						"<td align=center style=padding: 20px 30px 40px 30px; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;>");
-				sb.append("<p style=margin: 0; text-align: center>" + "<b>" + id + "</b>" + "ë‹˜ì˜ ë¹„ë°€ë²ˆí˜¸ëŠ”" + "<b>" + pw
-						+ "</b>" + "ì…ë‹ˆë‹¤. <br> ë¡œê·¸ì¸ì„ í•˜ë ¤ë©´ ì•„ë˜ ë²„íŠ¼ì„ í´ë¦­í•´ ì£¼ì„¸ìš”. </p>");
+				sb.append("<p style=margin: 0;>" + "<b>" + id + "</b>" + "´ÔÀÇ ºñ¹Ğ¹øÈ£´Â" + "<b>" + pw + "</b>"
+						+ "ÀÔ´Ï´Ù. <br> ·Î±×ÀÎÀ» ÇÏ·Á¸é ¾Æ·¡ ¹öÆ°À» Å¬¸¯ÇØ ÁÖ¼¼¿ä. </p>");
 				sb.append("</td>   </tr>  <td bgcolor=#ffffff align=left>    <tr>");
 				sb.append("<td bgcolor=#ffffff align=center style=padding: 20px 30px 60px 30px;>");
 				sb.append("<table border=0 cellspacing=0 cellpadding=0>");
 				sb.append(
-						"<tr> <td align=center style=border-radius: 3px;><a href=http://localhost:8082/SpringFinal/member/login target=_blank style=font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;>ë¡œê·¸ì¸ í•˜ëŸ¬ê°€ê¸°</a></td>");
+						"<tr> <td align=center style=border-radius: 3px;><a href=http://211.63.89.76:8082/SpringFinal/member/login target=_blank style=font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;>·Î±×ÀÎ ÇÏ·¯°¡±â</a></td>");
 				sb.append("</tr>    </table>  </body></html>");
-				email.setSender("Spring Books ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°");
 				email.setContent(sb.toString());
 				email.setReceiver(e_mail);
-				email.setSubject(id + "ë‹˜ì˜ ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ì…ë‹ˆë‹¤");
+				email.setSubject(id + "´ÔÀÇ ºñ¹Ğ¹øÈ£ Ã£±â ÀÔ´Ï´Ù");
 				emailService.SendEmail(email);
 				return "member/find_pw";
 			}
 		} catch (MemberNotFoundException e) {
-			errors.put("IdAndEmailX", Boolean.TRUE);
-			return "member/find_pw";
+			errors.put("MemberNotFoundException", Boolean.TRUE);
+			return "member/find_pw_form";
 		}
 		return "member/find_pw";
 	}
-	// ì•„ë˜ëŠ” ë„¤ì´ë²„, ì¹´ì¹´ì˜¤ ë¡œê·¸ì¸
+	// ¾Æ·¡´Â ³×ÀÌ¹ö, Ä«Ä«¿À ·Î±×ÀÎ
 
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -413,70 +368,93 @@ public class MemberController {
 		this.naverLoginBO = naverLoginBO;
 	}
 
-	// ë¡œê·¸ì¸ ì²« í™”ë©´ ìš”ì²­ ë©”ì†Œë“œ
+	// ·Î±×ÀÎ Ã¹ È­¸é ¿äÃ» ¸Ş¼Òµå
 	@RequestMapping(value = "login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 		/*
-		 * ë„¤ì´ë²„ì•„ì´ë””ë¡œ ì¸ì¦ URLì„ ìƒì„±í•˜ê¸° ìœ„í•˜ì—¬ naverLoginBOí´ë˜ìŠ¤ì˜ getAuthorizationUrlë©”ì†Œë“œ í˜¸ì¶œ
+		 * ³×ÀÌ¹ö¾ÆÀÌµğ·Î ÀÎÁõ URLÀ» »ı¼ºÇÏ±â À§ÇÏ¿© naverLoginBOÅ¬·¡½ºÀÇ getAuthorizationUrl¸Ş¼Òµå È£Ãâ
 		 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
 		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("ë„¤ì´ë²„:" + naverAuthUrl);
-		// ë„¤ì´ë²„
+		System.out.println("³×ÀÌ¹ö:" + naverAuthUrl);
+		// ³×ÀÌ¹ö
 		model.addAttribute("url", naverAuthUrl);
 		return "member/login";
 	}
 
-	// ë„¤ì´ë²„ ë¡œê·¸ì¸ ì„±ê³µì‹œ callbackí˜¸ì¶œ ë©”ì†Œë“œ
+	// ³×ÀÌ¹ö ·Î±×ÀÎ ¼º°ø½Ã callbackÈ£Ãâ ¸Ş¼Òµå
 	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
-			throws IOException, ParseException {
+	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session,
+			HttpServletRequest req) throws IOException, ParseException {
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		System.out.println("ì—¬ê¸°ëŠ” callback");
+		System.out.println("¿©±â´Â callback");
 		OAuth2AccessToken oauthToken;
 		oauthToken = naverLoginBO.getAccessToken(session, code, state);
-		// 1. ë¡œê·¸ì¸ ì‚¬ìš©ì ì •ë³´ë¥¼ ì½ì–´ì˜¨ë‹¤.
-		apiResult = naverLoginBO.getUserProfile(oauthToken); // Stringí˜•ì‹ì˜
-																// jsonë°ì´í„°
+		// 1. ·Î±×ÀÎ »ç¿ëÀÚ Á¤º¸¸¦ ÀĞ¾î¿Â´Ù.
+		apiResult = naverLoginBO.getUserProfile(oauthToken); // StringÇü½ÄÀÇ
+																// jsonµ¥ÀÌÅÍ
 		/**
-		 * apiResult json êµ¬ì¡° {"resultcode":"00", "message":"success",
+		 * apiResult json ±¸Á¶ {"resultcode":"00", "message":"success",
 		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
 		 **/
-		// 2. Stringí˜•ì‹ì¸ apiResultë¥¼ jsoní˜•íƒœë¡œ ë°”ê¿ˆ
+		// 2. StringÇü½ÄÀÎ apiResult¸¦ jsonÇüÅÂ·Î ¹Ù²Ş
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(apiResult);
 		JSONObject jsonObj = (JSONObject) obj;
 		System.out.println(obj);
-		// 3. ë°ì´í„° íŒŒì‹±
-		// Topë ˆë²¨ ë‹¨ê³„ _response íŒŒì‹±
+		// 3. µ¥ÀÌÅÍ ÆÄ½Ì
+		// Top·¹º§ ´Ü°è _response ÆÄ½Ì
 		JSONObject response_obj = (JSONObject) jsonObj.get("response");
-		MemberDataBean member_email = dbPro.selectByEmail((String) response_obj.get("email"));
+		MemberDataBean member_id = dbPro.selectById((String) response_obj.get("id"));
+		String id = (String) response_obj.get("id");
 		String e_mail = (String) response_obj.get("email");
 
-		System.out.println(member_email);
+		System.out.println(member_id);
+		System.out.println(id);
+	//	System.out.println(member_email.getId());
 		System.out.println(e_mail);
 
-		if (member_email == null) {
+		if (id == "Ä«Ä«¿À" || member_id == null) {
 			/* String id = (String) response_obj.get("email"); */
-			String id = (String) response_obj.get("id");
+			String id2 = (String) response_obj.get("id");
 			String pw = (String) "1111";
 			String email = (String) response_obj.get("email");
 			String name = (String) response_obj.get("name");
 			String birth = (String) response_obj.get("birthday");
 			String gender = (String) response_obj.get("gender");
 			System.out.printf(id, pw, email, name, birth, gender);
-			MemberDataBean newMember = new MemberDataBean(id, pw, email, name, birth, gender);
-			dbPro.insert(newMember);
-			System.out.println("DBì— íšŒì› ì •ë³´ ì €ì¥ ì™„ë£Œ");
+			MemberDataBean member = new MemberDataBean(id2, pw, email, name, birth, gender);
+			dbPro.insert(member);
+			System.out.println("DB¿¡ È¸¿ø Á¤º¸ ÀúÀå ¿Ï·á");
 		}
-		// responseì˜ nicknameê°’ íŒŒì‹±
+		// responseÀÇ nickname°ª ÆÄ½Ì
 		String name = (String) response_obj.get("name");
 		System.out.println(name);
-		// 4.íŒŒì‹± ë‹‰ë„¤ì„ ì„¸ì…˜ìœ¼ë¡œ ì €ì¥
-		session.setAttribute("sessionId", name); // ì„¸ì…˜ ìƒì„±
+		// 4.ÆÄ½Ì ´Ğ³×ÀÓ ¼¼¼ÇÀ¸·Î ÀúÀå
+		MemberDataBean member = dbPro.selectById((String) response_obj.get("id"));
+		MemberDataBean loginUser = new MemberDataBean(member.getId(), member.getName(), member.getAuth());
+		req.getSession().setAttribute("member", loginUser);
+		session.setAttribute("member", loginUser); // ¼¼¼Ç »ı¼º
 		model.addAttribute("result", apiResult);
 		return "member/socialLogin";
 	}
+
+
+	@RequestMapping(value = "kakao_login", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	public String login(Model model, @RequestParam("code") String code, HttpSession session, HttpServletRequest req) {
+	//	System.out.println("code´Â : " + code);
+
+		String access_Token = kakao.getAccessToken(code);
+		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
+		System.out.println(userInfo.toString());
+		System.out.println(userInfo);
+		MemberDataBean member1 = dbPro.selectById((String) userInfo.get("nickname"));
+		MemberDataBean loginUser = new MemberDataBean(member1.getId(), member1.getName(), member1.getAuth());
+	    session.setAttribute("member", loginUser);
+		model.addAttribute("result", apiResult);
+		return "member/socialLogin";
+	}
+	
 }

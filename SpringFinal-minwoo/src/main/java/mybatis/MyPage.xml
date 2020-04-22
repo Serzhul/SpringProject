@@ -24,4 +24,66 @@
 		delete from mycart
 		where isbn= #{mycart_isbn} and id=#{mycart_id}
 	</delete>
+	
+	<select id="getmywishList" parameterType="String" resultType="MYCART">
+		select wish.id, wish.isbn, book.book_subject, book.book_price
+		from wish, book
+		where id = #{id} and wish.isbn=book.isbn
+	</select>
+	
+	<delete id="deleteWish" parameterType="hashMap">
+		delete from wish
+		where isbn= #{mywish_isbn} and id=#{mywish_id}
+	</delete>
+	
+	<insert id="insertWish" parameterType="hashMap">
+		insert into wish values
+		(#{mycart_id}, #{mycart_isbn})
+	</insert>
+	
+	<select id="getbookFileName" parameterType="String" resultType="String">
+		select book_filename from book
+		where isbn = #{isbn}
+	</select>
+	
+	<select id="checkResume" parameterType="hashMap" resultType="int">
+		select  count(pagenum)   from resume
+		where isbn = #{isbn} and id=#{id}
+	</select>
+	
+	<select id="getResume" parameterType="hashMap" resultType="String">
+		select pagenum from resume
+		where isbn = #{isbn} and id=#{id}
+	</select>
+	
+	<insert id="insertResume" parameterType="hashMap">
+		insert into resume values
+		(#{id}, #{isbn}, '0')
+	</insert>
+	
+	<update id="saveResume" parameterType="hashMap">
+		update resume
+		set pagenum = #{currentPage}
+		where isbn = #{isbn} and id=#{id}
+	</update>
+	
+	<select id="checkWish" parameterType="hashMap" resultType="int">
+		select count(id) from wish
+		where id=#{mycart_id} and isbn = #{mycart_isbn} 
+	</select>
+	
+	<select id="checkCart" parameterType="hashMap" resultType="int">
+		select count(id) from mycart
+		where id=#{mywish_id} and isbn = #{mywish_isbn} 
+	</select>
+	
+	<insert id="insertMyCart" parameterType="hashMap">
+		insert into mycart values
+		(#{mywish_id}, #{mywish_isbn})
+	</insert>
+	
+	<insert id="insertMyLibrary" parameterType="hashMap">
+		insert into library values
+		(#{mycart_id}, #{mycart_isbn})
+	</insert>
 </mapper>

@@ -237,8 +237,6 @@ input.checkbox:after {
 					<label	for="customRadio1" >남자</label> 
 					<input	type="radio" id="customRadio1"  name="gender" value="여자"> 
 					<label 	for="customRadio1" >여자</label>
-					<!-- <input type="button" class="btn btn-secondary" name="gender"value="남자" id="customRadio1"></button>
-					<input type="button" class="btn btn-secondary" name="gender"  value="여자" id="customRadio1"></button> -->
 					</div>
 					<input type="submit" value="회원가입 하기">
 					<p>이미 회원이라면?? </p>
