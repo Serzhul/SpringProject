@@ -1,0 +1,4 @@
+카카오 디벨로퍼에서 앱 성성후 admin 키를 받아서 kakaoPay.java의 header 첫번재에 넣을것
+ready랑 info 둘다 수정할것
+그리고
+내 애플리케이션 ->앱설정->플랫폼에 가서 web에 사이트 도메인을 http://localhost:포트번호를 입력하면 끝

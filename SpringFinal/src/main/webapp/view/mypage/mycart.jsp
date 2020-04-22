@@ -10,7 +10,7 @@
 
 <!-- <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <Style>
 #page_cart {
 	position: relative;
@@ -565,7 +565,7 @@ p {
 }
 </Style>
 </head>
-<form name="form">
+<form name="form" method="post" action="<%=request.getContextPath()%>/mypage/kakaoPay">
 <body id="ridi">
 
 	<div id="books_contents">
@@ -610,18 +610,17 @@ p {
 							</span>
 						</p>
 					</div>
-					<!-- <div class="buy_button_wrapper">
-						<button class="blue_button buy_button"
-						id="buy" name="buy"
-						>선택 구매하기</button>
-					</div> -->
 					<button type="button" id="buy" name="buy"
 					class="rui_button_white_30 rui_button_eink_black_line_30 book_button btn_move_to_wishlist js_btn_move_to_wishlist">
 					선택 구매</button>
 					
-					<!-- <button id="buy" name="buy">
-					선택 구매
-					</button> -->
+					
+					<button type="submit">카카오페이 구매</button>
+					<input type="hidden" name="pay" id="pay" value="">
+					<input type="hidden" name="bookinfo" id="bookinfo" value="">
+					
+					
+					
 				</div>
 
 				</article>
@@ -853,6 +852,7 @@ $(document).on("click", "button[name='buy']", function() {
 
 function itemSum(frm, id){
 	var sum = 0;
+	var param=[];
 	//var count = frm.chkbox.length;
 	//전체선택 체크박스 클릭 
 	if (id==1) {
@@ -875,10 +875,31 @@ function itemSum(frm, id){
 				}
 			}
 			
+			$("input[name=chkbox]:checked").each(function(){
+				var test = $(this).val();
+				var test2=test.split(',');
+				var price=test2[0];
+				var isbn=test2[1];
+				
+				var data={
+						book_price : price,
+						book_isbn : isbn
+				}
+				
+				param.push(data);
+			});
+			
+			var jsonData=JSON.stringify(param);
+			jQuery.ajaxSettings.traditional = true;
+			
+			console.log(jsonData);
+			
 			document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
 			document.getElementById("total_count").innerHTML=count;
-			console.log(count);
+			
+			$('input[name=bookinfo]').attr('value',jsonData);
+			$('input[name=pay]').attr('value',sum);
 		}else{
 			//해당화면에 모든 checkbox들의 체크를해제시킨다.
 			$("input[type=checkbox]").prop("checked",false);
@@ -889,9 +910,32 @@ function itemSum(frm, id){
 					sum += parseInt(frm.chkbox[i].value);
 				}
 			}
+			
+			$("input[name=chkbox]:checked").each(function(){
+				var test = $(this).val();
+				var test2=test.split(',');
+				var price=test2[0];
+				var isbn=test2[1];
+				
+				var data={
+						book_price : price,
+						book_isbn : isbn
+				}
+				
+				param.push(data);
+			});
+			
+			var jsonData=JSON.stringify(param);
+			jQuery.ajaxSettings.traditional = true;
+			
+			console.log(jsonData);
+			
 			document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
 			document.getElementById("total_count").innerHTML=0;
+			
+			$('input[name=bookinfo]').attr('value',jsonData);
+			$('input[name=pay]').attr('value',sum);
 		}
 	}else{
 		var count2=0;
@@ -904,9 +948,31 @@ function itemSum(frm, id){
 				var count=0; 
 			}
 			
+			$("input[name=chkbox]:checked").each(function(){
+				var test = $(this).val();
+				var test2=test.split(',');
+				var price=test2[0];
+				var isbn=test2[1];
+				
+				var data={
+						book_price : price,
+						book_isbn : isbn
+				}
+				
+				param.push(data);
+			});
+			
+			var jsonData=JSON.stringify(param);
+			jQuery.ajaxSettings.traditional = true;
+			
+			console.log(jsonData);
+			
 			document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
 			document.getElementById("total_count").innerHTML=count;
+			
+			$('input[name=bookinfo]').attr('value',jsonData);
+			$('input[name=pay]').attr('value',sum);
 		}else{
 			var count = frm.chkbox.length;
 			for(var i=0; i < count; i++ ){
@@ -916,15 +982,36 @@ function itemSum(frm, id){
 					console.log(sum);
 				}
 			}
+			
+			$("input[name=chkbox]:checked").each(function(){
+				var test = $(this).val();
+				var test2=test.split(',');
+				var price=test2[0];
+				var isbn=test2[1];
+				
+				var data={
+						book_price : price,
+						book_isbn : isbn
+				}
+				
+				param.push(data);
+			});
+			
+			var jsonData=JSON.stringify(param);
+			jQuery.ajaxSettings.traditional = true;
+			
+			console.log(jsonData);
+			
 			document.getElementById("total_sum").innerHTML=sum;
 			document.getElementById("total_sum2").innerHTML=sum;
 			document.getElementById("total_count").innerHTML=count2;
+			
+			$('input[name=bookinfo]').attr('value',jsonData);
+			$('input[name=pay]').attr('value',sum);
 		}
 		
 		
 	};	
-}	
-
-
+}
 </script>
 </html>

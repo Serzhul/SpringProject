@@ -15,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.Setter;
+import lombok.extern.java.Log;
 import model.LibraryDataBean;
 import model.MemberDataBean;
 import model.MyCartDataBean;
@@ -25,8 +28,10 @@ import model.MyWishDataBean;
 import mybatis.MyPageDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import service.KakaoPay;
 
 
+@Log
 @Controller
 @RequestMapping("/mypage/")
 public class MyController {
@@ -284,4 +289,53 @@ public class MyController {
 	        //여기서 인서트 부르면 됨
 	    }
 	}
+	
+	@Setter(onMethod_ = @Autowired)
+    private KakaoPay kakaopay;
+    
+    
+    @RequestMapping(value = "kakaoPay", method=RequestMethod.GET)
+    public void kakaoPayGet() {
+    	System.out.println("test1");
+    }
+    
+    @RequestMapping(value = "kakaoPay", method=RequestMethod.POST)
+    public String kakaoPay(@RequestParam int pay, String bookinfo, HttpServletRequest request) {
+        log.info("kakaoPay post............................................");
+        HttpSession session = request.getSession();	
+        session.setAttribute("bookinfo", bookinfo);
+        
+        return "redirect:" + kakaopay.kakaoPayReady(pay);
+        
+    }
+    
+    @RequestMapping(value = "kakaoPaySuccess", method=RequestMethod.GET) 
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,HttpServletRequest request) {
+    	HttpSession session = request.getSession();	
+    	MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
+		String id=memberid.getId();
+		String bookinfo=(String) session.getAttribute("bookinfo");
+		
+		JSONArray array = JSONArray.fromObject(bookinfo);
+        
+	    
+	    for(int i=0; i<array.size(); i++){
+	    	Map<String, Object> insertLibrary = new HashMap<String, Object>();
+	        
+	        //JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.    
+	        JSONObject obj = (JSONObject)array.get(i);
+	        insertLibrary.put("mycart_isbn", obj.get("book_isbn"));
+	        insertLibrary.put("mycart_id", id);
+	        
+	        mypageservice.insertMyLibrary(insertLibrary);
+	        mypageservice.deleteCart(insertLibrary);
+	        //여기서 인서트 부르면 됨
+	    }
+    	
+        log.info("kakaoPaySuccess get............................................");
+        log.info("kakaoPaySuccess pg_token : " + pg_token);
+        session.removeAttribute("bookinfo");
+        model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+        return "mypage/kakaoPaySuccess";
+    }
 }
