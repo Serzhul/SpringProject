@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatis.Board">
+    <cache/>
+    
+    <select id="getTotalRows" parameterType="Board" resultType="Board">
+        select BOARD_CATEGORY from BOARD where BOARD_CATEGORY=#{board_category}
+    </select>
+
+    <select id="getBoardList" parameterType="Board" resultType="Board">
+        select BOARD_CATEGORY, BOARD_NUMBER, BOARD_SUBJECT, BOARD_CONTENT, BOARD_REGDATE from(
+            select ROWNUM as num, BOARD_CATEGORY, ID, BOARD_NUMBER, BOARD_SUBJECT, BOARD_CONTENT, BOARD_REGDATE from BOARD
+            where  BOARD_CATEGORY = #{board_category} order by BOARD_NUMBER desc)
+        where (num >= #{start_row}) and (#{end_row} >= num)
+    </select>
+
+    <select id="getMaxBoardNumber" resultType="int">
+        select max(BOARD_NUMBER) as board_number from BOARD
+    </select>
+
+    <insert id="setNoticeData" parameterType="Board">
+        insert into BOARD values (#{board_category}, #{id}, #{board_number}, #{board_subject}, #{board_content}, sysdate)
+    </insert>
+<!--    <insert id="setNoticeData" parameterType="Board">-->
+<!--        insert into BOARD values #{}-->
+<!--    </insert>-->
+
+<!--    <select id="getNoticeList" parameterType="Board" resultType="Board">-->
+<!--        select BOARD_CATEGORY, BOARD_NUMBER, BOARD_SUBJECT, BOARD_CONTENT, BOARD_REGDATE from(-->
+<!--            select BOARD_CATEGORY, ID, BOARD_NUMBER, BOARD_SUBJECT, BOARD_CONTENT, BOARD_REGDATE from BOARD)-->
+<!--        where ((BOARD_NUMBER >= #{start_row}) and (#{end_row} >= BOARD_NUMBER)) and BOARD_CATEGORY = '공지'-->
+<!--    </select>-->
+
+
+    <!--<select id="boardList"  parameterType="hashmap"  resultType="Board" >
+		select * from board
+		<if test="num != null">
+			WHERE num = #{num}
+		</if>
+	 </select>
+	 <select id="getArticles"  parameterType="hashmap" 
+	 resultType="Board">
+			select * from board where boardid = #{boardid} 
+			 order by ref desc, re_step  limit #{start}
+			 </select>
+    <update id="update_update"  parameterType="hashmap">
+		update board set 
+		writer=#{writer},
+		email=#{email},
+		subject=#{subject},
+		passwd=#{passwd},
+		content=#{content} 
+		where num=#{num}
+	</update>
+	<insert id="insertArticle_insert" parameterType="Board">
+		insert into board values 
+(#{num},#{writer},#{email},#{subject},#{passwd},sysdate,0,
+    #{ref},#{re_step},#{re_level},#{content},#{ip})
+	</insert>-->
+</mapper>

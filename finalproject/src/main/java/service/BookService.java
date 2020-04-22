@@ -34,8 +34,8 @@ public class BookService {
             System.out.println(uploadPath);
 
             FileCopyUtils.copy(multi.getInputStream(), new FileOutputStream(
-                    "C:\\Users\\Daewon Seo\\Desktop\\SpirngFinal\\src\\main\\webapp\\view\\images\\carousel\\"+multi.getOriginalFilename()));
-
+//                    "C:\\Users\\Daewon Seo\\Desktop\\SpirngFinal\\src\\main\\webapp\\view\\images\\carousel\\"+multi.getOriginalFilename()));
+                    "C:\\workaspace\\finalproject\\src\\main\\webapp\\images\\carousel\\"+multi.getOriginalFilename()));
             bookInfo.setBook_filename(filename);
             bookInfo.setBook_filesize((int) multi.getSize());
             System.out.println(bookInfo.toString());

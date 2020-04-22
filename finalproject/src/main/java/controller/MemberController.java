@@ -140,7 +140,7 @@ public class MemberController {
 		}
 		model.addAttribute("message", "로그인 성공");
 		model.addAttribute("url", "main");
-		return "redirect:/main/index";
+		return "redirect:/admin/registered_book_list?page_num=2";
 	}
 
 	// 비밀번호 찾기

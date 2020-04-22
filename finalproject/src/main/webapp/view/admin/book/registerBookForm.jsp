@@ -16,43 +16,25 @@
 <head>
     <meta charset="utf-8">
     <title>headless</title>
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.min.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.min.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.min.css.map">
-    <script src="Shards-3.0.0/jquery-3.4.1.min.js"></script>
-    <script src="Shards-3.0.0/js/demo.js"></script>
-    <script src="Shards-3.0.0/js/demo.min.js"></script>
-    <script src="Shards-3.0.0/js/shards.js"></script>
-    <script src="Shards-3.0.0/js/shards.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/admin/bootstrap3/css/bootstrap.css">
     <style>
 
         .grid-container {/*그리드 구간이 필요할때마다 컬럼과 로우를 추가한다(tr,td하듯이)*/
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             grid-template-rows: 1fr;
-            margin: 0 300px 0 300px;
         }
         /*쓰려는 용도에 맞추어 css를 적용*/
         .grid-top {
             padding: 40px;
             text-align: center;
-            background-color: chartreuse;
             grid-column: 1/11;
         }
         .grid-side {
             padding: 5px;
             text-align: left;
             border: 1px solid black;
-            background-color: greenyellow;
+            background-color: lawngreen;
             grid-column: 1/3;
             grid-row: 2/6;
         }
@@ -63,42 +45,46 @@
             background-color: lightgreen;
             grid-column:3 / 11;
         }
-
+        .jumbotron{
+            background-color: green;
+            margin-bottom: 0px;
+            background-image: url('../images/955519.png');
+            height: 25em
+        }
     </style>
-
 </head>
-
 <body>
-
 <div class="grid-container">
-    <div class="grid-top">
-        <a href="#">쌍용북스</a>
+    <div class="grid-top jumbotron" >
     </div>
     <div class="grid-side">
-        <h6>관리자홈</h6>
+        <label style="color: white"><h1>관리메뉴</h1></label>
         <ul>
-            <li><a href="#">리뷰관리</a></li>
-            <li><a href="#">공지사항관리</a></li>
-            <li><a href="#">문의사항관리</a></li>
-            <li><a href="#">매출현황보기</a></li>
-            <li><a href="#">상품등록하기</a></li>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/admin/registered_book_list?page_num=1" style="color: white">상품 현황</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/board/list?board_category=공지&page_num=1" style="color: white">공지사항관리</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/board/list?board_category=문의&page_num=1" style="color: white">문의사항관리</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/graph/saleGraph" style="color: white">판매현황보기</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/admin/register_book" style="color: white">상품등록하기</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/member/logout" style="color: white">로그아웃</a></label></li></h3>
         </ul>
     </div>
     <div class="grid-item" style="text-align: center">
         <form action="register_book" method="post" enctype="multipart/form-data">
-            <div style="text-align: left">
-                <label style="margin-left: 100px;">책제목 :</label><br>
-                <input type="text" name="book_subject" style="margin-left: 100px;"><br><br>
-                <label style="margin-left: 100px;">ISBN :</label><br>
-                <input type="text" name="isbn" style="margin-left: 100px;"><br><br>
-                <label style="margin-left: 100px;">저자 :</label><br>
-                <input type="text" name="book_writer" style="margin-left: 100px;"><br><br>
-                <label style="margin-left: 100px;">출판일 :</label><br>
-                <input type="date" name="book_pday" style="margin-left: 100px;"><br><br>
-                <label style="margin-left: 100px;">가격 :</label><br>
-                <input type="text" name="book_price" style="margin-left: 100px;"><br><br>
-                <label style="margin-left: 100px;">전자책 파일 업로드 :</label><br>
-                <input multiple="multiple" type="file" name="upload_file" style="margin-left: 100px;"><br>
+            <div class="form-group" style="text-align: left">
+                <label>책제목 </label><br>
+                <input class="form-control" type="text" name="book_subject"><br><br>
+                <label>ISBN </label><br>
+                <input class="form-control" type="text" name="isbn"><br><br>
+                <label>저자 </label><br>
+                <input class="form-control" type="text" name="book_writer"><br><br>
+                <label>출판일 </label><br>
+                <input class="form-control" type="date" name="book_pday"><br><br>
+                <label>가격 </label><br>
+                <input class="form-control" type="text" name="book_price"><br><br>
+                <label>전자책 사진</label><br>
+                <input multiple="multiple" type="file" name="upload_image"><br>
+                <label>전자책 파일</label><br>
+                <input multiple="multiple" type="file" name="upload_file"><br>
             </div>
             <div style="margin-top: 30px;">
                 <input type="radio" name="book_m_category" value="소설">소설
@@ -135,15 +121,14 @@
                 <input type="radio" name="book_s_category" value="마케팅/세일즈">마케팅/세일즈
                 <input type="radio" name="book_s_category" value="CEO/리더쉽">CEO/리더쉽
             </div>
-            <div style="text-align: center; margin-top: 50px">
-                <h6>간략한 설명 입력</h6>
-                <textarea name="book_summary" style="width: 60em; height: 10em; resize: none;"></textarea>
+            <div style=" text-align: left; margin-top: 50px">
+                <label>간략한 설명 입력</label>
+                <textarea class="form-control" name="book_summary" style="width: 90%; height: 10em; resize: none; margin: auto"></textarea>
             </div>
             <div style="text-align: center; margin-top: 30px;">
-                <input type="submit" value="보내기">
+                <button type="submit" class="btn btn-default">보내기</button>
             </div>
         </form>
     </div>
 </div>
 </body>
-</html>

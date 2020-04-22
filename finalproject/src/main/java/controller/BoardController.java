@@ -27,8 +27,8 @@ public class BoardController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "register_notice")
-    public String gotoRegisteredNotice(){
-        return service.gotoRegisteredNotice();
+    public String gotoRegisterNoticeForm(){
+        return service.gotoRegisterNoticeForm();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "registered_notice")

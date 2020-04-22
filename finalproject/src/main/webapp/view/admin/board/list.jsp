@@ -17,42 +17,25 @@
 <head>
     <meta charset="utf-8">
     <title>headless</title>
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-demo.min.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards-extras.min.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.css.map">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.min.css">
-    <link rel="stylesheet" href="Shards-3.0.0/css/shards.min.css.map">
-    <script src="Shards-3.0.0/jquery-3.4.1.min.js"></script>
-    <script src="Shards-3.0.0/js/demo.js"></script>
-    <script src="Shards-3.0.0/js/demo.min.js"></script>
-    <script src="Shards-3.0.0/js/shards.js"></script>
-    <script src="Shards-3.0.0/js/shards.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/view/admin/bootstrap3/css/bootstrap.css">
     <style>
+
         .grid-container {/*그리드 구간이 필요할때마다 컬럼과 로우를 추가한다(tr,td하듯이)*/
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             grid-template-rows: 1fr;
-            margin: 0 300px 0 300px;
         }
         /*쓰려는 용도에 맞추어 css를 적용*/
         .grid-top {
             padding: 40px;
             text-align: center;
-            background-color: chartreuse;
             grid-column: 1/11;
         }
         .grid-side {
             padding: 5px;
             text-align: left;
             border: 1px solid black;
-            background-color: greenyellow;
+            background-color: lawngreen;
             grid-column: 1/3;
             grid-row: 2/6;
         }
@@ -63,30 +46,34 @@
             background-color: lightgreen;
             grid-column:3 / 11;
         }
-
+        .jumbotron{
+            background-color: green;
+            margin-bottom: 0px;
+            background-image: url('../images/955519.png');
+            height: 25em
+        }
     </style>
-
 </head>
-
 <body>
 <div class="grid-container">
-    <div class="grid-top"><a href="#"> 쌍용북스</a></div>
-
+    <div class="grid-top jumbotron" >
+    </div>
     <div class="grid-side">
-        <h6>관리자홈</h6>
+        <label style="color: white"><h1>관리메뉴</h1></label>
         <ul>
-            <li><a href="#">리뷰관리</a></li>
-            <li><a href="#">공지사항관리</a></li>
-            <li><a href="#">문의사항관리</a></li>
-            <li><a href="#">매출현황보기</a></li>
-            <li><a href="#">상품등록하기</a></li>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/admin/registered_book_list?page_num=1" style="color: white">상품 현황</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/board/list?board_category=공지&page_num=1" style="color: white">공지사항관리</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/board/list?board_category=문의&page_num=1" style="color: white">문의사항관리</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/graph/saleGraph" style="color: white">판매현황보기</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/admin/register_book" style="color: white">상품등록하기</a></label></li></h3>
+            <h3 style="color: white"><li><label><a href="${pageContext.request.contextPath}/member/logout" style="color: white">로그아웃</a></label></li></h3>
         </ul>
     </div>
     <div class="grid-item" style="text-align: right">접속자 :
         ${sessionScope.member.id}
     </div>
     <div class="grid-item">
-        <table border="1px" style="border: 1px solid red; margin: auto; text-align: center;">
+        <table class="table table-striped" style="margin: auto; text-align: center;">
             <tbody>
             <tr>
                 <td>글번호</td>
@@ -107,19 +94,19 @@
         <c:choose>
             <c:when test="${BoardInfoConfig.page_num <=1}" >
                 <c:forEach varStatus="j" begin="${BoardInfoConfig.page_num}" end="${BoardInfoConfig.page_num +1}">
-                    <a href="${pageContext.request.contextPath}/board/list?board_category=공지&page_num=${j.index}">${j.index}</a>
+                    <a href="${pageContext.request.contextPath}/board/list?board_category=${BoardInfoConfig.board_category}&page_num=${j.index}">${j.index}</a>
                 </c:forEach>
             </c:when>
             <c:otherwise>
                 <c:forEach varStatus="j" begin="${BoardInfoConfig.page_num-1}" end="${BoardInfoConfig.page_num +1}">
-                    <a href="${pageContext.request.contextPath}/board/list?board_category=공지&page_num=${j.index}">${j.index}</a>
+                    <a href="${pageContext.request.contextPath}/board/list?board_category=${BoardInfoConfig.board_category}&page_num=${j.index}">${j.index}</a>
                 </c:forEach>
             </c:otherwise>
         </c:choose>
     </div>
     <div class="grid-item">
         <div style="text-align: right; margin-right: 30px;">
-            <button>새글쓰기</button>
+            <button class="btn-default" onclick="location.href='${pageContext.request.contextPath}/board/register_notice'">새글쓰기</button>
         </div>
     </div>
 </div>

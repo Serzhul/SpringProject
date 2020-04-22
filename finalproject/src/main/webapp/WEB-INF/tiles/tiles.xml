@@ -47,6 +47,7 @@
     
     <definition name="*/*/*.part" extends="baseEmpty">
         <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
-    </definition>        
+    </definition>
+
     
 </tiles-definitions>

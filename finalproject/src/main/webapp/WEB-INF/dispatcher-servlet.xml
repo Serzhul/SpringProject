@@ -74,6 +74,12 @@
 	
 	<bean class="mybatis.MyPageDao">
 	</bean>
+
+<!--	<bean class="mybatis.ReplyDAO">-->
+<!--	</bean>-->
+
+	<bean class="mybatis.GraphDAO">
+	</bean>
 	
 	<bean class="mybatis.MybatisMemberDaoImpl" >
 		

@@ -34,8 +34,8 @@ public class BoardService {
         return "admin/board/list";
     }
 
-    public String gotoRegisteredNotice(){
-        return "admin/board/registNotice";
+    public String gotoRegisterNoticeForm(){
+        return "admin/board/registerNoticeForm";
     }
 
     public String gotoRegisteredNotice(BoardDataBean boardDataBean, ModelMap modelMap) {
