@@ -21,7 +21,7 @@ public class NaverLoginBO {
 	// state: �븷�뵆由ъ��씠�뀡�씠 �깮�꽦�븳 �긽�깭 �넗�겙
 	private final static String CLIENT_ID = "2iqXcbPWigTlUgdKpAwD";
 	private final static String CLIENT_SECRET = "PVfqUzATGw";
-	private final static String REDIRECT_URI = "http://localhost:9080/SpringFinal/member/callback";//서비스 보낼떄 필요한 URI
+	private final static String REDIRECT_URI = "http://211.63.89.75:9080/SpringFinal/member/callback";//서비스 보낼떄 필요한 URI
 	private final static String SESSION_STATE = "oauth_state";
 	/* �봽濡쒗븘 議고쉶 API URL */
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";

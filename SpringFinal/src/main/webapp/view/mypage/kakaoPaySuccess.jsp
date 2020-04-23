@@ -16,9 +16,9 @@
 상품수량:    [[${info.quantity}]]<br/>
 결제금액:    [[${info.amount.total}]]<br/>
 결제방법:    [[${info.payment_method_type}]]<br/> --%>
- 
-meta http-equiv="Refresh" content="1; url=${pageContext.request.contextPath}/main/index">
- 
+<div>
+<meta http-equiv="Refresh" content="1; url=${pageContext.request.contextPath}/main/index">
+</div>
 <%-- <h2>[[${info}]]</h2> --%>
 </body>
 </html>

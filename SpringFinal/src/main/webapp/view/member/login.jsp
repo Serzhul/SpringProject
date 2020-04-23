@@ -109,7 +109,7 @@ button[type="button"] {
 						src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png" /></a>
 				</div>
 			  <div style="margin-top: 20px">
-				 <a href="https://kauth.kakao.com/oauth/authorize?client_id=3ef8d9de8d6e54b2b36e9a5c816d413d&redirect_uri=http://localhost:9080/SpringFinal/member/kakao_login&response_type=code">
+				 <a href="https://kauth.kakao.com/oauth/authorize?client_id=3ef8d9de8d6e54b2b36e9a5c816d413d&redirect_uri=http://211.63.89.75:9080/SpringFinal/member/kakao_login&response_type=code">
                        <img width="225" height="50" align="top" src="${pageContext.request.contextPath}/images/kakao_login_btn_medium_narrow.png">
 					</a>
 					</div>

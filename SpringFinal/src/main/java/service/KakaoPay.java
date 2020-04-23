@@ -49,9 +49,9 @@ public class KakaoPay {
 		params.add("quantity", "1");
 		params.add("total_amount", amount);
 		params.add("tax_free_amount", "100");
-		params.add("approval_url", "http://localhost:9080/SpringFinal/mypage/kakaoPaySuccess");
-		params.add("cancel_url", "http://localhost:9080/SpringFinal/mypage/mycart");
-		params.add("fail_url", "http://localhost:9080/SpringFinal/mypage/mycart");
+		params.add("approval_url", "http://211.63.89.75:9080/SpringFinal/mypage/kakaoPaySuccess");
+		params.add("cancel_url", "http://211.63.89.75:9080/SpringFinal/mypage/mycart");
+		params.add("fail_url", "http://211.63.89.75:9080/SpringFinal/mypage/mycart");
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
 		try {
