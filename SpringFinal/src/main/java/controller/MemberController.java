@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,14 +21,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
+
 import excep.DuplicateEmailException;
 import excep.DuplicateldException;
+import excep.DuplicateldException2;
 import excep.InvalidPasswordException;
 import excep.LoginFailException;
 import excep.MemberNotFoundException;
 import model.MemberDataBean;
 import mybatis.MybatisMemberDaoImpl;
+import pack.EmailDTO;
+import service.EmailService;
 import service.SignUpService;
+import service.KakaoAPI;
+import test.NaverLoginBO;
 
 @Controller
 @RequestMapping("/member/")
@@ -35,12 +46,14 @@ public class MemberController {
 
 	@Autowired
 	SignUpService service;
+	
+	@Autowired
+	KakaoAPI kakao;
 
 	@ModelAttribute
-	// 메소드에 이게 있으면 해당되는 메소드의 리턴타입을 리퀘스트로 보낸다?
-	// void면 실행은 하지만 보내지 않아
-	public void initProcess(HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	// �޼ҵ忡 �̰� ������ �ش�Ǵ� �޼ҵ��� ����Ÿ���� ������Ʈ�� ������?
+	// void�� ������ ������ ������ �ʾ�
+	public void initProcess() {
 	}
 
 	@RequestMapping(value = "main", method = RequestMethod.GET)
@@ -48,36 +61,30 @@ public class MemberController {
 		return "main/index";
 	}
 
-	// 회원가입 페이지 클릭
+	// ȸ������ ������ Ŭ��
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String member_joinForm() throws Exception {
 		return "member/join_form";
 	}
 
-	// produces는 ajax가 데이터 넘겨받을때 깨짐 방지
+	// produces�� ajax�� ������ �Ѱܹ����� ���� ����
 	@RequestMapping(value = "id_check", method = RequestMethod.GET, produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String idCheck(HttpServletRequest request) {
-
 		String id = request.getParameter("id");
-		int result = service.idCheck(id);
-		return Integer.toString(result);
+		String result = service.idCheck(id);
+		return result;
 	}
 
-	// 회원가입 요청
+	// ȸ������ ��û
 	@RequestMapping(value = "join", method = RequestMethod.POST)
 	public String member_joinPro(MemberDataBean newMember, Model model, HttpServletRequest req) throws Exception {
-		// Model은 내가 아래처림 addAttribute도 해 줘야하고
-		// @ModelAttritube는 써 주면 그대로 바로 날라간다.
-		System.out.println("1" + newMember.toString());
+		// Model�� ���� �Ʒ�ó�� addAttribute�� �� ����ϰ�
+		// @ModelAttritube�� �� �ָ� �״�� �ٷ� ���󰣴�.
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-
-		newMember.vaildate(errors);
-
 		if (!errors.isEmpty())
 			return "member/join_form";
-
 		try {
 			MemberDataBean memberId = dbPro.selectById(newMember.getId());
 			MemberDataBean memberEmail = dbPro.selectByEmail(newMember.getEmail());
@@ -86,14 +93,11 @@ public class MemberController {
 			if (memberEmail != null)
 				throw new DuplicateEmailException();
 			dbPro.insert(newMember);
-
 			MemberDataBean joinUser = new MemberDataBean(newMember.getId(), newMember.getName(), newMember.getAuth());
 			req.getSession().setAttribute("member", joinUser);
-
-			model.addAttribute("message", "환영합니다 :D");
+			model.addAttribute("message", "ȯ���մϴ� :D");
 			model.addAttribute("url", "main");
 			return "alert";
-
 		} catch (DuplicateldException e) {
 			errors.put("duplicateId", Boolean.TRUE);
 			return "member/joinform";
@@ -103,74 +107,59 @@ public class MemberController {
 		}
 	}
 
-	// 로그인 화면
-	@RequestMapping(value = "login")
+	// �α��� ȭ��
+	@RequestMapping(value = "login_2")
 	public String member_login() throws Exception {
-		return "member/login";
+		return "redirect:/member/login";
 	}
 
-	// 로그인 요청
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	// �α��� ��û
+	@RequestMapping(value = "login_2", method = RequestMethod.POST)
 	public String member_loginPro(MemberDataBean inputData, Model model, HttpServletRequest req) throws Exception {
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-
-		if (inputData.getId() == null || inputData.getId().isEmpty())
-			errors.put("id", Boolean.TRUE);
-		if (inputData.getPw() == null || inputData.getPw().isEmpty())
-			errors.put("pw", Boolean.TRUE);
-		if (!errors.isEmpty())
-			return "member/login";
 		try {
-			// 데이터 가져오기
+			// ������ ��������
 			MemberDataBean member = dbPro.selectById(inputData.getId());
 			if (member == null) {
 				throw new LoginFailException();
 			}
-			System.out.println("아이디" + member.getId());
-			System.out.println("비밀번호" + member.getPw());
 			if (!inputData.matchPassword(member.getPw()))
 				throw new LoginFailException();
 			MemberDataBean loginUser = new MemberDataBean(member.getId(), member.getName(), member.getAuth());
 			req.getSession().setAttribute("member", loginUser);
-
 		} catch (LoginFailException e) {
 			errors.put("idOrPwNotMatch", Boolean.TRUE);
 			return "member/login";
 		}
-		model.addAttribute("message", "로그인 성공");
-		model.addAttribute("url", "main");
 		return "redirect:/main/index";
 	}
 
-	// 비밀번호 찾기
+	// ��й�ȣ ã��
 	@RequestMapping(value = "find_pw", method = RequestMethod.GET)
 	public String member_findPw() throws Exception {
 		return "member/find_pw";
 	}
 
-	// 로그아웃
+	// �α׾ƿ�
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String member_logout(HttpServletRequest req, Model model) throws Exception {
 		HttpSession session = req.getSession(false);
 		if (session != null) {
 			session.invalidate();
+		  
 		}
-		
 		return "main/index";
 	}
 
-	// 회원 탈퇴
+	// ȸ�� Ż��
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
 	public String member_delete(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		MemberDataBean loginUser = (MemberDataBean) req.getSession().getAttribute("member");
-
 		try {
 			MemberDataBean myInfo = dbPro.selectById(loginUser.getId());
-
 			req.setAttribute("myInfo", myInfo);
 			return "member/delete";
-
 		} catch (MemberNotFoundException e) {
 			req.getServletContext().log("not login", e);
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -178,40 +167,33 @@ public class MemberController {
 		}
 	}
 
-	// 회월 탈퇴
+	// ȸ�� Ż��
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
-	public String member_deletePro(MemberDataBean inputData, Model model, HttpSession session, RedirectAttributes rttr) throws Exception{
-		
+	public String member_deletePro(MemberDataBean inputData, Model model, HttpSession session, RedirectAttributes rttr)
+			throws Exception {
+
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		try{
+		try {
 			MemberDataBean deletememberId = dbPro.selectById(inputData.getId());
-			System.out.println("이건 DB에 있는 아이디" + deletememberId.getId());
-			System.out.println("이건 DB에 있는 패스워드" + deletememberId.getPw());
-			//
-			System.out.println("이건 히든 입력 값 아이디" + inputData.getId());
-			System.out.println("이건 사용자 입력 값 패스워드" + inputData.getPw());		
-			if((deletememberId.getId().equals(inputData.getId())) && (deletememberId.getPw().equals(inputData.getPw()))){
-				System.out.println("삭제가 될 거에유");
+			if ((deletememberId.getId().equals(inputData.getId()))
+					&& (deletememberId.getPw().equals(inputData.getPw()))) {
 				dbPro.delete(inputData);
 				session.invalidate();
-				model.addAttribute("message", "안녕히가세요...");
-				model.addAttribute("url", "main");
-				return "alert";
-			} else if(!deletememberId.getPw().equals(inputData.getPw())) {
-				System.out.println("비밀번호 에러지롱");
+				return "redirect:/main/index";
+			} else if (!deletememberId.getPw().equals(inputData.getPw())) {
 				errors.put("wrongPw", Boolean.TRUE);
 				return "member/delete";
-			} else if(inputData.getPw() == null){
+			} else if (inputData.getPw() == null) {
 				errors.put("null", Boolean.TRUE);
 			}
-			return "alert";			
+			return "alert";
 		} catch (MemberNotFoundException e) {
-			errors.put("pwError", Boolean.TRUE);	
+			errors.put("pwError", Boolean.TRUE);
 			return "member/delete";
 		}
 	}
-	// 비밀번호 변경 페이지 클릭
+	// ��й�ȣ ���� ������ Ŭ��
 
 	@RequestMapping(value = "change_pw")
 	public String member_changePw(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -232,107 +214,247 @@ public class MemberController {
 
 	}
 
-	// 비밀번호 변경
+	// ��й�ȣ ����
 	@RequestMapping(value = "change_pw", method = RequestMethod.POST)
-	public String member_changePwPro(MemberDataBean inputData, Model model, HttpServletResponse res) throws Exception {
+	public String member_changePwPro(MemberDataBean inputData, Model model) throws Exception {
 
 		Map<String, Boolean> errors = new HashMap<>();
 		model.addAttribute("errors", errors);
-		
-		if (inputData.getPw() == null || inputData.getPw().isEmpty())
-			errors.put("curPwd", Boolean.TRUE);
-		if (inputData.getNewPw() == null || inputData.getNewPw().isEmpty())
-			errors.put("newPwd", Boolean.TRUE);
-		if (!errors.isEmpty())
-			return "member/change_pw";
-
 		try {
 			MemberDataBean member = dbPro.selectById(inputData.getId());
-			if (member == null) {
-				throw new MemberNotFoundException();
-			}
-			System.out.println("db에 있는 비밀번호" + member.getPw());
-			System.out.println("사용자가 입력한 현재 pw " + inputData.getPw());
-			System.out.println("사용자가 입력한 새로운 pw " + inputData.getNewPw());
-			
-			if (!inputData.getPw().equals(member.getPw())) {
-				System.out.println("비밀번호가 맞지 않아유!");
-				errors.put("badCurPwd", Boolean.TRUE);
+			if (inputData.getPw().equals(member.getPw())) {
 				throw new InvalidPasswordException();
-			} else if (inputData.getNewPw().equals(member.getId())){
-				errors.put("wrongPw", Boolean.TRUE);
-				System.out.println("아이디와 비밀번호가 같을 수 없슈");
-				throw new InvalidPasswordException();
-			} else if (inputData.getPw().equals(member.getPw())){
-				System.out.println("실행된다아아아");
-			member.changePassword(inputData.getNewPw());
-			System.out.println("위에서 바뀐 데이터 " + member.getPw());
-			dbPro.update(inputData);
+			} else if (inputData.getNewPw().equals(member.getId())) {
+				throw new DuplicateldException();
+			} else if (!inputData.getPw().equals(member.getPw())) {
+				throw new DuplicateldException2();
+			} else {
+				member.changePassword(inputData.getNewPw());
+				dbPro.update(inputData);
 			}
-			model.addAttribute("message", "회원 정보 수정 완료");
+			model.addAttribute("message", "ȸ�� ���� ���� �Ϸ�");
 			model.addAttribute("url", "main");
 			return "alert";
-		} catch (InvalidPasswordException e) {
-			errors.put("fatalError", Boolean.TRUE);
+		} catch (DuplicateldException e) {
+			errors.put("WrongPw", Boolean.TRUE);
 			return "member/change_pw";
-		} catch (MemberNotFoundException e) {
-			res.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			return "member/main";
+		} catch (InvalidPasswordException e) {
+			errors.put("badCurPwd", Boolean.TRUE);
+			return "member/change_pw";
+		} catch (DuplicateldException2 e) {
+			errors.put("WrongPw2", Boolean.TRUE);
+			return "member/change_pw";
 		}
-
 	}
 
-	// 아이디 찾기
+	// ���̵� ã��
 	@RequestMapping(value = "find_id", method = RequestMethod.POST)
 	public String find_id(HttpServletResponse response, @RequestParam("email") String email, Model model)
 			throws Exception {
-		model.addAttribute("id", service.findId(response, email));
-		return "/member/find_id";
+		Map<String, Boolean> errors = new HashMap<>();
+		model.addAttribute("errors", errors);
+		try {
+			MemberDataBean member = dbPro.selectByEmail(email);
+			model.addAttribute("id", service.findId(response, email));
+			model.addAttribute("member", member);
+			if (member == null) {
+				throw new MemberNotFoundException();
+			}
+		} catch (MemberNotFoundException e) {
+			errors.put("noMember", Boolean.TRUE);
+			return "member/find_id_form";
+		}
+		return "member/find_id";
 	}
 
-	// 아이디 찾기
+	// ���̵� ã��
 	@RequestMapping(value = "find_id_form", method = RequestMethod.GET)
 	public String find_id_form() throws Exception {
 		return "member/find_id_form";
 	}
 
-	// 비밀번호 찾기 폼
+	// ��й�ȣ ã�� ��
 	@RequestMapping(value = "find_pw_form")
 	public String find_pw_form() throws Exception {
 		return "member/find_pw_form";
 	}
 
-/*	// 이메일 보내기
-	@Autowired
-	private MainService mainService;
-	@Autowired
-	private EmailSender emailSender;
-	@Autowired
-	private Email email;
-
-	@RequestMapping("sendpw")
-	public ModelAndView sendEmailAction(@RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception {
-		ModelAndView mav;
-		String id = (String) paramMap.get("id");
-		String e_mail = (String) paramMap.get("email");
-		String pw = mainService.getPw(paramMap);
-		System.out.println(pw);
-		if (pw != null) {
-			email.setContent("비밀번호는 " + pw + " 입니다.");
-			email.setReciver(e_mail);
-			email.setSubject(id + "님 비밀번호 찾기 메일입니다.");
-			emailSender.SendEmail(email);
-			mav = new ModelAndView("redirect:/login.do");
-			return mav;
-		} else {
-			mav = new ModelAndView("redirect:/logout.do");
-			return mav;
-		}
-	}*/
-	
-	// 라이브러리
+	// ���̺귯��
 	@RequestMapping(value = "my_library")
 	public String my_library() throws Exception {
 		return "member/my_library";
 	}
+
+	@Autowired
+	EmailService emailService;
+
+	@Autowired
+	private EmailDTO email;
+
+	@RequestMapping(value = "mail_form", method = RequestMethod.GET)
+	public String write() {
+		return "member/mailForm";
+	}
+
+	@RequestMapping(value = "mail_form", method = RequestMethod.POST)
+	public String sendEmailAction(MemberDataBean inputData, Model model, HttpServletRequest req) throws Exception {
+		Map<String, Boolean> errors = new HashMap<>();
+
+		model.addAttribute("errors", errors);
+		MemberDataBean member = dbPro.allByIdAndEmail(inputData);
+		try {
+			if (member == null) {
+				throw new MemberNotFoundException();
+			}
+
+			if (inputData.getEmail().equals(member.getEmail()) && inputData.getId().equals(member.getId())) {
+				StringBuffer sb = new StringBuffer();
+				String e_mail = inputData.getEmail();
+				String id = inputData.getId();
+				String pw = member.getPw();
+				System.out.println(pw);
+				sb.append("<html>");
+				sb.append("<head>");
+				sb.append("<title></title>");
+				sb.append("<meta http-equiv=ontent-Typecontent=text/html; charset=utf-8/>");
+				sb.append("</head>");
+				sb.append("<body style=background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=100%>");
+				sb.append("<tr>");
+				sb.append("<td bgcolor=#17C66F align=center>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append("<tr>");
+				sb.append("<td align=center valign=top style=padding: 40px 10px 40px 10px;>");
+				sb.append(
+						"</td> </tr>  </table>    </td>  </tr>   <tr>   <td bgcolor=#17C66F align=center style=padding: 0px 10px 0px 10px;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append(
+						"<tr> <td bgcolor=#ffffff align=center valign=top style=padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 4px; line-height: 48px;>");
+				sb.append("<h1 style=font-size: 32px; font-weight: 400; margin: 0;>��й�ȣ ã�� ���</h1>");
+				sb.append("</td>   </tr>   </table>        </td>    </tr>    <tr>");
+				sb.append("        <td align=center style=padding: 0px 10px 0px 10px;>");
+				sb.append("<table border=0 cellpadding=0 cellspacing=0 width=480 >");
+				sb.append("<tr>");
+				sb.append(
+						"<td align=center style=padding: 20px 30px 40px 30px; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;>");
+				sb.append("<p style=margin: 0;>" + "<b>" + id + "</b>" + "���� ��й�ȣ��" + "<b>" + pw + "</b>"
+						+ "�Դϴ�. <br> �α����� �Ϸ��� �Ʒ� ��ư�� Ŭ���� �ּ���. </p>");
+				sb.append("</td>   </tr>  <td bgcolor=#ffffff align=left>    <tr>");
+				sb.append("<td bgcolor=#ffffff align=center style=padding: 20px 30px 60px 30px;>");
+				sb.append("<table border=0 cellspacing=0 cellpadding=0>");
+				sb.append(
+						"<tr> <td align=center style=border-radius: 3px;><a href=http://211.63.89.76:8082/SpringFinal/member/login target=_blank style=font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; text-decoration: none; padding: 15px 25px; border-radius: 2px; border: 1px solid #7c72dc; display: inline-block;>�α��� �Ϸ�����</a></td>");
+				sb.append("</tr>    </table>  </body></html>");
+				email.setContent(sb.toString());
+				email.setReceiver(e_mail);
+				email.setSubject(id + "���� ��й�ȣ ã�� �Դϴ�");
+				emailService.SendEmail(email);
+				return "member/find_pw";
+			}
+		} catch (MemberNotFoundException e) {
+			errors.put("MemberNotFoundException", Boolean.TRUE);
+			return "member/find_pw_form";
+		}
+		return "member/find_pw";
+	}
+	// �Ʒ��� ���̹�, īī�� �α���
+
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+
+	// �α��� ù ȭ�� ��û �޼ҵ�
+	@RequestMapping(value = "login", method = { RequestMethod.GET, RequestMethod.POST })
+	public String login(Model model, HttpSession session) {
+		/*
+		 * ���̹����̵�� ���� URL�� �����ϱ� ���Ͽ� naverLoginBOŬ������ getAuthorizationUrl�޼ҵ� ȣ��
+		 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("���̹�:" + naverAuthUrl);
+		// ���̹�
+		model.addAttribute("url", naverAuthUrl);
+		return "member/login";
+	}
+
+	// ���̹� �α��� ������ callbackȣ�� �޼ҵ�
+	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
+	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session,
+			HttpServletRequest req) throws IOException, ParseException {
+		Map<String, Boolean> errors = new HashMap<>();
+		model.addAttribute("errors", errors);
+		System.out.println("����� callback");
+		OAuth2AccessToken oauthToken;
+		oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		// 1. �α��� ����� ������ �о�´�.
+		apiResult = naverLoginBO.getUserProfile(oauthToken); // String������
+																// json������
+		/**
+		 * apiResult json ���� {"resultcode":"00", "message":"success",
+		 * "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
+		 **/
+		// 2. String������ apiResult�� json���·� �ٲ�
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(apiResult);
+		JSONObject jsonObj = (JSONObject) obj;
+		System.out.println(obj);
+		// 3. ������ �Ľ�
+		// Top���� �ܰ� _response �Ľ�
+		JSONObject response_obj = (JSONObject) jsonObj.get("response");
+		MemberDataBean member_id = dbPro.selectById((String) response_obj.get("id"));
+		String id = (String) response_obj.get("id");
+		String e_mail = (String) response_obj.get("email");
+
+		System.out.println(member_id);
+		System.out.println(id);
+	//	System.out.println(member_email.getId());
+		System.out.println(e_mail);
+
+		if (id == "īī��" || member_id == null) {
+			/* String id = (String) response_obj.get("email"); */
+			String id2 = (String) response_obj.get("id");
+			String pw = (String) "1111";
+			String email = (String) response_obj.get("email");
+			String name = (String) response_obj.get("name");
+			String birth = (String) response_obj.get("birthday");
+			String gender = (String) response_obj.get("gender");
+			System.out.printf(id, pw, email, name, birth, gender);
+			MemberDataBean member = new MemberDataBean(id2, pw, email, name, birth, gender);
+			dbPro.insert(member);
+			System.out.println("DB�� ȸ�� ���� ���� �Ϸ�");
+		}
+		// response�� nickname�� �Ľ�
+		String name = (String) response_obj.get("name");
+		System.out.println(name);
+		// 4.�Ľ� �г��� �������� ����
+		MemberDataBean member = dbPro.selectById((String) response_obj.get("id"));
+		MemberDataBean loginUser = new MemberDataBean(member.getId(), member.getName(), member.getAuth());
+		req.getSession().setAttribute("member", loginUser);
+		session.setAttribute("member", loginUser); // ���� ����
+		model.addAttribute("result", apiResult);
+		return "member/socialLogin";
+	}
+
+
+	@RequestMapping(value = "kakao_login", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	public String login(Model model, @RequestParam("code") String code, HttpSession session, HttpServletRequest req) {
+	//	System.out.println("code�� : " + code);
+
+		String access_Token = kakao.getAccessToken(code);
+		HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
+		System.out.println(userInfo.toString());
+		System.out.println(userInfo);
+		MemberDataBean member1 = dbPro.selectById((String) userInfo.get("nickname"));
+		MemberDataBean loginUser = new MemberDataBean(member1.getId(), member1.getName(), member1.getAuth());
+	    session.setAttribute("member", loginUser);
+		model.addAttribute("result", apiResult);
+		return "member/socialLogin";
+	}
+	
 }

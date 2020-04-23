@@ -137,25 +137,6 @@ input.checkbox:after {
 }
 </style>
 <link href="${pageContext.request.contextPath}/view/css/joinFormNew.css" rel="stylesheet">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/view/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 
@@ -181,14 +162,12 @@ input.checkbox:after {
 							아이디
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate="아이디를 입력해 주세요">
+					<div class="wrap-input100 validate-input" data-validate="아이디를 입력해 주세요" id="check">
 						<input class="input100" type="text"  name="id" placeholder="아이디는 4~12자 영문소문자와 숫자만 가능"   id="id" name="id" value="${param.id}" maxlength="10" onkeyup="noSpace(this);">
 						<span class="focus-input100"></span>	
 					<div class="wrap-input100 ">
 						<label class="anim" id="check">
-							<input type="checkbox" class="checkbox">
-								<span  id="idCheck" >중복확인</span>
-							<!-- 	<span class="check_font" id="idCheck"></span> -->
+							<span id="idCheck"></span>
 						</label>
 					</div>
 					</div>	
@@ -258,8 +237,6 @@ input.checkbox:after {
 					<label	for="customRadio1" >남자</label> 
 					<input	type="radio" id="customRadio1"  name="gender" value="여자"> 
 					<label 	for="customRadio1" >여자</label>
-					<!-- <input type="button" class="btn btn-secondary" name="gender"value="남자" id="customRadio1"></button>
-					<input type="button" class="btn btn-secondary" name="gender"  value="여자" id="customRadio1"></button> -->
 					</div>
 					<input type="submit" value="회원가입 하기">
 					<p>이미 회원이라면?? </p>
@@ -284,30 +261,29 @@ $(function() {
 })
 $(function() {
 	$("#loginBtn").click(function() {
-		location.href = '${pageContext.request.contextPath}/member/login';
+		location.href = '${pageContext.request.contextPath}/member/login_2';
 	})
 })
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 // 아이디 중복 검사 Ajax
  	$(document).ready(function checkId(obj) {
 	var idx = false;
-	$('#check').click(function() {
+	$('#check').keyup(function() {
 	$.ajax({
 	url : "${pageContext.request.contextPath}/member/id_check",
-	type : "GET",
+	type : "get",
 	data : {
 	"id" : $('#id').val()},
 	success : function(data) {
 	if (data == 0 && $.trim($('#id').val()) != '') {
 		idx = true;
-		/* $('#id').attr("readonly",true); */
-		var html = "<tr><td colspan='3' style='color: green'>사용가능</td></tr>";
+	//	$('#id').attr("readonly",true);
+		var html = "<tr><td colspan='3' style='color: green'>&nbsp;&nbsp;사용가능</td></tr>";
 		$('#idCheck').empty();
 		$('#idCheck').append(html);
 		return true;
-		
 		} else {
-		var html = "<tr><td colspan='3' style='color: red'>사용불가능한 아이디 입니다.</td></tr>";
+		var html = "<tr><td colspan='3' style='color: red'>&nbsp;&nbsp;중복된 아이디가 존재합니다</td></tr>";
 		$('#idCheck').empty();
 		$('#idCheck').append(html);
 		return false;
@@ -317,7 +293,6 @@ $(function() {
 		alert("서버에러");
 		}
 		});
-
 		});
 	}); 
 

@@ -4,11 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.Member">
 	<cache />
-	<select id="selectById" parameterType="String" resultType="Member">
+	<select id="selectById" parameterType="Member" resultType="Member">
 		select * from member where id = #{id}
 	</select>
 
-	<select id="selectByEmail" parameterType="String" resultType="Member">
+	<select id="selectByEmail" parameterType="Member" resultType="Member">
 		select * from member where email = #{email}
 	</select>
 
@@ -26,6 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="memberList" resultType="Member">
 		select * from member
 	</select>
+	
+	<select id="selectEmail" resultType="Member">
+		select * from member
+	</select>
 	<!-- 아이디 삭제 -->
 	<select id="delete" resultType="Member">
 		delete from member 
@@ -34,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 아이디 중복 체크  중복 = 1 아닐시 = 0-->
-	<select id="idCheck" parameterType="int" resultType="int" >
+	<select id="idCheck" parameterType="String" resultType="String" >
 		select count(*) from member	where id = #{id}
 	</select>
 	
@@ -47,10 +51,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="find_id" parameterType="String" resultType="String">
 		select id from member where email = #{email}
 	</select>
-	
-	<!-- 이메일과 아이디로 비밀번호 찾기  -->
-	<select id="findPw" parameterType="String" resultType="Member">
-		select * from member where email = #{email} and id = #{id}
+		<!-- 비밀번호 찾기 -->
+	<select id="allByIdAndEmail" parameterType="Member" resultType="Member">
+		select * from
+		member
+		where id =
+		#{id} and email = #{email}
 	</select>
 	
 </mapper>

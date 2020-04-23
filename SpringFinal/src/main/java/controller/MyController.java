@@ -48,6 +48,7 @@ public class MyController {
 		HttpSession session = request.getSession();	
 		MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
 		String id=memberid.getId();
+		System.out.println(memberid.toString());
 		MemberDataBean member= mypageservice.getmemberInfo(id);
 		
 		m.addAttribute("member", member);
@@ -266,7 +267,7 @@ public class MyController {
 		return "mypage/viewer";
 	}
 	
-	@RequestMapping(value = "buy")
+	/*@RequestMapping(value = "buy")
 	public void buy(@RequestParam String jsonData, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();	
 		MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
@@ -288,7 +289,7 @@ public class MyController {
 	        mypageservice.deleteCart(insertLibrary);
 	        //여기서 인서트 부르면 됨
 	    }
-	}
+	}*/
 	
 	@Setter(onMethod_ = @Autowired)
     private KakaoPay kakaopay;
@@ -304,20 +305,23 @@ public class MyController {
         log.info("kakaoPay post............................................");
         HttpSession session = request.getSession();	
         session.setAttribute("bookinfo", bookinfo);
+        System.out.println("bookinfo"+session.getAttribute("bookinfo"));
         
         return "redirect:" + kakaopay.kakaoPayReady(pay);
         
     }
     
     @RequestMapping(value = "kakaoPaySuccess", method=RequestMethod.GET) 
-    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model,HttpServletRequest request) {
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpServletRequest request) {
     	HttpSession session = request.getSession();	
+    	System.out.println(session.toString());
     	MemberDataBean memberid=(MemberDataBean)session.getAttribute("member");
-		String id=memberid.getId();
 		String bookinfo=(String) session.getAttribute("bookinfo");
+		System.out.println(memberid.toString());
+		System.out.println(bookinfo.toString());
+		String id=memberid.getId();
 		
 		JSONArray array = JSONArray.fromObject(bookinfo);
-        
 	    
 	    for(int i=0; i<array.size(); i++){
 	    	Map<String, Object> insertLibrary = new HashMap<String, Object>();

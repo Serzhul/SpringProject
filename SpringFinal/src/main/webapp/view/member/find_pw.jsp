@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<head>
 <style type="text/css">
 body {
   background: #17C66F;
@@ -59,7 +59,6 @@ button[type="button"] {
 }
 </style>
 <head>
-	<title>¾ÆÀÌµğ Ã£±â ÆäÀÌÁö</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -84,41 +83,38 @@ button[type="button"] {
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
-<title>¾ÆÀÌµğ Ã£±â</title>
+</head>
+<title>ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸° ê²°ê³¼</title>
 </head>
 <body>
 	<div class="limiter">
 		<div class="container-login100">
 		
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w" action="${pageContext.request.contextPath}/member/find_id" method="POST" autocomplete=¡±off¡±>
+				<form class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-53">
-						¾ÆÀÌµğ Ã£±â
+						ì…ë ¥í•˜ì‹  ì´ë©”ì¼ë¡œ <br> ë¹„ë°€ë²ˆí˜¸ê°€  ì „ì†¡ëìŠµë‹ˆë‹¤.
 					</span>
-					<div class="p-t-31 p-b-9">
-						<span class="txt1" >
-							ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä
-						</span>
-					</div>
-					<input type="hidden" name="id" value="${member.id}">
-					<div class="wrap-input100 validate-input" data-validate = "ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä" >
-						<input class="input100" type="email"  name="email" id="email"  value="${param.email}" required>
-						<span class="focus-input100"></span>	
-					</div>
-						<c:if test="${errors.noMember }">Á¸ÀçÇÏÁö ¾Ê´Â È¸¿øÀÔ´Ï´Ù</c:if>
-					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn" type="submit">
-							¾ÆÀÌµğ Ã£±â
+						<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit" id="loginBtn">
+							ë©”ì¸ìœ¼ë¡œ ê°€ê¸°
 						</button>
 						<button class="login100-form-btn" type="button" onclick="history.go(-1);">
-							µÚ·Î°¡±â
+							ë’¤ë¡œê°€ê¸°
 						</button>
-					</div>
+						</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-
+<script>
+	$(function() {
+		$("#loginBtn").click(function() {
+			location.href = '${pageContext.request.contextPath}/member/login';
+		})
+	})
+</script>
 </html>

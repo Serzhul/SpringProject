@@ -610,9 +610,9 @@ p {
 							</span>
 						</p>
 					</div>
-					<button type="button" id="buy" name="buy"
+					<!-- <button type="button" id="buy" name="buy"
 					class="rui_button_white_30 rui_button_eink_black_line_30 book_button btn_move_to_wishlist js_btn_move_to_wishlist">
-					선택 구매</button>
+					선택 구매</button> -->
 					
 					
 					<button type="submit">카카오페이 구매</button>
@@ -633,7 +633,7 @@ p {
 						</div>
 						<div class="buttons_wrapper">
 							<ul class="rui_button_group_5">
-								<li class="rui_button_item">
+								<!-- <li class="rui_button_item">
 									<button type="button"
 										class="handling_button rui_button_white_30 js_btn_selected_move_to_wishlist">
 										선택 위시리스트로 이동</button>
@@ -644,7 +644,7 @@ p {
 										class="handling_button rui_button_white_30 js_btn_selected_del_cart">
 										선택 삭제</button>
 
-								</li>
+								</li>아직 구현 안됨 -->
 
 							</ul>
 

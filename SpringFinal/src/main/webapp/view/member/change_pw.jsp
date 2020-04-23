@@ -62,26 +62,7 @@ button[type="button"] {
 	<title>Login V5</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="<%=request.getContextPath()%>/view/images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
+o 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/util.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/view/css/mainNew.css">
 <!--===============================================================================================-->
 <title>회원 정보 변경</title>
@@ -102,23 +83,23 @@ button[type="button"] {
 						</span>
 					</div>
 					<input type="hidden" name="id" value="${member.id}">
-					<div class="wrap-input100 validate-input" data-validate = "현재 비밀번호를 입력해 주세요">
-						<input class="input100" type="password" name="pw">
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="password" name="pw" required>
 						<span class="focus-input100"></span>	
 					</div>
-					<c:if test="${errors.curPwd}">현재 암호를 입력하세요</c:if>	
-					<c:if test="${errors.badCurPwd}">현재 암호가 일치하지 않습니다.</c:if>
+			
 					<div class="p-t-13 p-b-9">
 						<span class="txt1">
 							새 비밀번호
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "새 비밀번호를 입력하세요 ">
-						<input class="input100" type="password"  name="newPw" >
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="password"  name="newPw" required>
 						<span class="focus-input100"></span>
 					</div>
-					<c:if test="${errors.newPwd }">새로운  암호를 입력하세요</c:if>
-					<c:if test="${errors.wrongPw}">아이디와 비밀번호가 같을 수 없슈!</c:if>
+					<c:if test="${errors.WrongPw2}">잘못된 비밀번호 입니다.</c:if>
+					<c:if test="${errors.badCurPwd}">이전 비밀번호와 동일할 수 없습니다.</c:if>
+					<c:if test="${errors.WrongPw}">아이디와 비밀번호가 같을 수 없습니다</c:if>
 					<div class="container-login100-form-btn m-t-17">
 						<button class="login100-form-btn" type="submit">
 							비밀번호 변경하기

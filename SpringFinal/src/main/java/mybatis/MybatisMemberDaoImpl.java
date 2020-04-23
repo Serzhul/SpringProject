@@ -39,9 +39,9 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 	@Override
 	public void insert(MemberDataBean member) {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
+		System.out.println("�쐞"+member.toString());
 		try {
 			String statement = namespace + ".insert";
-			member.setAuth("normal");
 			System.out.println(member.toString());
 			sqlSession.insert(statement, member);
 			sqlSession.commit();
@@ -63,17 +63,7 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 		}
 	}
 
-/*	public void delete(MemberDataBean member) {
 
-		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-		try {
-			String statement = namespace + ".delete";
-			sqlSession.delete(statement, member);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-	}*/
 	
 	@Override
 	public void delete(MemberDataBean vo) throws Exception {
@@ -99,7 +89,7 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 	}
 
 	@Override
-	public int idCheck(String id) throws Exception {
+	public String idCheck(String id) throws Exception {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try {
 			String statement = namespace + ".idCheck";
@@ -157,58 +147,27 @@ public class MybatisMemberDaoImpl implements MybatisMemberDao {
 			sqlSession.close();
 		}
 	}
-
-
 	
-	/*public String findId(String email) {
+	@Override
+	public MemberDataBean allByIdAndEmail(MemberDataBean member) {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try {
-			String statement = namespace + ".findId";
-			System.out.println(email);
-			return sqlSession.selectOne(statement, email);
+			String statement = namespace + ".allByIdAndEmail";
+			return sqlSession.selectOne(statement, member);
 		} finally {
 			sqlSession.close();
 		}
-	}*/
-	
-	/*public String find_id(String email) throws Exception{
-		return sqlSession.selectOne("member.find_id", email);
 	}
-	*/
-/*	public List<MemberDataBean> findPw(MemberDataBean member) {
+
+	@Override
+	public List<MemberDataBean> selectEmail() throws Exception {
 		SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
 		try {
-			System.out.println(member.getEmail());
-			System.out.println(member.getId());
-			String statement = namespace + ".findPw";
+			String statement = namespace + ".selectEmail";
 			return sqlSession.selectList(statement);
 		} finally {
 			sqlSession.close();
 		}
-	}*/
-	
-	/*public int findPw(String email, String id, int num) throws Exception {
-	      String checkEmail = null;
-	      String checkId = null;
-	      SqlSession sqlSession = opendb.getSqlSessionFactory().openSession();
-	      
-	      int x = -1;
-	      try {
-	    	  System.out.println(email);
-	    	  System.out.println(id);
-	    	  checkEmail = sqlSession.selectOne(namespace + ".getEmail", num);
-	    	  checkId = sqlSession.selectOne(namespace + ".getId", num);
-	         if (checkEmail.equals(email) && checkId.equals(email)) {
-	            sqlSession.selectList(namespace + ".findPw", num);
-	            x = 1;
-	         } else {
-	            x = 0;
-	         }
-	      } catch (Exception ex) {
-	         ex.printStackTrace();
-	      } finally {
-	         sqlSession.close();
-	      }
-	      return x;
-	   }*/
+	}
+
 }
